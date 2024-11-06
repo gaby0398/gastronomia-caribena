@@ -1,0 +1,14 @@
+**/vendor/
+**/composer.lock
+**/DockerFile
+**/node_modules/
+**/.git
+**/README.md
+**/.vscode
+**/npm-debug.log
+**/coverage
+**/.editorconfig
+**/.aws
+**/dist
+**/.angular
+**/*.tar
