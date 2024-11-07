@@ -4,6 +4,10 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteCollectorProxy;
 /**ESTE CODIGO NOS SERVIRA DE GUIA MAS SIN ENVARGO EVENTUALMENETE SE BORRARA
+ * 
+ * 
+ * Prueba en vivo rolo 2
+ * 
 // require __DIR__ . '/../controllers/Cliente.php'
 // Recurso Cliente
 $app->group('/api',function(RouteCollectorProxy $api){
