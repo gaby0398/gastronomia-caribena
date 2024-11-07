@@ -93,3 +93,5 @@ $app->group('/api',function(RouteCollectorProxy $api){
 //     $response->getBody()->write("Hola desde $nombre");
 //     return $response;
 // });*/
+
+//ESTO FUE UNA PRUEBA POR JORDI
