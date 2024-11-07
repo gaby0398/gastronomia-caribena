@@ -94,4 +94,4 @@ $app->group('/api',function(RouteCollectorProxy $api){
 //     return $response;
 // });*/
 
-//ESTO FUE UNA PRUEBA POR JORDI
+//ESTO FUE UNA PRUEBA POR JORDIdf
