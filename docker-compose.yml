@@ -7,7 +7,7 @@ networks:
 services:
   db:
     #razones del porque no usar siempre la version latest
-    image: mysql:9.1
+    image: mysql:9.1.0
     #linea nueva
     container_name: base_datosPC
     environment:
