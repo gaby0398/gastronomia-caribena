@@ -1,6 +1,5 @@
 **/vendor/
 **/composer.lock
-**/DockerFile
 **/node_modules/
 **/.git
 **/README.md
