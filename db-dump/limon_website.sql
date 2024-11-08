@@ -43,6 +43,7 @@ CREATE TABLE `Comidas` (
     FOREIGN KEY (`usuario_id`) REFERENCES `Usuarios`(`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
+
 -- Tabla Plantas
 CREATE TABLE `Plantas` (
     `id_planta` INT PRIMARY KEY AUTO_INCREMENT,
