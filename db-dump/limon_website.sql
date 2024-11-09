@@ -61,7 +61,6 @@ CREATE TABLE `administrador` (
 CREATE TABLE usuario (
     `id` INT NOT NULL AUTO_INCREMENT,
     `idUsuario` VARCHAR(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-    `nombreusuario` VARCHAR(100) NOT NULL,
     `correo` VARCHAR(100) NOT NULL,
     `rol` INT NOT NULL,
     `passw` VARCHAR(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
