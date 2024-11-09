@@ -69,7 +69,7 @@ CREATE TABLE usuario (
     `tkR` varchar(255) NULL,
     PRIMARY KEY (id),
     UNIQUE KEY idx_Usuario (idUsuario)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
 -- Tabla Categorías
 CREATE TABLE `Categorias` (

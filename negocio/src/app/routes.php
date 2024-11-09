@@ -2,7 +2,7 @@
 namespace App\controllers;
 
 use Slim\Routing\RouteCollectorProxy;
-/* Hola Prueba ;v
+// Hola Prueba ;v
 // require __DIR__ . '/../controllers/Cliente.php';
 $app->group('/api',function(RouteCollectorProxy $api){
     $api->group('/cliente',function(RouteCollectorProxy $cliente){
@@ -80,4 +80,4 @@ $app->group('/api',function(RouteCollectorProxy $api){
         $cart_items->delete('/{id}', cart_items::class . ':delete');
     });
 
-});*/ 
+});

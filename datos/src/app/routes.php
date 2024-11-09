@@ -3,21 +3,15 @@ namespace App\controller;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteCollectorProxy;
-/**ESTE CODIGO NOS SERVIRA DE GUIA MAS SIN ENVARGO EVENTUALMENETE SE BORRARA
- * 
- * 
- * Prueba en vivo rolo 2
- * 
-// require __DIR__ . '/../controllers/Cliente.php'
-// Recurso Cliente
-$app->group('/api',function(RouteCollectorProxy $api){
-    $api->group('/cliente',function(RouteCollectorProxy $cliente){
-        $cliente->post('', Cliente::class . ':create'); //Crea un cliente
-        $cliente->get('/read[/{id}]', Cliente::class . ':read'); //Consulta todos los clientes
+
+
+$app->group('/api', function (RouteCollectorProxy $api) {
+    $api->group('/cliente', function (RouteCollectorProxy $cliente) {
+        $cliente->post('', Cliente::class . ':create');
+        $cliente->get('/read[/{id}]', Cliente::class . ':read');
         $cliente->get('/filtro', Cliente::class . ':filtrar');
-        $cliente->put('/{id}', Cliente::class . ':update'); //Actualiza todos los atributos, patch actualiza solo uno o algunos
-        $cliente->delete('/{id}', Cliente::class . ':delete'); //Elimina un registro x su id
-        // $cliente->get('/{id}', Cliente::class . ':buscar'); //Consulta un cliente x su id
+        $cliente->put('/{id}', Cliente::class . ':update');
+        $cliente->delete('/{id}', Cliente::class . ':delete');
     });
 
     $api->group('/administrador', function (RouteCollectorProxy $administrador) {
