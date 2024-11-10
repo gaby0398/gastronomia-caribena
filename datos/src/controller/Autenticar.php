@@ -28,7 +28,7 @@ class Autenticar {
 
             $recurso = match ($datos->rol) {
                 1 => "administrador",
-                2 => "oficinista",
+                2 => "supervisor",
                 3 => "tecnico",
                 4 => "cliente",
             };
