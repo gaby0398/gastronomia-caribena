@@ -7,7 +7,7 @@ networks:
 services:
   db:
     #razones del porque no usar siempre la version latest
-    image: mysql:latest
+    image: mysql:9.1.0
     #linea nueva
     container_name: base_datosPC
     environment:
@@ -66,18 +66,18 @@ services:
     networks:
       dto-red:
        ipv4_address: "192.168.0.13"
-  web-presentacion:
-    container_name: servidor-presentacionPC
-    build:
-      context: .
-      dockerfile: ./presentacion/DockerFile
-    ports:
-      - 80:80
-    depends_on:
-      - web-negocio
-    networks:
-      dto-red:
-       ipv4_address: "192.168.0.14"
+  # web-presentacion:
+  #   container_name: servidor-presentacionPC
+  #   build:
+  #     context: .
+  #     dockerfile: ./presentacion/DockerFile
+  #   ports:
+  #     - 80:80
+  #   depends_on:
+  #     - web-negocio
+  #   networks:
+  #     dto-red:
+  #      ipv4_address: "192.168.0.14"
 secrets:
   db_password:
     file: db_password.txt

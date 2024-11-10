@@ -1,15 +1,14 @@
 <?php
 
-namespace App\controller;
+namespace App\Controller;
 
 use Psr\Container\ContainerInterface;
 use PDO;
 
-class Persona{
+class Persona {
     protected $container;
-    #funciones magicas todo lo que empieza en __
-    public function __construct(ContainerInterface $c)
-    {
+
+    public function __construct(ContainerInterface $c) {
         $this->container = $c;
     }
 
@@ -17,13 +16,13 @@ class Persona{
         $sql = "INSERT INTO $recurso (";
         $values = "VALUES (";
         foreach ($datos as $key => $value) {
-            $sql .= $key . ', ';
+            $sql .= "$key, ";
             $values .= ":$key, ";
         }
-        $values = substr($values, 0, -2) . "); ";
+        $values = rtrim($values, ', ') . ");";
+        $sql = rtrim($sql, ', ') . ") " . $values;
 
-        $sql = substr($sql, 0, -2) . ") " . $values;
-
+        // Sanitizar los datos
         $data = [];
         foreach ($datos as $key => $value) {
             $data[$key] = filter_var($value, FILTER_SANITIZE_SPECIAL_CHARS);
@@ -33,103 +32,91 @@ class Persona{
         $con->beginTransaction();
 
         try {
+            // Insertar en la tabla del recurso
             $query = $con->prepare($sql);
             $query->execute($data);
+
+            // Insertar en la tabla usuario
             $id = $datos['idUsuario'];
             $sql = "INSERT INTO usuario (idUsuario, correo, rol, passw) VALUES (:idUsuario, :correo, :rol, :passw);";
-            $passw = password_hash($data['idUsuario'], PASSWORD_BCRYPT, ['cost' => 10]);
+            $passw = password_hash($datos['idUsuario'], PASSWORD_BCRYPT, ['cost' => 10]);
             $query = $con->prepare($sql);
 
             $query->bindValue(":idUsuario", $id, PDO::PARAM_STR);
             $query->bindValue(":correo", $datos['correo'], PDO::PARAM_STR);
-            $query->bindValue(":rol",$rol, PDO::PARAM_INT);
+            $query->bindValue(":rol", $rol, PDO::PARAM_INT);
             $query->bindValue(":passw", $passw);
-
             $query->execute();
+
             $con->commit();
-            $status = 201;
+            $status = 201; // Creación exitosa
         } catch (\PDOException $e) {
             $status = $e->getCode() == 23000 ? 409 : 500;
             $con->rollback();
         }
 
-        $query = null;
-        $con = null;
         return $status;
     }
 
     function readP($recurso, $id = null) {
-        $sql = "SELECT * FROM $recurso ";
-        if ($id != null) {
-            $sql .= "WHERE id= :id";
+        $sql = "SELECT * FROM $recurso";
+        if ($id) {
+            $sql .= " WHERE id = :id";
         }
+
         $con = $this->container->get('bd');
         $query = $con->prepare($sql);
-        if ($id != null) {
+        if ($id) {
             $query->execute(['id' => $id]);
         } else {
             $query->execute();
         }
+
         $resp['resp'] = $query->fetchAll();
         $resp['status'] = $query->rowCount() > 0 ? 200 : 204;
-        $query = null;
-        $con = null;
+
         return $resp;
     }
 
     function updateP($recurso, $datos, $id) {
-
-        //PARA NO MANDAR LA ID del cliente para que n se mdifque 
         $sql = "UPDATE $recurso SET ";
         foreach ($datos as $key => $value) {
             $sql .= "$key = :$key, ";
-            
         }
-        
-        $sql = substr($sql, 0, -2);
-        $sql .= " WHERE id = :id;";
+        $sql = rtrim($sql, ', ') . " WHERE id = :id";
+
         $con = $this->container->get('bd');
         $query = $con->prepare($sql);
 
         foreach ($datos as $key => $value) {
             $query->bindValue(":$key", $value, PDO::PARAM_STR);
         }
-        
+
         $query->bindValue(":id", $id, PDO::PARAM_INT);
-        $query->execute(); //EJECUTAMOS LA CONSULTA
-        
-        $status =$query->rowCount() > 0 ? 200 : 204;
-        $query = null;
-        $con = null;
+        $query->execute();
+        $status = $query->rowCount() > 0 ? 200 : 204;
+
         return $status;
     }
 
-    function deleteP($recurso,$id) {
+    function deleteP($recurso, $id) {
         $sql = "DELETE FROM $recurso WHERE id = :id";
-        // $sql = "DELETE FROM cliente WHERE id = $id OR 1 = 1";
 
         $con = $this->container->get('bd');
         $query = $con->prepare($sql);
         $query->bindValue(":id", $id, PDO::PARAM_INT);
         $query->execute();
         $status = $query->rowCount() > 0 ? 200 : 204;
-        $query = null;
-        $con = null;
 
-        // $response->getBody()->write(json_encode($res));
-
-        return($status); //200 -> OK
+        return $status;
     }
 
-    function filtrarP( $datos,$recurso) {
-     
+    function filtrarP($datos, $recurso) {
         $sql = "SELECT * FROM $recurso WHERE ";
         foreach ($datos as $key => $value) {
             $sql .= "$key LIKE :$key AND ";
         }
-
         $sql = rtrim($sql, 'AND ') . ';';
-        // die($sql);
 
         $con = $this->container->get('bd');
         $query = $con->prepare($sql);
@@ -138,15 +125,11 @@ class Persona{
             $query->bindValue(":$key", "%$value%", PDO::PARAM_STR);
         }
 
-        // $query->bindParam(':nombre', "'%" . $datos['nombre'] . "%'",PDO::PARAM_STR);
-        // $query->bindParam(':apellido1',$datos['apellido1']);
-        // $query->bindParam(':apellido2',$datos['apellido2']);
-
         $query->execute();
         $res['resp'] = $query->fetchAll();
         $res['status'] = $query->rowCount() > 0 ? 200 : 204;
-        $query = null;
-        $con = null;
+
         return $res;
     }
 }
+
