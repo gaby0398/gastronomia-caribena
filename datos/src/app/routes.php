@@ -3,11 +3,7 @@ namespace App\controller;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteCollectorProxy;
-/**ESTE CODIGO NOS SERVIRA DE GUIA MAS SIN ENVARGO EVENTUALMENETE SE BORRARA
- * 
- * 
- * Prueba en vivo rolo 2
- * 
+
 // require __DIR__ . '/../controllers/Cliente.php'
 // Recurso Cliente
 $app->group('/api',function(RouteCollectorProxy $api){
@@ -41,12 +37,12 @@ $app->group('/api',function(RouteCollectorProxy $api){
         $usr->patch('/change/passw/{idUsuario}', Usuario::class . ':cambiarPassw');
         $usr->patch('/change/rol/{idUsuario}', Usuario::class . ':cambiarRol');
     });
-    $api->group('/categories', function (RouteCollectorProxy $categories) {
-        $categories->post('', categories::class . ':create');
-        $categories->get('/read[/{id}]', categories::class . ':read');
-        $categories->get('/filtro', categories::class . ':filtrar');
-        $categories->put('/{id}', categories::class . ':update');
-        $categories->delete('/{id}', categories::class . ':delete');
+    $api->group('/supervisor', function (RouteCollectorProxy $supervisor) {
+        $supervisor->post('', supervisor::class . ':create');
+        $supervisor->get('/read[/{id}]', supervisor::class . ':read');
+        $supervisor->get('/filtro', supervisor::class . ':filtrar');
+        $supervisor->put('/{id}', supervisor::class . ':update');
+        $supervisor->delete('/{id}', supervisor::class . ':delete');
     });
     $api->group('/Products', function (RouteCollectorProxy $Products) {
         $Products->get('/read[/{id}]', Panes::class . ':read');
