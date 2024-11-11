@@ -38,11 +38,12 @@ class Persona {
 
             // Insertar en la tabla usuario
             $id = $datos['idUsuario'];
-            $sql = "INSERT INTO usuario (idUsuario, correo, rol, passw) VALUES (:idUsuario, :correo, :rol, :passw);";
+            $sql = "INSERT INTO usuario (idUsuario,alias, correo, rol, passw) VALUES (:idUsuario, :alias, :correo, :rol, :passw);";
             $passw = password_hash($datos['idUsuario'], PASSWORD_BCRYPT, ['cost' => 10]);
             $query = $con->prepare($sql);
 
             $query->bindValue(":idUsuario", $id, PDO::PARAM_STR);
+            $query->bindValue(":alias", $datos['alias'], PDO::PARAM_STR);
             $query->bindValue(":correo", $datos['correo'], PDO::PARAM_STR);
             $query->bindValue(":rol", $rol, PDO::PARAM_INT);
             $query->bindValue(":passw", $passw);

@@ -16,6 +16,7 @@ CREATE TABLE `Roles` (
 CREATE TABLE `cliente` (
   `id` int NOT NULL AUTO_INCREMENT,
   `idUsuario` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
+  `alias` VARCHAR(100) NOT NULL,
   `nombre` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
   `apellido1` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
   `apellido2` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
@@ -31,6 +32,7 @@ CREATE TABLE `cliente` (
 CREATE TABLE `supervisor` (
   `id` int NOT NULL AUTO_INCREMENT,
   `idUsuario` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
+  `alias` VARCHAR(100) NOT NULL,
   `nombre` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
   `apellido1` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
   `apellido2` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
@@ -45,6 +47,7 @@ CREATE TABLE `supervisor` (
 CREATE TABLE `administrador` (
   `id` int NOT NULL AUTO_INCREMENT,
   `idUsuario` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
+  `alias` VARCHAR(100) NOT NULL,
   `nombre` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
   `apellido1` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
   `apellido2` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
@@ -61,6 +64,7 @@ CREATE TABLE `administrador` (
 CREATE TABLE usuario (
     `id` INT NOT NULL AUTO_INCREMENT,
     `idUsuario` VARCHAR(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
+    `alias` VARCHAR(100) NOT NULL,
     `correo` VARCHAR(100) NOT NULL,
     `rol` INT NOT NULL,
     `passw` VARCHAR(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
