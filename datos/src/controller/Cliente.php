@@ -35,6 +35,13 @@ class Cliente extends Persona {
         $status = $this->deleteP(self::RECURSO, $args['id']);
         return $response->withStatus($status);
     }
+/*
+    function filtrar(Request $request, Response $response, $args) {
+        $datos = $request->getQueryParams();
+        $res = $this->filtrarP($datos, self::RECURSO);
+        $response->getBody()->write(json_encode($res['resp']));
+        return $response->withHeader('Content-type', 'Application/json')->withStatus($res['status']);
+    }*/
 
     function filtrar(Request $request, Response $response, $args) {
         $datos = $request->getQueryParams();
@@ -42,5 +49,6 @@ class Cliente extends Persona {
         $response->getBody()->write(json_encode($res['resp']));
         return $response->withHeader('Content-type', 'Application/json')->withStatus($res['status']);
     }
+    
 }
 
