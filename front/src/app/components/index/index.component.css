@@ -1,101 +1,119 @@
+/* Estilos generales */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 .index-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: linear-gradient(100deg, #e3eb7b, #96b60b);
-  }
-  
-  .carousel-container {
-    flex: 1;
-    max-width: 400px;
-    margin-right: 20px;
-  }
-  
-  .carousel {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-  }
-  
-  .carousel-inner {
-    display: flex;
-    transition: transform 0.5s ease;
-  }
-  
-  .carousel-item {
-    min-width: 100%;
-    height: 100%;
-  }
-  
-  .carousel-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  .carousel-control-prev, .carousel-control-next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
-    cursor: pointer;
-    color: #005e09;
-    transition: color 0.3s;
-  }
-  
-  .carousel-control-prev:hover, .carousel-control-next:hover {
-    color: #07230b;
-  }
-  
-  .carousel-control-prev {
-    left: 0;
-  }
-  
-  .carousel-control-next {
-    right: 0;
-  }
-  
-  .text-section {
-    flex: 1;
-    max-width: 400px;
-    text-align: left;
-  }
-  
-  .text-section h1 {
-    font-size: 2em;
-    font-weight: bold;
-    color: #080808;
-  }
-  
-  .text-section p {
-    font-size: 1.1em;
-    color: #000000;
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .button-container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .button-container button {
-    background-color: #ffffff;
-    border: 1px solid #96b60b;
-    padding: 10px;
-    margin: 5px 0;
-    color: #0a0a0a;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    font-size: 1em;
-    border-radius: 5px;
-  }
-  
-  .button-container button:hover {
-    background-color: #e3eb7b;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(100deg, #b8d1e1, #e3eb7b, #96b60b);
+}
+
+.index-container h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3em;
+  font-weight: 700;
+  color: #080808;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Estilos para el contenedor del carrusel y el texto */
+.content-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  gap: 20px;
+}
+
+.carousel-container {
+  flex: 1;
+  border-radius: 1px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  border: 5px solid #0a0a0a;
+  overflow: hidden;
+  max-width: 55%;
+}
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-inner {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-item {
+  min-width: 100%;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 400px; /* Tamaño uniforme */
+  object-fit: cover;
+}
+
+.carousel-control-prev, .carousel-control-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  cursor: pointer;
+  color: #000000;
+  transition: color 0.3s;
+}
+
+.carousel-control-prev:hover, .carousel-control-next:hover {
+  color: #ffffff;
+}
+
+.carousel-control-prev {
+  left: 10px;
+}
+
+.carousel-control-next {
+  right: 10px;
+}
+
+/* Estilos para la sección de texto */
+.text-section {
+  flex: 1;
+  text-align: left;
+  max-width: 50%;
+}
+
+.text-section p {
+  font-size: 1.2em;
+  color: #000000;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-container button {
+  background-color: #ffffff;
+  border: 1px solid #96b60b;
+  padding: 10px;
+  margin: 5px 0;
+  color: #0a0a0a;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1em;
+  border-radius: 5px;
+  width: 100%; /* Ajusta el ancho de los botones */
+}
+
+.button-container button:hover {
+  background-color: #b8d1e1;
+}
