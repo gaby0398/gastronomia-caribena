@@ -1,86 +1,102 @@
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(to right, #f7c9a0, #f7948e);
-  }
-  
-  .back-button {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    background-color: #f77e5e;
-    border: none;
-    border-radius: 50%;
-    color: white;
-    font-size: 24px;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-  }
-  
-  .card {
-    background-color: #fff3d4;
-    border-radius: 12px;
-    padding: 20px;
-    width: 320px;
-    text-align: center;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  h2 {
-    background-color: #f77e5e;
-    color: white;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-  
-  .user-search {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .user-icon {
-    font-size: 24px;
-    margin-right: 10px;
-  }
-  
-  .user-search input {
-    flex: 1;
-    padding: 8px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-  }
-  
-  .user-search button {
-    background-color: #f77e5e;
-    border: none;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 8px;
-    margin-left: 8px;
-    cursor: pointer;
-  }
-  
-  .form input,
-  .form select,
-  .form button {
-    display: block;
-    width: 100%;
-    padding: 8px;
-    margin: 8px 0;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-  }
-  
-  .form button {
-    background-color: #f77e5e;
-    border: none;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to right, #b8d1e1, #e3eb7b);
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #000000;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 24px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.card {
+  background-color: #f7f7f7;
+  border-radius: 12px;
+  padding: 50px; /* Aumenta el padding */
+  width: 420px; /* Aumenta el ancho */
+  text-align: center;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  background-color: #96b60b;
+  color: rgb(8, 8, 8);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  font-size: 1.9em; /* Aumenta el tamaño de letra del título */
+  position: relative;
+  top: -30px; /* Mueve el título un poco hacia arriba */
+}
+
+.user-search {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-icon {
+  font-size: 28px; /* Aumenta el tamaño del ícono */
+  color: #07230b;
+  margin-right: 10px;
+}
+
+.user-search input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #000000;
+  font-size: 1.1em; /* Aumenta el tamaño de la letra en el input */
+}
+
+.user-search button {
+  background-color: #005e09;
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 1.1em; /* Aumenta el tamaño de la letra del botón */
+}
+
+.user-search button:hover {
+  background-color: #96b60b;
+  color: rgb(0, 0, 0);
+}
+
+.form input,
+.form select,
+.form button {
+  display: block;
+  width: 100%;
+  padding: 10px; /* Aumenta el padding */
+  margin: 10px 0; /* Aumenta el margen */
+  border-radius: 8px;
+  border: 1px solid #005e09;
+  font-size: 1.1em; /* Aumenta el tamaño de la letra */
+}
+
+.form button {
+  background-color: #005e09;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.form button:hover {
+  background-color: #96b60b;
+  color: rgb(0, 0, 0);
+}
