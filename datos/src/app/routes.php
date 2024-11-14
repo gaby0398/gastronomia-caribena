@@ -4,10 +4,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteCollectorProxy;
 
-
 // require __DIR__ . '/../controllers/Cliente.php'
 // Recurso Cliente
-
 
 $app->group('/api', function (RouteCollectorProxy $api) {
     $api->group('/cliente', function (RouteCollectorProxy $cliente) {
@@ -25,7 +23,6 @@ $app->group('/api', function (RouteCollectorProxy $api) {
         $administrador->put('/{id}', Administrador::class . ':update');
         $administrador->delete('/{id}', Administrador::class . ':delete');
     });
-    
   
     // Autenticacion
     $api->group('/auth',function(RouteCollectorProxy $auth){
@@ -48,24 +45,33 @@ $app->group('/api', function (RouteCollectorProxy $api) {
         $supervisor->delete('/{id}', supervisor::class . ':delete');
     });
 
+    $api->group('/comidas', function (RouteCollectorProxy $class) {
+        $class->get('/read[/{id}]', Comidas::class . ':read');
+        $class->delete('/{id}', Comidas::class . ':delete');
+        $class->get('/filtro/{nombre_comidas}', Comidas::class . ':filtro');
+        $class->put('/{id}', Comidas::class . ':update');
+        $class->post('', Comidas::class . ':create');
+    });
+
+    $api->group('/plantas', function (RouteCollectorProxy $class) {
+        $class->get('/read[/{id}]', Plantas::class . ':read');
+        $class->delete('/{id}', Plantas::class . ':delete');
+        $class->get('/filtro/{nombre_plantas}', Plantas::class . ':filtro');
+        $class->put('/{id}', Plantas::class . ':update');
+        $class->post('', Plantas::class . ':create');
+    });
+
+    $api->group('/restaurantes', function (RouteCollectorProxy $class) {
+        $class->get('/read[/{id}]', Restaurantes::class . ':read');
+        $class->delete('/{id}', Restaurantes::class . ':delete');
+        $class->get('/filtro/{nombre_restaurantes}', Restaurantes::class . ':filtro');
+        $class->put('/{id}', Restaurantes::class . ':update');
+        $class->post('', Restaurantes::class . ':create');
+    });
+
+    /*
     $api->group('/Products', function (RouteCollectorProxy $Products) {
         $Products->get('/read[/{id}]', Panes::class . ':read');
-    });
+    });  */
     
 });
-
-   
-//Pruebas Miedo, que nadie hace, nadie usa.....
-// $app->get('/', function (Request $request, Response $response, $args) {
-//     $response->getBody()->write("Hello world!");
-//     return $response;
-// });
-
-// $app->get('/nombre/{nom}', function (Request $request, Response $response, $args) {
-//     $nombre = $args['nom'];
-//     $response->getBody()->write("Hola desde $nombre");
-//     return $response;
-// });*/
-
-//ESTO FUE UNA PRUEBA POR JORDIdf
-//prueva mia gaby claro que si 
