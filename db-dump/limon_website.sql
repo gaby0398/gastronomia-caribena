@@ -231,13 +231,31 @@ BEGIN
 END$$
 DELIMITER ;
 
---Leer
+-- COMIDA PROCESOS ALMACENADOS
 
-DELIMITER $$ CREATE PROCEDURE obtener_comidas(IN pid_comida INT) BEGIN IF pid_comida IS NULL THEN SELECT * FROM Comidas; ELSE SELECT * FROM Comidas WHERE id_comida = pid_comida; END IF; END$$
+--Leer comida
+
+DELIMITER $$
+
+CREATE PROCEDURE obtener_comidas(IN pid_comida INT)
+BEGIN
+    -- select general
+    IF pid_comida IS NULL THEN
+        SELECT * FROM Comidas;
+    ELSE
+        -- verica existencia de id_comida antes de select especifico
+        IF EXISTS (SELECT 1 FROM Comidas WHERE id_comida = pid_comida) THEN
+            SELECT * FROM Comidas WHERE id_comida = pid_comida;
+        ELSE
+            -- no existe ese id
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No existe este id en comidas';
+        END IF;
+    END IF;
+END $$
+
 DELIMITER ;
 
-
---eliminar
+--eliminar comida
 
 DELIMITER $$
 
@@ -248,18 +266,18 @@ BEGIN
         -- Lanza una excepción si el id_comida no existe
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El registro con el id_comida especificado no existe.';
     ELSE
-        -- Si el id_comida existe, elimina el registro
+        -- Si  existe id, elimina el registro
         DELETE FROM Comidas WHERE id_comida = pid_comida;
     END IF;
 END $$
 
 DELIMITER ;
 
---CREAR
 
+--CREAR COMIDA
 DELIMITER $$
 
-CREATE PROCEDURE insertar_comida(
+CREATE PROCEDURE crear_comida(
     IN p_nombre_comida VARCHAR(100),
     IN p_descripcion_comida TEXT,
     IN p_imagen VARCHAR(255),
@@ -268,6 +286,12 @@ CREATE PROCEDURE insertar_comida(
     IN p_fecha_actualizacion DATETIME
 )
 BEGIN
+    -- Verificar que el usuario existe
+    IF NOT EXISTS (SELECT 1 FROM usuario WHERE id = p_usuario_id) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usuario no encontrado';
+    END IF;
+
+    -- Insertar la comida
     INSERT INTO Comidas (
         nombre_comida,
         descripcion_comida,
@@ -287,18 +311,17 @@ END $$
 
 DELIMITER ;
 
---Actualizer
 
-DELIMITER $$
+
+--actualizar comida
+
+DELIMITER $$ 
 
 CREATE PROCEDURE actualizar_comida(
     IN p_id_comida INT,
     IN p_nombre_comida VARCHAR(100),
     IN p_descripcion_comida TEXT,
-    IN p_imagen VARCHAR(255),
-    IN p_usuario_id INT,
-    IN p_fecha_creacion DATETIME,
-    IN p_fecha_actualizacion DATETIME
+    IN p_imagen VARCHAR(255)
 )
 BEGIN
     UPDATE Comidas
@@ -306,12 +329,8 @@ BEGIN
         nombre_comida = COALESCE(p_nombre_comida, nombre_comida),
         descripcion_comida = COALESCE(p_descripcion_comida, descripcion_comida),
         imagen = COALESCE(p_imagen, imagen),
-        usuario_id = COALESCE(p_usuario_id, usuario_id),
-        fecha_creacion = COALESCE(p_fecha_creacion, fecha_creacion),
-        fecha_actualizacion = COALESCE(p_fecha_actualizacion, fecha_actualizacion)
+        fecha_actualizacion = now()
     WHERE id_comida = p_id_comida;
 END $$
 
 DELIMITER ;
-
-
