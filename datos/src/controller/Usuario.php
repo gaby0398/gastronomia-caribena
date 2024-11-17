@@ -4,6 +4,7 @@ namespace App\controller;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Container\ContainerInterface;
+use PDO;
 
 class Usuario extends Autenticar{
     protected $container;
@@ -38,7 +39,7 @@ class Usuario extends Autenticar{
         $body = json_decode($request->getBody());
         $passw = password_hash($args['idUsuario'], PASSWORD_BCRYPT, ['cost' => 10]);
         $status = $this->editarUsuario(idUsuario: $args['idUsuario'], passw: $passw) == 0 ? 204 : 200;
-        return $responde->withStatus($status);
+        return $response->withStatus($status);
     }
 
     public function cambiarRol(Request $request, Response $response, $args){
@@ -46,5 +47,53 @@ class Usuario extends Autenticar{
         $status = $this->editarUsuario(idUsuario: $args['idUsuario'], rol: $body->rol)
             == 0 ? 204 : 200;
         return $response->withStatus($status);
+    }
+
+    public function getUser(Request $request, Response $response, $args)
+    {
+        // Obtiene el parámetro desde los argumentos de la ruta (args)
+        $param = $args['userParam'] ?? null;
+
+        // Verifica si el parámetro fue proporcionado; si no, devuelve un error
+        if (!$param) {
+            $response->getBody()->write(json_encode(['error' => 'Parámetro userParam no proporcionado']));
+            return $response
+                ->withHeader('Content-type', 'application/json') // Indica que la respuesta es JSON
+                ->withStatus(400); // Devuelve un código HTTP 400 (Bad Request)
+        }
+
+        // Define la consulta SQL para llamar al procedimiento almacenado
+        $sql = "CALL getUser(:userParam)";
+        $con = $this->container->get('bd'); // Obtiene la conexión a la base de datos desde el contenedor
+
+        try {
+            // Prepara la consulta SQL con el procedimiento almacenado
+            $query = $con->prepare($sql);
+            // Vincula el parámetro recibido al parámetro del procedimiento almacenado
+            $query->bindParam(':userParam', $param, PDO::PARAM_STR);
+            // Ejecuta la consulta
+            $query->execute();
+            // Obtiene el resultado de la consulta como un arreglo asociativo
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+
+            // Si se encontró un resultado, lo devuelve en el cuerpo de la respuesta
+            if ($result) {
+                $response->getBody()->write(json_encode($result)); // Escribe el resultado en formato JSON
+                $status = 200; // Código HTTP 200 (OK)
+            } else {
+                // Si no se encuentra ningún resultado, devuelve un error
+                $response->getBody()->write(json_encode(['error' => 'Usuario no encontrado']));
+                $status = 404; // Código HTTP 404 (Not Found)
+            }
+        } catch (\PDOException $e) {
+            // Maneja errores de la base de datos
+            $response->getBody()->write(json_encode(['error' => 'Error en la base de datos: ' . $e->getMessage()]));
+            $status = 500; // Código HTTP 500 (Internal Server Error)
+        }
+
+        // Retorna la respuesta con el encabezado de tipo JSON y el código de estado correspondiente
+        return $response
+            ->withHeader('Content-type', 'application/json')
+            ->withStatus($status);
     }
 }

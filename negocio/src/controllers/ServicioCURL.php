@@ -1,13 +1,16 @@
 <?php
+
 namespace App\controllers;
 
-class ServicioCURL{
+class ServicioCURL
+{
     private const URL = "http://web-datos/api";
 
-     public function ejecutarCURL($endpoint, $metodo, $datos = null){
+    public function ejecutarCURL($endpoint, $metodo, $datos = null)
+    {
         //Esto lo habilita para todos
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, self::URL .$endpoint);
+        curl_setopt($ch, CURLOPT_URL, self::URL . $endpoint);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         //Esto es porque tanto el POST como el PUT almacenan datos
         if ($datos != null) { //Si hay datos
@@ -30,4 +33,4 @@ class ServicioCURL{
         curl_close($ch);
         return ['resp' => $resp, 'status' => $status];
     }
-}  
+}

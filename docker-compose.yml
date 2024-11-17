@@ -39,7 +39,6 @@ services:
     volumes:
       - ./datos/src:/var/www/html/src
       - ./datos/public:/var/www/html/public
-      #- ./datos:/var/www/html/
     build:
       context: .
       dockerfile: ./datos/DockerFile
@@ -55,7 +54,6 @@ services:
     volumes:
       - ./negocio/src:/var/www/html/src
       - ./negocio/public:/var/www/html/public
-      #- ./www:/var/www/html/
     build:
       context: .
       dockerfile: ./negocio/DockerFile

@@ -35,6 +35,7 @@ $app->group('/api', function (RouteCollectorProxy $api) {
         $usr->patch('/resetear/{idUsuario}', Usuario::class . ':resetearPassw'); 
         $usr->patch('/change/passw/{idUsuario}', Usuario::class . ':cambiarPassw');
         $usr->patch('/change/rol/{idUsuario}', Usuario::class . ':cambiarRol');
+        $usr->get('/getUser/{userParam}', Usuario::class . ':getUser');
     });
 
     $api->group('/supervisor', function (RouteCollectorProxy $supervisor) {

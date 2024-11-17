@@ -1,34 +1,35 @@
 <div class="container">
-    <button class="back-button" (click)="goBack()">←</button>
-    <div class="card">
-      <h2>Gestión usuarios</h2>
-      <div class="user-search">
-        <div class="user-icon">👤</div>
-        <input
-          type="text"
-          placeholder="Usuario"
-          [(ngModel)]="userSearch"
-        />
-        <button (click)="searchUser()">Buscar</button>
-      </div>
-      <div class="form">
-        <input
-          type="text"
-          placeholder="Nombre Completo"
-          [(ngModel)]="user.name"
-        />
-        <input
-          type="email"
-          placeholder="Correo"
-          [(ngModel)]="user.email"
-        />
-        <label>Rol:</label>
-        <select [(ngModel)]="user.role">
-          <option value="Usuario">Supervisor</option>
-          <option value="Admin">Administrador</option>
-        </select>
-        <button (click)="saveChanges()">guardar cambios</button>
-      </div>
+
+  <button class="back-button" (click)="goBack()">←</button>
+  <div class="card">
+
+    <h2>Gestión usuarios</h2>
+
+    <div class="user-search">
+      <div class="user-icon">👤</div>
+      <input type="text" placeholder="Usuario" [(ngModel)]="userSearch" />
+      <button (click)="searchUser()" [disabled]="loading">Buscar</button>
     </div>
+
+    <div *ngIf="loading" class="loading-spinner">🔄 Buscando usuario...</div>
+
+    <div class="form" *ngIf="userLoaded">
+      <input type="text" placeholder="Nombre Completo" [(ngModel)]="user.name" />
+      <input type="email" placeholder="Correo" [(ngModel)]="user.email" />
+
+      <label for="roleSelect">Rol:</label>
+
+      <select [(ngModel)]="user.role" aria-label="Selecciona un rol">
+
+        <option *ngFor="let role of roles" [ngValue]="role.value"
+          [style.backgroundColor]="role.value === user.role ? '#f0e68c' : '#fff'">
+          {{ role.label }}
+        </option>
+        
+      </select>
+
+      <button (click)="saveChanges()">Guardar cambios</button>
+    </div>
+
   </div>
-  
+</div>

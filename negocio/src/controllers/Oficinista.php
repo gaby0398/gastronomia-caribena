@@ -1,11 +1,13 @@
 <?php
 
 namespace App\controllers;
+
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 // use Psr\Container\ContainerInterface;
 
-class Oficinista{
+class Oficinista
+{
     private const URL = "http://web-datos/oficinista";
 
     private function ejecutarCURL($url, $metodo, $datos = null)
@@ -58,14 +60,16 @@ class Oficinista{
             ->withStatus($respA['status']);
     }
 
-    public function update(Request $request, Response $response, $args){
+    public function update(Request $request, Response $response, $args)
+    {
         $datos = $request->getBody();
         $url = $this::URL . "/{$args['id']}";
         $respA = $this->ejecutarCURL($url, 'PUT', $datos);
         return $response->withStatus($respA['status']);
     }
 
-    public function delete(Request $request, Response $response, $args){    
+    public function delete(Request $request, Response $response, $args)
+    {
         $url = $this::URL . "/{$args['id']}";
         $respA = $this->ejecutarCURL($url, 'DELETE');
         return $response->withStatus($respA['status']);

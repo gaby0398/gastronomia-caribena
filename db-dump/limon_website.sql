@@ -334,3 +334,20 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+-- Cambiar el delimitador para que MySQL no interprete el ; dentro del procedimiento como el fin de la declaración
+DELIMITER $$ 
+
+-- Creación del procedimiento almacenado getUser
+CREATE PROCEDURE getUser(IN userParam VARCHAR(255)) -- Procedimiento que recibe un parámetro de entrada llamado userParam
+BEGIN
+    -- Selecciona las columnas idUsuario, alias, correo y rol de la tabla Usuario
+    SELECT idUsuario, alias, correo, rol
+    FROM Usuario
+    -- Filtra la búsqueda por el valor proporcionado en userParam (idUsuario, alias o correo)
+    WHERE idUsuario = userParam OR alias = userParam OR correo = userParam
+    LIMIT 1; -- Limita el resultado a una única fila (en caso de múltiples coincidencias)
+END$$ 
+
+-- Restaurar el delimitador predeterminado
+DELIMITER ;

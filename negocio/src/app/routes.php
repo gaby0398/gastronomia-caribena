@@ -40,6 +40,7 @@ $app->group('/api',function(RouteCollectorProxy $api){
         $usr->patch('/reset/passw/{idUsuario}', Usuario::class . ':resetPassw'); 
         $usr->patch('/change/passw/{idUsuario}', Usuario::class . ':changePassw');
         $usr->patch('/change/rol/{idUsuario}', Usuario::class . ':changeRol');
+        $usr->get('/getUser/{userParam}', Usuario::class . ':getUser');
     });
     $api->group('/categories', function (RouteCollectorProxy $categories) {
         $categories->post('', categories::class . ':create');
