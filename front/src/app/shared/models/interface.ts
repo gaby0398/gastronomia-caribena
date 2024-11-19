@@ -6,8 +6,8 @@ export interface TypeAdmin {
 }
 
 export interface TypeClient {
-    id: number,
     idUsuario: string,
+    alias: string,
     nombre: string,
     apellido1: string,
     apellido2: string,
@@ -15,7 +15,6 @@ export interface TypeClient {
     celular: string,
     direccion: string,
     correo: string,
-    fechaIngreso: string
 };
 
 export interface TypeUser {
