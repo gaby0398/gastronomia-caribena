@@ -23,8 +23,8 @@
 .card {
   background-color: #f7f7f7;
   border-radius: 12px;
-  padding: 50px; /* Aumenta el padding */
-  width: 420px; /* Aumenta el ancho */
+  padding: 50px;
+  width: 420px;
   text-align: center;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -35,9 +35,9 @@ h2 {
   padding: 15px;
   border-radius: 8px;
   margin-bottom: 30px;
-  font-size: 1.9em; /* Aumenta el tamaño de letra del título */
+  font-size: 1.9em;
   position: relative;
-  top: -30px; /* Mueve el título un poco hacia arriba */
+  top: -30px;
 }
 
 .user-search {
@@ -47,7 +47,7 @@ h2 {
 }
 
 .user-icon {
-  font-size: 28px; /* Aumenta el tamaño del ícono */
+  font-size: 28px;
   color: #07230b;
   margin-right: 10px;
 }
@@ -57,7 +57,7 @@ h2 {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #000000;
-  font-size: 1.1em; /* Aumenta el tamaño de la letra en el input */
+  font-size: 1.1em;
 }
 
 .user-search button {
@@ -68,7 +68,7 @@ h2 {
   border-radius: 8px;
   margin-left: 8px;
   cursor: pointer;
-  font-size: 1.1em; /* Aumenta el tamaño de la letra del botón */
+  font-size: 1.1em;
 }
 
 .user-search button:hover {
@@ -81,11 +81,11 @@ h2 {
 .form button {
   display: block;
   width: 100%;
-  padding: 10px; /* Aumenta el padding */
-  margin: 10px 0; /* Aumenta el margen */
+  padding: 10px;
+  margin: 10px 0;
   border-radius: 8px;
   border: 1px solid #005e09;
-  font-size: 1.1em; /* Aumenta el tamaño de la letra */
+  font-size: 1.1em;
 }
 
 .form button {
