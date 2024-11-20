@@ -1,6 +1,43 @@
-/* Estilos generales */
+
+/* Estilo para el header */
+.navbar {
+  width: 100%;
+  background-color: #b8d1e1; /* Fondo blanco para resaltar */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para efecto elevado */
+  border-bottom: 2px solid #e3e3e3; /* Línea sutil en el borde inferior */
+  padding: 50px 20px; /* Espacio interno */
+  position: sticky;
+  z-index: 1000; /* Asegura que el header esté sobre el contenido */
+}
+
+/* Estilo común para los botones de icono */
+.icon-button {
+  background-color: #e3eb7b; /* Fondo del botón */
+  color: #0a0a0a; /* Color del icono */
+  border: none;
+  border-radius: 50%; /* Forma circular */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-left: 10px; /* Espacio entre los botones */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Efecto hover para los botones */
+.icon-button:hover {
+  background-color: #cddc39;
+}
+
+
+
 body {
   font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .index-container {
@@ -31,11 +68,11 @@ body {
 .carousel-container {
   flex: 1;
   box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.3);
-  border: 3px solid #0a0a0a; /* Borde más grueso */
+  border: 3px solid #0a0a0a;
   overflow: hidden;
   max-width: 55%;
   display: flex;
-  justify-content: center; /* Centrar el carrusel */
+  justify-content: center;
   align-items: center;
 }
 
@@ -56,7 +93,7 @@ body {
 
 .carousel-item img {
   width: 100%;
-  height: 400px; /* Tamaño uniforme */
+  height: 400px;
   object-fit: cover;
 }
 
@@ -112,9 +149,60 @@ body {
   transition: background-color 0.3s;
   font-size: 1em;
   border-radius: 5px;
-  width: 100%; /* Ajusta el ancho de los botones */
+  width: 60%;
 }
 
 .button-container button:hover {
   background-color: #b8d1e1;
 }
+
+.icon-button:hover {
+  background-color: #e3eb7b;
+}
+
+.icon-user span {
+  color: #07230b;
+}
+
+/* Estilos comunes para los botones */
+.icon-button {
+  position: absolute;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+}
+
+/* Estilos específicos para el botón de información */
+.icon-info {
+  top: 20px;
+  left: 20px;
+  background-color: #07230b; /* Fondo oscuro para el botón de info */
+  color: #b8d1e1; /* Color del icono y texto */
+}
+
+/* Estilos específicos para el botón de usuario */
+.icon-user {
+  top: 20px;
+  right: 20px;
+  background-color: #e3eb7b; /* Color de fondo claro */
+  color: #07230b
+}
+
+.icon-button:hover {
+  background-color: #96b60b; /* Cambia el color en hover */
+}
+
+
+.icon-button span.material-icons {
+  font-size: 60px; /* Tamaño del ícono */
+}
+
