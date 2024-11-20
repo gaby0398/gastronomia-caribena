@@ -193,7 +193,6 @@ END $$
 DELIMITER ;
 
 
-DELIMITER ;
 
 DELIMITER $$
 CREATE PROCEDURE IniciarSesion(_id int, _passw varchar(255)) -- > SP iniciar sesion
@@ -202,26 +201,7 @@ BEGIN
 END$$
 DELIMITER;
 
-DELIMITER $$
-CREATE PROCEDURE eliminarCliente (_id INT) -- > SP eliminar cliente
-begin
-    declare _cant int;
-    declare _resp int;
-    set _resp = 0;
-    select count(id) into _cant from cliente where id = _id;
-    if _cant > 0 then
-        set _resp = 1;
-        select count(id) into _cant from artefacto where idCliente = _id;
-        if _cant = 0 then
-            delete from cliente where id = _id;
-        else 
-            -- select 2 into _resp;
-            set _resp = 2;
-        end if;
-    end if;
-    select _resp as resp;
-end$$
-DELIMITER ;
+
 
 
 DELIMITER $$
@@ -367,7 +347,7 @@ BEGIN
     -- Filtra la búsqueda por el valor proporcionado en userParam (idUsuario, alias o correo)
     WHERE idUsuario = userParam OR alias = userParam OR correo = userParam
     LIMIT 1; -- Limita el resultado a una única fila (en caso de múltiples coincidencias)
-END$$ 
+END $$ 
 
 -- Restaurar el delimitador predeterminado
 DELIMITER ;
@@ -473,20 +453,22 @@ DELIMITER ;
 
 DELIMITER $$
 
-CREATE PROCEDURE actualizar_comida(
-    IN p_id_comida INT,
-    IN p_nombre_comida VARCHAR(100),
-    IN p_descripcion_comida TEXT,
+CREATE PROCEDURE actualizar_restaurante (
+    IN p_id_restaurante INT,
+    IN p_nombre_restaurante VARCHAR(100),
+    IN p_descripcion_restaurante TEXT,
+    IN p_direccion VARCHAR(255),
     IN p_imagen VARCHAR(255)
 )
 BEGIN
-    UPDATE Comidas
+    UPDATE Restaurantes
     SET 
-        nombre_comida = COALESCE(p_nombre_comida, nombre_comida),
-        descripcion_comida = COALESCE(p_descripcion_comida, descripcion_comida),
+        nombre_restaurante = COALESCE(p_nombre_restaurante, nombre_restaurante),
+        descripcion_restaurante = COALESCE(p_descripcion_restaurante, descripcion_restaurante),
+        direccion = COALESCE(p_direccion, direccion),
         imagen = COALESCE(p_imagen, imagen),
         fecha_actualizacion = NOW()
-    WHERE id_comida = p_id_comida;
+    WHERE id_restaurante = p_id_restaurante;
 END $$
 
 DELIMITER ;
@@ -540,7 +522,7 @@ CREATE PROCEDURE filtrar_plantas(IN pnombre_plantas VARCHAR(100))
 BEGIN
     SELECT * 
     FROM Plantas
-    WHERE nombre_planta COLLATE utf8mb4_0900_ai_ci LIKE CONCAT('%', pnombre_plantas, '%');
+    WHERE nombre_planta COLLATE utf8mb3_0900_ai_ci LIKE CONCAT('%', pnombre_plantas, '%');
 END $$
 
 DELIMITER ;
