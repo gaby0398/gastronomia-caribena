@@ -88,6 +88,7 @@ CREATE TABLE `Comidas` (
     `descripcion_comida` TEXT,
     `imagen` VARCHAR(255),
     `usuario_id` INT,
+    `elaboracion` TEXT, -- NUEVO
     `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
@@ -101,6 +102,7 @@ CREATE TABLE `Plantas` (
     `caracteristicas` TEXT,
     `imagen` VARCHAR(255),
     `usuario_id` INT,
+    `elaboracion` TEXT, -- NUEVO
     `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
     `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
@@ -274,7 +276,8 @@ END $$
 DELIMITER ;
 
 
---CREAR COMIDA
+-- CREAR COMIDA
+
 DELIMITER $$
 
 CREATE PROCEDURE crear_comida(
@@ -283,7 +286,8 @@ CREATE PROCEDURE crear_comida(
     IN p_imagen VARCHAR(255),
     IN p_usuario_id INT,
     IN p_fecha_creacion DATETIME,
-    IN p_fecha_actualizacion DATETIME
+    IN p_fecha_actualizacion DATETIME,
+    IN p_elaboracion TEXT  -- Nuevo parámetro
 )
 BEGIN
     -- Verificar que el usuario existe
@@ -298,22 +302,22 @@ BEGIN
         imagen,
         usuario_id,
         fecha_creacion,
-        fecha_actualizacion
+        fecha_actualizacion,
+        elaboracion  -- Insertar el nuevo campo
     ) VALUES (
         p_nombre_comida,
         p_descripcion_comida,
         p_imagen,
         p_usuario_id,
         p_fecha_creacion,
-        p_fecha_actualizacion
+        p_fecha_actualizacion,
+        p_elaboracion  -- Incluir el parámetro en la inserción
     );
 END $$
 
 DELIMITER ;
 
-
-
---actualizar comida
+-- actualizar comida
 
 DELIMITER $$ 
 
@@ -321,7 +325,8 @@ CREATE PROCEDURE actualizar_comida(
     IN p_id_comida INT,
     IN p_nombre_comida VARCHAR(100),
     IN p_descripcion_comida TEXT,
-    IN p_imagen VARCHAR(255)
+    IN p_imagen VARCHAR(255),
+    IN p_elaboracion TEXT -- Parámetro para la nueva columna "elaboracion"
 )
 BEGIN
     UPDATE Comidas
@@ -329,11 +334,26 @@ BEGIN
         nombre_comida = COALESCE(p_nombre_comida, nombre_comida),
         descripcion_comida = COALESCE(p_descripcion_comida, descripcion_comida),
         imagen = COALESCE(p_imagen, imagen),
-        fecha_actualizacion = now()
+        fecha_actualizacion = now(),
+        elaboracion = COALESCE(p_elaboracion, elaboracion) -- Actualización de "elaboracion"
     WHERE id_comida = p_id_comida;
 END $$
 
 DELIMITER ;
+
+-- filtro comida
+
+DELIMITER $$
+
+CREATE PROCEDURE filtrar_comidas(IN pnombre_comidas VARCHAR(100))
+BEGIN
+    SELECT * 
+    FROM Comidas
+    WHERE nombre_comida LIKE CONCAT('%', pnombre_comidas, '%');
+END $$
+
+DELIMITER ;
+
 
 -- Cambiar el delimitador para que MySQL no interprete el ; dentro del procedimiento como el fin de la declaración
 DELIMITER $$ 
@@ -350,4 +370,244 @@ BEGIN
 END$$ 
 
 -- Restaurar el delimitador predeterminado
+DELIMITER ;
+
+--**REstaurantes PS
+
+--Leer RESTAURANTES
+
+DELIMITER $$
+
+CREATE PROCEDURE obtener_restaurantes(IN pid_restaurantes INT)
+BEGIN
+    -- select general
+    IF pid_restaurantes IS NULL THEN
+        SELECT * FROM Restaurantes;
+    ELSE
+        -- verica existencia de id_restaurantes antes de select especifico
+        IF EXISTS (SELECT 1 FROM Restaurantes WHERE id_restaurante = pid_restaurantes) THEN
+            SELECT * FROM Restaurantes WHERE id_restaurante = pid_restaurantes;
+        ELSE
+            -- no existe ese id
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No existe este id en restaurantes';
+        END IF;
+    END IF;
+END $$
+
+DELIMITER ;
+
+--eliminar restaurante
+
+DELIMITER $$
+
+CREATE PROCEDURE eliminar_Restaurante (IN pid_restaurante INT)
+BEGIN
+    -- Verifica si el id_restaurantes existe en la tabla
+    IF (SELECT COUNT(*) FROM Restaurantes WHERE id_restaurante = pid_restaurante) = 0 THEN
+        -- Lanza una excepción si el id_restaurante no existe
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El registro con especificado no existe.';
+    ELSE
+        -- Si existe id, elimina el registro
+        DELETE FROM Restaurantes WHERE id_restaurante = pid_restaurante;
+    END IF;
+END $$
+
+DELIMITER ;
+
+--filtro restaurante
+
+DELIMITER $$
+
+CREATE PROCEDURE filtrar_restaurantes(IN pnombre_restaurantes VARCHAR(100))
+BEGIN
+    SELECT * 
+    FROM Restaurantes
+    WHERE nombre_restaurante COLLATE utf8mb4_0900_ai_ci LIKE CONCAT('%', pnombre_restaurantes, '%');
+END $$
+
+DELIMITER ;
+
+-- Crear restaurante
+
+DELIMITER $$
+
+CREATE PROCEDURE crear_restaurante(
+    IN p_nombre_restaurante VARCHAR(100),
+    IN p_descripcion_restaurante TEXT,
+    IN p_direccion VARCHAR(255),
+    IN p_imagen VARCHAR(255),
+    IN p_usuario_id INT,
+    IN p_fecha_creacion DATETIME,
+    IN p_fecha_actualizacion DATETIME
+)
+BEGIN
+    -- Verificar que el usuario existe
+    IF NOT EXISTS (SELECT 1 FROM usuario WHERE id = p_usuario_id) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usuario no encontrado';
+    END IF;
+
+    -- Insertar el restaurante
+    INSERT INTO Restaurantes (
+        nombre_restaurante,
+        descripcion_restaurante,
+        direccion,
+        imagen,
+        usuario_id,
+        fecha_creacion,
+        fecha_actualizacion
+    ) VALUES (
+        p_nombre_restaurante,
+        p_descripcion_restaurante,
+        p_direccion,
+        p_imagen,
+        p_usuario_id,
+        p_fecha_creacion,
+        p_fecha_actualizacion
+    );
+END $$
+
+DELIMITER ;
+
+-- actualizar restaurante
+
+
+DELIMITER $$
+
+CREATE PROCEDURE actualizar_comida(
+    IN p_id_comida INT,
+    IN p_nombre_comida VARCHAR(100),
+    IN p_descripcion_comida TEXT,
+    IN p_imagen VARCHAR(255)
+)
+BEGIN
+    UPDATE Comidas
+    SET 
+        nombre_comida = COALESCE(p_nombre_comida, nombre_comida),
+        descripcion_comida = COALESCE(p_descripcion_comida, descripcion_comida),
+        imagen = COALESCE(p_imagen, imagen),
+        fecha_actualizacion = NOW()
+    WHERE id_comida = p_id_comida;
+END $$
+
+DELIMITER ;
+
+--Plantas PS
+--LEER PLANTAS
+
+DELIMITER $$
+
+CREATE PROCEDURE obtener_plantas(IN pid_planta INT)
+BEGIN
+    -- select general
+    IF pid_planta IS NULL THEN
+        SELECT * FROM Plantas;
+    ELSE
+        -- verica existencia de id_planta antes de select especifico
+        IF EXISTS (SELECT 1 FROM Plantas WHERE id_planta = pid_planta) THEN
+            SELECT * FROM Plantas WHERE id_planta = pid_planta;
+        ELSE
+            -- no existe ese id
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No existe este id en plantas';
+        END IF;
+    END IF;
+END $$
+
+DELIMITER ;
+
+--ELIMINAR PLANTA
+
+DELIMITER $$
+
+CREATE PROCEDURE eliminar_planta (IN pid_planta INT)
+BEGIN
+    -- Verifica si el id_planta existe en la tabla
+    IF (SELECT COUNT(*) FROM Plantas WHERE id_planta = pid_planta) = 0 THEN
+        -- Lanza una excepción si el id_planta no existe
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El registro con especificado no existe.';
+    ELSE
+        -- Si  existe id, elimina el registro
+        DELETE FROM Plantas WHERE id_planta = pid_planta;
+    END IF;
+END $$
+
+DELIMITER ;
+
+--filtro plantas
+
+DELIMITER $$
+
+CREATE PROCEDURE filtrar_plantas(IN pnombre_plantas VARCHAR(100))
+BEGIN
+    SELECT * 
+    FROM Plantas
+    WHERE nombre_planta COLLATE utf8mb4_0900_ai_ci LIKE CONCAT('%', pnombre_plantas, '%');
+END $$
+
+DELIMITER ;
+
+-- crear planta
+
+
+DELIMITER $$
+
+CREATE PROCEDURE crear_planta(
+    IN p_nombre_planta VARCHAR(100),
+    IN p_caracteristicas TEXT,
+    IN p_imagen VARCHAR(255),
+    IN p_usuario_id INT,
+    IN p_fecha_creacion DATETIME,
+    IN p_fecha_actualizacion DATETIME,
+    IN p_elaboracion TEXT 
+)
+BEGIN
+    -- Verificar que el usuario existe
+    IF NOT EXISTS (SELECT 1 FROM usuario WHERE id = p_usuario_id) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'el usuario no existe';
+    END IF;
+
+    -- Insertar la planta
+    INSERT INTO Plantas (
+        nombre_planta,
+        caracteristicas,
+        imagen,
+        usuario_id,
+        fecha_creacion,
+        fecha_actualizacion,
+        elaboracion -- Nuevo campo "elaboracion" después de "fecha_actualizacion"
+    ) VALUES (
+        p_nombre_planta,
+        p_caracteristicas,
+        p_imagen,
+        p_usuario_id,
+        p_fecha_creacion,
+        p_fecha_actualizacion,
+        p_elaboracion 
+    );
+END $$
+
+DELIMITER ;
+
+-- actualizar planta
+
+
+DELIMITER $$
+
+CREATE PROCEDURE actualizar_planta(
+    IN p_id_planta INT,
+    IN p_nombre_planta VARCHAR(100),
+    IN p_caracteristicas TEXT,
+    IN p_imagen VARCHAR(255),
+    IN p_elaboracion TEXT
+)
+BEGIN
+    UPDATE Plantas
+    SET 
+        nombre_planta = COALESCE(p_nombre_planta, nombre_planta),
+        caracteristicas = COALESCE(p_caracteristicas, caracteristicas),
+        imagen = COALESCE(p_imagen, imagen),
+        elaboracion = COALESCE(p_elaboracion, elaboracion),
+        fecha_actualizacion = NOW()
+    WHERE id_planta = p_id_planta;
+END $$
+
 DELIMITER ;
