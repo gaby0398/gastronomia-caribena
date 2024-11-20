@@ -2,9 +2,11 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+-- Asegurar permisos para funciones y triggers
+SET GLOBAL log_bin_trust_function_creators = 1;
 
 -- Creación de la base de datos
-CREATE DATABASE IF NOT EXISTS `limon_website` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE DATABASE IF NOT EXISTS `limon_website` DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci;
 USE `limon_website`;
 
 -- Tabla Roles
@@ -12,155 +14,155 @@ CREATE TABLE `Roles` (
     `id_rol` INT PRIMARY KEY AUTO_INCREMENT,
     `nombre_rol` VARCHAR(50) NOT NULL,
     `descripcion` TEXT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+
+-- Tabla Clientes
 CREATE TABLE `cliente` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `idUsuario` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `idUsuario` VARCHAR(15) NOT NULL,
   `alias` VARCHAR(100) NOT NULL,
-  `nombre` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `apellido1` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `apellido2` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `telefono` varchar(9) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `celular` varchar(9) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
-  `direccion` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
-  `correo` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `fechaIngreso` datetime DEFAULT CURRENT_TIMESTAMP,
+  `nombre` VARCHAR(30) NOT NULL,
+  `apellido1` VARCHAR(15) NOT NULL,
+  `apellido2` VARCHAR(15) NOT NULL,
+  `telefono` VARCHAR(9) NOT NULL,
+  `celular` VARCHAR(9) DEFAULT NULL,
+  `direccion` VARCHAR(255) DEFAULT NULL,
+  `correo` VARCHAR(100) NOT NULL,
+  `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
-
+-- Tabla Supervisores
 CREATE TABLE `supervisor` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `idUsuario` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `idUsuario` VARCHAR(15) NOT NULL,
   `alias` VARCHAR(100) NOT NULL,
-  `nombre` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `apellido1` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `apellido2` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `telefono` varchar(9) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `celular` varchar(9) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
-  `direccion` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
-  `correo` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `fechaIngreso` datetime DEFAULT CURRENT_TIMESTAMP,
+  `nombre` VARCHAR(30) NOT NULL,
+  `apellido1` VARCHAR(15) NOT NULL,
+  `apellido2` VARCHAR(15) NOT NULL,
+  `telefono` VARCHAR(9) NOT NULL,
+  `celular` VARCHAR(9) DEFAULT NULL,
+  `direccion` VARCHAR(255) DEFAULT NULL,
+  `correo` VARCHAR(100) NOT NULL,
+  `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
+-- Tabla Administradores
 CREATE TABLE `administrador` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `idUsuario` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `idUsuario` VARCHAR(15) NOT NULL,
   `alias` VARCHAR(100) NOT NULL,
-  `nombre` varchar(30) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `apellido1` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `apellido2` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `telefono` varchar(9) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `celular` varchar(9) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
-  `direccion` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
-  `correo` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-  `fechaIngreso` datetime DEFAULT CURRENT_TIMESTAMP,
+  `nombre` VARCHAR(30) NOT NULL,
+  `apellido1` VARCHAR(15) NOT NULL,
+  `apellido2` VARCHAR(15) NOT NULL,
+  `telefono` VARCHAR(9) NOT NULL,
+  `celular` VARCHAR(9) DEFAULT NULL,
+  `direccion` VARCHAR(255) DEFAULT NULL,
+  `correo` VARCHAR(100) NOT NULL,
+  `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
-
 
 -- Tabla Usuarios
-CREATE TABLE usuario (
-    `id` INT NOT NULL AUTO_INCREMENT,
-    `idUsuario` VARCHAR(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-    `alias` VARCHAR(100) NOT NULL,
-    `correo` VARCHAR(100) NOT NULL,
-    `rol` INT NOT NULL,
-    `passw` VARCHAR(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
-    `ultimoAcceso` DATETIME DEFAULT NULL,
-    `tkR` varchar(255) NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY idx_Usuario (idUsuario)
+CREATE TABLE `usuario` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `idUsuario` VARCHAR(15) NOT NULL,
+  `alias` VARCHAR(100) NOT NULL,
+  `correo` VARCHAR(100) NOT NULL,
+  `rol` INT NOT NULL,
+  `passw` VARCHAR(255) NOT NULL,
+  `ultimoAcceso` DATETIME DEFAULT NULL,
+  `tkR` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_Usuario` (`idUsuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
 -- Tabla Categorías
 CREATE TABLE `Categorias` (
-    `id_categoria` INT PRIMARY KEY AUTO_INCREMENT,
-    `nombre_categoria` VARCHAR(50) NOT NULL,
-    `descripcion` TEXT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+  `id_categoria` INT PRIMARY KEY AUTO_INCREMENT,
+  `nombre_categoria` VARCHAR(50) NOT NULL,
+  `descripcion` TEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
 -- Tabla Comidas
 CREATE TABLE `Comidas` (
-    `id_comida` INT PRIMARY KEY AUTO_INCREMENT,
-    `nombre_comida` VARCHAR(100) NOT NULL,
-    `descripcion_comida` TEXT,
-    `imagen` VARCHAR(255),
-    `usuario_id` INT,
-    `elaboracion` TEXT, -- NUEVO
-    `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
+  `id_comida` INT PRIMARY KEY AUTO_INCREMENT,
+  `nombre_comida` VARCHAR(100) NOT NULL,
+  `descripcion_comida` TEXT,
+  `imagen` VARCHAR(255),
+  `usuario_id` INT,
+  `elaboracion` TEXT,
+  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
 -- Tabla Plantas
 CREATE TABLE `Plantas` (
-    `id_planta` INT PRIMARY KEY AUTO_INCREMENT,
-    `nombre_planta` VARCHAR(100) NOT NULL,
-    `caracteristicas` TEXT,
-    `imagen` VARCHAR(255),
-    `usuario_id` INT,
-    `elaboracion` TEXT, -- NUEVO
-    `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+  `id_planta` INT PRIMARY KEY AUTO_INCREMENT,
+  `nombre_planta` VARCHAR(100) NOT NULL,
+  `caracteristicas` TEXT,
+  `imagen` VARCHAR(255),
+  `usuario_id` INT,
+  `elaboracion` TEXT,
+  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
 -- Tabla Restaurantes
 CREATE TABLE `Restaurantes` (
-    `id_restaurante` INT PRIMARY KEY AUTO_INCREMENT,
-    `nombre_restaurante` VARCHAR(100) NOT NULL,
-    `descripcion_restaurante` TEXT,
-    `direccion` VARCHAR(255),
-    `imagen` VARCHAR(255),
-    `usuario_id` INT,
-    `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+  `id_restaurante` INT PRIMARY KEY AUTO_INCREMENT,
+  `nombre_restaurante` VARCHAR(100) NOT NULL,
+  `descripcion_restaurante` TEXT,
+  `direccion` VARCHAR(255),
+  `imagen` VARCHAR(255),
+  `usuario_id` INT,
+  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
 -- Tabla Comentarios
 CREATE TABLE `Comentarios` (
-    `id_comentario` INT PRIMARY KEY AUTO_INCREMENT,
-    `contenido` TEXT NOT NULL,
-    `usuario_id` INT,
-    `id_publicacion` INT,
-    `tipo_publicacion` ENUM('comida', 'planta', 'restaurante'), -- Especifica el tipo de publicación
-    `fecha_comentario` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (`usuario_id`)REFERENCES `usuario`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+  `id_comentario` INT PRIMARY KEY AUTO_INCREMENT,
+  `contenido` TEXT NOT NULL,
+  `usuario_id` INT,
+  `id_publicacion` INT,
+  `tipo_publicacion` ENUM('comida', 'planta', 'restaurante'),
+  `fecha_comentario` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
--- Relación entre Categorías y Comidas
+-- Relación Categorías y Comidas
 CREATE TABLE `Comida_Categoria` (
-    `id_comida` INT,
-    `id_categoria` INT,
-    PRIMARY KEY (`id_comida`, `id_categoria`),
-    FOREIGN KEY (`id_comida`) REFERENCES `Comidas`(`id_comida`),
-    FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+  `id_comida` INT,
+  `id_categoria` INT,
+  PRIMARY KEY (`id_comida`, `id_categoria`),
+  FOREIGN KEY (`id_comida`) REFERENCES `Comidas`(`id_comida`),
+  FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
--- Relación entre Categorías y Plantas
+-- Relación Categorías y Plantas
 CREATE TABLE `Planta_Categoria` (
-    `id_planta` INT,
-    `id_categoria` INT,
-    PRIMARY KEY (`id_planta`, `id_categoria`),
-    FOREIGN KEY (`id_planta`) REFERENCES `Plantas`(`id_planta`),
-    FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+  `id_planta` INT,
+  `id_categoria` INT,
+  PRIMARY KEY (`id_planta`, `id_categoria`),
+  FOREIGN KEY (`id_planta`) REFERENCES `Plantas`(`id_planta`),
+  FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
--- Relación entre Categorías y Restaurantes
+-- Relación Categorías y Restaurantes
 CREATE TABLE `Restaurante_Categoria` (
-    `id_restaurante` INT,
-    `id_categoria` INT,
-    PRIMARY KEY (`id_restaurante`, `id_categoria`),
-    FOREIGN KEY (`id_restaurante`) REFERENCES `Restaurantes`(`id_restaurante`),
-    FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+  `id_restaurante` INT,
+  `id_categoria` INT,
+  PRIMARY KEY (`id_restaurante`, `id_categoria`),
+  FOREIGN KEY (`id_restaurante`) REFERENCES `Restaurantes`(`id_restaurante`),
+  FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
-COMMIT;
-COMMIT;
+
 
 DELIMITER $$
 
@@ -177,7 +179,7 @@ BEGIN
     ELSE
         RETURN 0;
     END IF;
-END$$
+END $$
 
 DELIMITER ;
 
@@ -198,8 +200,8 @@ DELIMITER $$
 CREATE PROCEDURE IniciarSesion(_id int, _passw varchar(255)) -- > SP iniciar sesion
 BEGIN
     select idUsuario, rol from usuario where id = _id and passw = _passw;
-END$$
-DELIMITER;
+END $$
+DELIMITER ;
 
 
 
@@ -210,7 +212,7 @@ BEGIN
 
  DELETE FROM usuario WHERE usuario.idUsuario = OLD.id;
 
-END$$
+END $$
 DELIMITER ;
 
 -- COMIDA PROCESOS ALMACENADOS
@@ -218,7 +220,6 @@ DELIMITER ;
 --Leer comida
 
 DELIMITER $$
-
 CREATE PROCEDURE obtener_comidas(IN pid_comida INT)
 BEGIN
     -- select general
@@ -234,7 +235,6 @@ BEGIN
         END IF;
     END IF;
 END $$
-
 DELIMITER ;
 
 --eliminar comida
