@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-index',
@@ -23,6 +23,8 @@ export class IndexComponent implements OnInit, OnDestroy {
   currentIndex = 0;
   intervalId: any;
 
+  constructor(private router: Router) { }
+
   get translateX() {
     return -this.currentIndex * 100;
   }
@@ -44,7 +46,14 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   prev() {
-    this.currentIndex =
-      (this.currentIndex - 1 + this.images.length) % this.images.length;
+    this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+  }
+
+  navigateToInfo() {
+    this.router.navigate(['/informacion']);
+  }
+
+  navigateToLogin() {
+    this.router.navigate(['/login']);
   }
 }

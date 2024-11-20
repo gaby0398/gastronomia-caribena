@@ -1,4 +1,18 @@
 <div class="index-container">
+
+
+  <!-- Navbar (Si es necesario agregar más contenido) -->
+  <header class="navbar">
+      <!-- Botones de Información y Usuario con Material Icons -->
+  <button class="icon-button icon-info" (click)="navigateToInfo()">
+    <span class="material-icons">info</span>
+  </button>
+  <button class="icon-button icon-user" (click)="navigateToLogin()">
+    <span class="material-icons">person</span>
+  </button>
+  </header>
+
+  <!-- Título y Contenido Principal -->
   <h1>Salvaguarda <br> cultura gastronómica del caribe</h1>
   
   <div class="content-wrapper">
@@ -17,14 +31,26 @@
 
     <div class="text-section">
       <p>
-        Somos un vlog informativo que promueve la cultura afrocostarricense mediante recetas, plantas medicinales, eventos y cursos especializados. Buscamos mantener viva nuestra tradición, haciéndola accesible con un solo clic, sin importar dónde estés.
+        Somos un blog informativo que promueve la cultura afrocostarricense mediante recetas, plantas medicinales, eventos y cursos especializados. Buscamos mantener viva nuestra tradición, haciéndola accesible con un solo clic, sin importar dónde estés.
       </p>
       <div class="button-container">
         <button>Recetas</button>
         <button>Restaurantes</button>
         <button>Plantas medicinales</button>
-        <button [routerLink]="'/gestion-usuarios'">Gestión usuarios</button>
+        <button [routerLink]="'/gestion-usuarios'" disabled>Gestión usuarios</button>
       </div>
     </div>
   </div>
+
+  <!-- Footer con Iconos -->
+  <footer class="footer">
+    <p>&copy; 2024 Cultura Gastronómica Caribeña. Todos los derechos reservados.</p>
+    <p>Contacto: info&#64;culturacaribeña.com</p>
+    <div class="footer-icons">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fas fa-envelope"></i></a>
+    </div>
+  </footer>
+
 </div>
