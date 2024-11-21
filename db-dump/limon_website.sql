@@ -6,7 +6,7 @@ SET time_zone = "+00:00";
 -- Creación de la base de datos con conjunto de caracteres y collation consistentes
 CREATE DATABASE IF NOT EXISTS `limon_website` 
     DEFAULT CHARACTER SET utf8mb4 
-    COLLATE utf8mb4_spanish_ci;
+    COLLATE utf8mb4_0900_ai_ci;
 USE `limon_website`;
 
 -- Tabla Roles
@@ -16,7 +16,7 @@ CREATE TABLE `Roles` (
     `descripcion` TEXT
 ) ENGINE=InnoDB 
 DEFAULT CHARSET=utf8mb4 
-COLLATE=utf8mb4_spanish_ci;
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Tabla Cliente
 CREATE TABLE `cliente` (
@@ -33,8 +33,8 @@ CREATE TABLE `cliente` (
   `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB 
-DEFAULT CHARSET=utf8mb3 
-COLLATE=utf8mb3_spanish_ci;
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Tabla Supervisor
 CREATE TABLE `supervisor` (
@@ -51,8 +51,8 @@ CREATE TABLE `supervisor` (
   `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB 
-DEFAULT CHARSET=utf8mb3 
-COLLATE=utf8mb3_spanish_ci;
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Tabla Administrador
 CREATE TABLE `administrador` (
@@ -69,8 +69,8 @@ CREATE TABLE `administrador` (
   `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB 
-DEFAULT CHARSET=utf8mb3 
-COLLATE=utf8mb3_spanish_ci;
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Tabla Usuarios
 CREATE TABLE `usuario` (
@@ -85,8 +85,8 @@ CREATE TABLE `usuario` (
     PRIMARY KEY (`id`),
     UNIQUE KEY `idx_Usuario` (`idUsuario`)
 ) ENGINE=InnoDB 
-DEFAULT CHARSET=utf8mb3 
-COLLATE=utf8mb3_spanish_ci;
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Tabla Categorías
 CREATE TABLE `Categorias` (
@@ -95,7 +95,7 @@ CREATE TABLE `Categorias` (
     `descripcion` TEXT
 ) ENGINE=InnoDB 
 DEFAULT CHARSET=utf8mb4 
-COLLATE=utf8mb4_spanish_ci;
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Tabla Comidas
 CREATE TABLE `Comidas` (
@@ -110,7 +110,7 @@ CREATE TABLE `Comidas` (
     FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
 ) ENGINE=InnoDB 
 DEFAULT CHARSET=utf8mb4 
-COLLATE=utf8mb4_spanish_ci;
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Tabla Plantas
 CREATE TABLE `Plantas` (
@@ -125,7 +125,7 @@ CREATE TABLE `Plantas` (
     FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
 ) ENGINE=InnoDB 
 DEFAULT CHARSET=utf8mb4 
-COLLATE=utf8mb4_spanish_ci;
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Tabla Restaurantes
 CREATE TABLE `Restaurantes` (
@@ -140,7 +140,7 @@ CREATE TABLE `Restaurantes` (
     FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
 ) ENGINE=InnoDB 
 DEFAULT CHARSET=utf8mb4 
-COLLATE=utf8mb4_spanish_ci;
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Tabla Comentarios
 CREATE TABLE `Comentarios` (
@@ -153,7 +153,7 @@ CREATE TABLE `Comentarios` (
     FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
 ) ENGINE=InnoDB 
 DEFAULT CHARSET=utf8mb4 
-COLLATE=utf8mb4_spanish_ci;
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Relación entre Categorías y Comidas
 CREATE TABLE `Comida_Categoria` (
@@ -164,7 +164,7 @@ CREATE TABLE `Comida_Categoria` (
     FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
 ) ENGINE=InnoDB 
 DEFAULT CHARSET=utf8mb4 
-COLLATE=utf8mb4_spanish_ci;
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Relación entre Categorías y Plantas
 CREATE TABLE `Planta_Categoria` (
@@ -175,7 +175,7 @@ CREATE TABLE `Planta_Categoria` (
     FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
 ) ENGINE=InnoDB 
 DEFAULT CHARSET=utf8mb4 
-COLLATE=utf8mb4_spanish_ci;
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Relación entre Categorías y Restaurantes
 CREATE TABLE `Restaurante_Categoria` (
@@ -186,7 +186,7 @@ CREATE TABLE `Restaurante_Categoria` (
     FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
 ) ENGINE=InnoDB 
 DEFAULT CHARSET=utf8mb4 
-COLLATE=utf8mb4_spanish_ci;
+COLLATE=utf8mb4_0900_ai_ci;
 
 COMMIT;
 
@@ -354,7 +354,7 @@ DELIMITER $$
 
 CREATE PROCEDURE getUser(IN userParam VARCHAR(255))
 BEGIN
-    SELECT idUsuario, alias, correo, rol
+    SELECT id, alias, correo, rol
     FROM usuario
     WHERE idUsuario = userParam OR alias = userParam OR correo = userParam
     LIMIT 1;

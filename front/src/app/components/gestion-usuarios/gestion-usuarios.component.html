@@ -1,6 +1,5 @@
 <div class="container">
 
-
   <button class="back-button" (click)="goBack()">←</button>
   <div class="card">
 
@@ -10,6 +9,7 @@
       <div class="user-icon">👤</div>
       <input type="text" placeholder="Usuario" [(ngModel)]="userSearch" />
       <button (click)="searchUser()" [disabled]="loading">Buscar</button>
+    </div>
 
     <div *ngIf="loading" class="loading-spinner">🔄 Buscando usuario...</div>
 
@@ -25,7 +25,7 @@
           [style.backgroundColor]="role.value === user.role ? '#f0e68c' : '#fff'">
           {{ role.label }}
         </option>
-        
+
       </select>
 
       <button (click)="saveChanges()">Guardar cambios</button>

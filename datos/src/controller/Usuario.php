@@ -96,4 +96,91 @@ class Usuario extends Autenticar{
             ->withHeader('Content-type', 'application/json')
             ->withStatus($status);
     }
+
+
+
+    /******************* 
+
+    public function editarRol(string $idUsuario, int $rol)
+    {
+        $sql = "UPDATE usuario SET rol = :rol WHERE id = :id OR correo = :id";
+        $con = $this->container->get('bd');
+        $query = $con->prepare($sql);
+        $query->execute([
+            ":rol" => $rol,
+            ":id" => $idUsuario
+        ]);
+        $afec = $query->rowCount();
+        $query = null;
+        $con = null;
+        return $afec;
+    }
+
+    public function cambiarRol(Request $request, Response $response, $args)
+    {
+        $body = json_decode($request->getBody(), true); // Decodificar como arreglo asociativo
+
+        // Validar que el rol esté presente y sea un entero válido
+        if (!isset($body['rol']) || !is_int($body['rol'])) {
+            $error = ['error' => 'El parámetro "rol" es requerido y debe ser un entero válido.'];
+            $response->getBody()->write(json_encode($error));
+            return $response
+                ->withStatus(400)
+                ->withHeader('Content-Type', 'application/json');
+        }
+
+        $idUsuario = $args['idUsuario'];
+        $rol = $body['rol'];
+
+        try {
+            $afectados = $this->editarRol($idUsuario, $rol);
+
+            if ($afectados > 0) {
+                // Rol actualizado exitosamente
+                $success = ['message' => 'Rol actualizado exitosamente.'];
+                $response->getBody()->write(json_encode($success));
+                return $response
+                    ->withStatus(200)
+                    ->withHeader('Content-Type', 'application/json');
+            } else {
+                // No se encontró el usuario o el rol ya es el mismo
+                $error = ['error' => 'Usuario no encontrado o el rol proporcionado es el mismo que el actual.'];
+                $response->getBody()->write(json_encode($error));
+                return $response
+                    ->withStatus(404)
+                    ->withHeader('Content-Type', 'application/json');
+            }
+        } catch (\PDOException $e) {
+            // Manejo de errores de la base de datos
+            $error = ['error' => 'Error al actualizar el rol.', 'details' => $e->getMessage()];
+            $response->getBody()->write(json_encode($error));
+            return $response
+                ->withStatus(500)
+                ->withHeader('Content-Type', 'application/json');
+        } catch (\Exception $e) {
+            // Manejo de otros errores
+            $error = ['error' => 'Ocurrió un error inesperado.', 'details' => $e->getMessage()];
+            $response->getBody()->write(json_encode($error));
+            return $response
+                ->withStatus(500)
+                ->withHeader('Content-Type', 'application/json');
+        }
+    }
+
+
+
+    public function editarPassw(string $idUsuario, string $passw)
+    {
+        $sql = "UPDATE usuario SET passw = :passw WHERE id = :id OR correo = :id";
+        $con = $this->container->get('bd');
+        $query = $con->prepare($sql);
+        $query->execute([
+            ":passw" => $passw,
+            ":id" => $idUsuario
+        ]);
+        $afec = $query->rowCount();
+        $query = null;
+        $con = null;
+        return $afec;
+    }*/
 }

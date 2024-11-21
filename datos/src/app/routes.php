@@ -1,11 +1,6 @@
 <?php
 namespace App\controller;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteCollectorProxy;
-
-// require __DIR__ . '/../controllers/Cliente.php'
-// Recurso Cliente
 
 $app->group('/api', function (RouteCollectorProxy $api) {
     $api->group('/cliente', function (RouteCollectorProxy $cliente) {
@@ -69,10 +64,5 @@ $app->group('/api', function (RouteCollectorProxy $api) {
         $class->put('/{id}', Restaurantes::class . ':update');
         $class->post('', Restaurantes::class . ':create');
     });
-
-    /*
-    $api->group('/Products', function (RouteCollectorProxy $Products) {
-        $Products->get('/read[/{id}]', Panes::class . ':read');
-    });  */
     
 });
