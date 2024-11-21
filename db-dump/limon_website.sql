@@ -2,11 +2,11 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
--- Asegurar permisos para funciones y triggers
-SET GLOBAL log_bin_trust_function_creators = 1;
 
--- Creación de la base de datos
-CREATE DATABASE IF NOT EXISTS `limon_website` DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci;
+-- Creación de la base de datos con conjunto de caracteres y collation consistentes
+CREATE DATABASE IF NOT EXISTS `limon_website` 
+    DEFAULT CHARACTER SET utf8mb4 
+    COLLATE utf8mb4_spanish_ci;
 USE `limon_website`;
 
 -- Tabla Roles
@@ -14,9 +14,11 @@ CREATE TABLE `Roles` (
     `id_rol` INT PRIMARY KEY AUTO_INCREMENT,
     `nombre_rol` VARCHAR(50) NOT NULL,
     `descripcion` TEXT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_spanish_ci;
 
--- Tabla Clientes
+-- Tabla Cliente
 CREATE TABLE `cliente` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `idUsuario` VARCHAR(15) NOT NULL,
@@ -30,9 +32,11 @@ CREATE TABLE `cliente` (
   `correo` VARCHAR(100) NOT NULL,
   `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb3 
+COLLATE=utf8mb3_spanish_ci;
 
--- Tabla Supervisores
+-- Tabla Supervisor
 CREATE TABLE `supervisor` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `idUsuario` VARCHAR(15) NOT NULL,
@@ -46,9 +50,11 @@ CREATE TABLE `supervisor` (
   `correo` VARCHAR(100) NOT NULL,
   `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb3 
+COLLATE=utf8mb3_spanish_ci;
 
--- Tabla Administradores
+-- Tabla Administrador
 CREATE TABLE `administrador` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `idUsuario` VARCHAR(15) NOT NULL,
@@ -62,111 +68,132 @@ CREATE TABLE `administrador` (
   `correo` VARCHAR(100) NOT NULL,
   `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb3 
+COLLATE=utf8mb3_spanish_ci;
 
 -- Tabla Usuarios
 CREATE TABLE `usuario` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `idUsuario` VARCHAR(15) NOT NULL,
-  `alias` VARCHAR(100) NOT NULL,
-  `correo` VARCHAR(100) NOT NULL,
-  `rol` INT NOT NULL,
-  `passw` VARCHAR(255) NOT NULL,
-  `ultimoAcceso` DATETIME DEFAULT NULL,
-  `tkR` VARCHAR(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_Usuario` (`idUsuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `idUsuario` VARCHAR(15) NOT NULL,
+    `alias` VARCHAR(100) NOT NULL,
+    `correo` VARCHAR(100) NOT NULL,
+    `rol` INT NOT NULL,
+    `passw` VARCHAR(255) NOT NULL,
+    `ultimoAcceso` DATETIME DEFAULT NULL,
+    `tkR` VARCHAR(255) NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `idx_Usuario` (`idUsuario`)
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb3 
+COLLATE=utf8mb3_spanish_ci;
 
 -- Tabla Categorías
 CREATE TABLE `Categorias` (
-  `id_categoria` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre_categoria` VARCHAR(50) NOT NULL,
-  `descripcion` TEXT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+    `id_categoria` INT PRIMARY KEY AUTO_INCREMENT,
+    `nombre_categoria` VARCHAR(50) NOT NULL,
+    `descripcion` TEXT
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_spanish_ci;
 
 -- Tabla Comidas
 CREATE TABLE `Comidas` (
-  `id_comida` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre_comida` VARCHAR(100) NOT NULL,
-  `descripcion_comida` TEXT,
-  `imagen` VARCHAR(255),
-  `usuario_id` INT,
-  `elaboracion` TEXT,
-  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+    `id_comida` INT PRIMARY KEY AUTO_INCREMENT,
+    `nombre_comida` VARCHAR(100) NOT NULL,
+    `descripcion_comida` TEXT,
+    `imagen` VARCHAR(255),
+    `usuario_id` INT,
+    `elaboracion` TEXT, -- NUEVO
+    `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_spanish_ci;
 
 -- Tabla Plantas
 CREATE TABLE `Plantas` (
-  `id_planta` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre_planta` VARCHAR(100) NOT NULL,
-  `caracteristicas` TEXT,
-  `imagen` VARCHAR(255),
-  `usuario_id` INT,
-  `elaboracion` TEXT,
-  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+    `id_planta` INT PRIMARY KEY AUTO_INCREMENT,
+    `nombre_planta` VARCHAR(100) NOT NULL,
+    `caracteristicas` TEXT,
+    `imagen` VARCHAR(255),
+    `usuario_id` INT,
+    `elaboracion` TEXT, -- NUEVO
+    `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_spanish_ci;
 
 -- Tabla Restaurantes
 CREATE TABLE `Restaurantes` (
-  `id_restaurante` INT PRIMARY KEY AUTO_INCREMENT,
-  `nombre_restaurante` VARCHAR(100) NOT NULL,
-  `descripcion_restaurante` TEXT,
-  `direccion` VARCHAR(255),
-  `imagen` VARCHAR(255),
-  `usuario_id` INT,
-  `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+    `id_restaurante` INT PRIMARY KEY AUTO_INCREMENT,
+    `nombre_restaurante` VARCHAR(100) NOT NULL,
+    `descripcion_restaurante` TEXT,
+    `direccion` VARCHAR(255),
+    `imagen` VARCHAR(255),
+    `usuario_id` INT,
+    `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `fecha_actualizacion` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_spanish_ci;
 
 -- Tabla Comentarios
 CREATE TABLE `Comentarios` (
-  `id_comentario` INT PRIMARY KEY AUTO_INCREMENT,
-  `contenido` TEXT NOT NULL,
-  `usuario_id` INT,
-  `id_publicacion` INT,
-  `tipo_publicacion` ENUM('comida', 'planta', 'restaurante'),
-  `fecha_comentario` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+    `id_comentario` INT PRIMARY KEY AUTO_INCREMENT,
+    `contenido` TEXT NOT NULL,
+    `usuario_id` INT,
+    `id_publicacion` INT,
+    `tipo_publicacion` ENUM('comida', 'planta', 'restaurante'), -- Especifica el tipo de publicación
+    `fecha_comentario` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_spanish_ci;
 
--- Relación Categorías y Comidas
+-- Relación entre Categorías y Comidas
 CREATE TABLE `Comida_Categoria` (
-  `id_comida` INT,
-  `id_categoria` INT,
-  PRIMARY KEY (`id_comida`, `id_categoria`),
-  FOREIGN KEY (`id_comida`) REFERENCES `Comidas`(`id_comida`),
-  FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+    `id_comida` INT,
+    `id_categoria` INT,
+    PRIMARY KEY (`id_comida`, `id_categoria`),
+    FOREIGN KEY (`id_comida`) REFERENCES `Comidas`(`id_comida`),
+    FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_spanish_ci;
 
--- Relación Categorías y Plantas
+-- Relación entre Categorías y Plantas
 CREATE TABLE `Planta_Categoria` (
-  `id_planta` INT,
-  `id_categoria` INT,
-  PRIMARY KEY (`id_planta`, `id_categoria`),
-  FOREIGN KEY (`id_planta`) REFERENCES `Plantas`(`id_planta`),
-  FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+    `id_planta` INT,
+    `id_categoria` INT,
+    PRIMARY KEY (`id_planta`, `id_categoria`),
+    FOREIGN KEY (`id_planta`) REFERENCES `Plantas`(`id_planta`),
+    FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_spanish_ci;
 
--- Relación Categorías y Restaurantes
+-- Relación entre Categorías y Restaurantes
 CREATE TABLE `Restaurante_Categoria` (
-  `id_restaurante` INT,
-  `id_categoria` INT,
-  PRIMARY KEY (`id_restaurante`, `id_categoria`),
-  FOREIGN KEY (`id_restaurante`) REFERENCES `Restaurantes`(`id_restaurante`),
-  FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
+    `id_restaurante` INT,
+    `id_categoria` INT,
+    PRIMARY KEY (`id_restaurante`, `id_categoria`),
+    FOREIGN KEY (`id_restaurante`) REFERENCES `Restaurantes`(`id_restaurante`),
+    FOREIGN KEY (`id_categoria`) REFERENCES `Categorias`(`id_categoria`)
+) ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_spanish_ci;
 
+COMMIT;
 
-
+-- Función para modificar el token
 DELIMITER $$
 
-CREATE FUNCTION modificarToken (_idUsuario VARCHAR(100), _tkR varchar(255)) RETURNS INT(1) 
+CREATE FUNCTION modificarToken (_idUsuario VARCHAR(100), _tkR VARCHAR(255)) RETURNS INT 
 READS SQL DATA DETERMINISTIC
 BEGIN
     DECLARE _cant INT;
@@ -179,10 +206,11 @@ BEGIN
     ELSE
         RETURN 0;
     END IF;
-END $$
+END$$
 
 DELIMITER ;
 
+-- Procedimiento para verificar el token
 DELIMITER $$
 
 CREATE PROCEDURE verificarTokenR (_idUsuario VARCHAR(15), _tkR VARCHAR(255)) 
@@ -190,74 +218,65 @@ BEGIN
     SELECT rol 
     FROM usuario 
     WHERE idUsuario = _idUsuario AND tkR = _tkR;
-END $$
+END$$
 
 DELIMITER ;
 
-
-
+-- Procedimiento para iniciar sesión
 DELIMITER $$
-CREATE PROCEDURE IniciarSesion(_id int, _passw varchar(255)) -- > SP iniciar sesion
+
+CREATE PROCEDURE IniciarSesion(_id INT, _passw VARCHAR(255)) 
 BEGIN
-    select idUsuario, rol from usuario where id = _id and passw = _passw;
-END $$
+    SELECT idUsuario, rol FROM usuario WHERE id = _id AND passw = _passw;
+END$$
+
 DELIMITER ;
 
-
-
-
+-- Trigger para eliminar usuario al eliminar cliente
 DELIMITER $$
-CREATE TRIGGER eliminar_cliente AFTER DELETE ON cliente FOR EACH ROW -- > Trigger eliminar usuario
+
+CREATE TRIGGER eliminar_cliente AFTER DELETE ON cliente FOR EACH ROW 
 BEGIN
+    DELETE FROM usuario WHERE usuario.idUsuario = OLD.idUsuario;
+END$$
 
- DELETE FROM usuario WHERE usuario.idUsuario = OLD.id;
-
-END $$
 DELIMITER ;
 
--- COMIDA PROCESOS ALMACENADOS
+-- Procedimientos almacenados para Comidas
 
---Leer comida
-
+-- Obtener comidas
 DELIMITER $$
+
 CREATE PROCEDURE obtener_comidas(IN pid_comida INT)
 BEGIN
-    -- select general
     IF pid_comida IS NULL THEN
         SELECT * FROM Comidas;
     ELSE
-        -- verica existencia de id_comida antes de select especifico
         IF EXISTS (SELECT 1 FROM Comidas WHERE id_comida = pid_comida) THEN
             SELECT * FROM Comidas WHERE id_comida = pid_comida;
         ELSE
-            -- no existe ese id
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No existe este id en comidas';
         END IF;
     END IF;
-END $$
+END$$
+
 DELIMITER ;
 
---eliminar comida
-
+-- Eliminar comida
 DELIMITER $$
 
 CREATE PROCEDURE eliminar_comida(IN pid_comida INT)
 BEGIN
-    -- Verifica si el id_comida existe en la tabla
     IF (SELECT COUNT(*) FROM Comidas WHERE id_comida = pid_comida) = 0 THEN
-        -- Lanza una excepción si el id_comida no existe
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El registro con el id_comida especificado no existe.';
     ELSE
-        -- Si  existe id, elimina el registro
         DELETE FROM Comidas WHERE id_comida = pid_comida;
     END IF;
-END $$
+END$$
 
 DELIMITER ;
 
-
--- CREAR COMIDA
-
+-- Crear comida
 DELIMITER $$
 
 CREATE PROCEDURE crear_comida(
@@ -267,15 +286,13 @@ CREATE PROCEDURE crear_comida(
     IN p_usuario_id INT,
     IN p_fecha_creacion DATETIME,
     IN p_fecha_actualizacion DATETIME,
-    IN p_elaboracion TEXT  -- Nuevo parámetro
+    IN p_elaboracion TEXT
 )
 BEGIN
-    -- Verificar que el usuario existe
     IF NOT EXISTS (SELECT 1 FROM usuario WHERE id = p_usuario_id) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usuario no encontrado';
     END IF;
 
-    -- Insertar la comida
     INSERT INTO Comidas (
         nombre_comida,
         descripcion_comida,
@@ -283,7 +300,7 @@ BEGIN
         usuario_id,
         fecha_creacion,
         fecha_actualizacion,
-        elaboracion  -- Insertar el nuevo campo
+        elaboracion
     ) VALUES (
         p_nombre_comida,
         p_descripcion_comida,
@@ -291,14 +308,13 @@ BEGIN
         p_usuario_id,
         p_fecha_creacion,
         p_fecha_actualizacion,
-        p_elaboracion  -- Incluir el parámetro en la inserción
+        p_elaboracion
     );
-END $$
+END$$
 
 DELIMITER ;
 
--- actualizar comida
-
+-- Actualizar comida
 DELIMITER $$ 
 
 CREATE PROCEDURE actualizar_comida(
@@ -306,7 +322,7 @@ CREATE PROCEDURE actualizar_comida(
     IN p_nombre_comida VARCHAR(100),
     IN p_descripcion_comida TEXT,
     IN p_imagen VARCHAR(255),
-    IN p_elaboracion TEXT -- Parámetro para la nueva columna "elaboracion"
+    IN p_elaboracion TEXT
 )
 BEGIN
     UPDATE Comidas
@@ -314,101 +330,85 @@ BEGIN
         nombre_comida = COALESCE(p_nombre_comida, nombre_comida),
         descripcion_comida = COALESCE(p_descripcion_comida, descripcion_comida),
         imagen = COALESCE(p_imagen, imagen),
-        fecha_actualizacion = now(),
-        elaboracion = COALESCE(p_elaboracion, elaboracion) -- Actualización de "elaboracion"
+        fecha_actualizacion = NOW(),
+        elaboracion = COALESCE(p_elaboracion, elaboracion)
     WHERE id_comida = p_id_comida;
-END $$
+END$$
 
 DELIMITER ;
 
--- filtro comida
-
+-- Filtrar comidas
 DELIMITER $$
 
 CREATE PROCEDURE filtrar_comidas(IN pnombre_comidas VARCHAR(100))
 BEGIN
     SELECT * 
     FROM Comidas
-    WHERE nombre_comida LIKE CONCAT('%', pnombre_comidas, '%');
-END $$
+    WHERE nombre_comida COLLATE utf8mb4_0900_ai_ci LIKE CONCAT('%', pnombre_comidas, '%');
+END$$
 
 DELIMITER ;
 
-
--- Cambiar el delimitador para que MySQL no interprete el ; dentro del procedimiento como el fin de la declaración
+-- Procedimiento para obtener usuario
 DELIMITER $$ 
 
--- Creación del procedimiento almacenado getUser
-CREATE PROCEDURE getUser(IN userParam VARCHAR(255)) -- Procedimiento que recibe un parámetro de entrada llamado userParam
+CREATE PROCEDURE getUser(IN userParam VARCHAR(255))
 BEGIN
-    -- Selecciona las columnas idUsuario, alias, correo y rol de la tabla Usuario
     SELECT idUsuario, alias, correo, rol
-    FROM Usuario
-    -- Filtra la búsqueda por el valor proporcionado en userParam (idUsuario, alias o correo)
+    FROM usuario
     WHERE idUsuario = userParam OR alias = userParam OR correo = userParam
-    LIMIT 1; -- Limita el resultado a una única fila (en caso de múltiples coincidencias)
-END $$ 
+    LIMIT 1;
+END$$ 
 
--- Restaurar el delimitador predeterminado
 DELIMITER ;
 
---**REstaurantes PS
+-- Procedimientos almacenados para Restaurantes
 
---Leer RESTAURANTES
-
+-- Obtener restaurantes
 DELIMITER $$
 
 CREATE PROCEDURE obtener_restaurantes(IN pid_restaurantes INT)
 BEGIN
-    -- select general
     IF pid_restaurantes IS NULL THEN
         SELECT * FROM Restaurantes;
     ELSE
-        -- verica existencia de id_restaurantes antes de select especifico
         IF EXISTS (SELECT 1 FROM Restaurantes WHERE id_restaurante = pid_restaurantes) THEN
             SELECT * FROM Restaurantes WHERE id_restaurante = pid_restaurantes;
         ELSE
-            -- no existe ese id
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No existe este id en restaurantes';
         END IF;
     END IF;
-END $$
+END$$
 
 DELIMITER ;
 
---eliminar restaurante
-
+-- Eliminar restaurante
 DELIMITER $$
 
 CREATE PROCEDURE eliminar_Restaurante (IN pid_restaurante INT)
 BEGIN
-    -- Verifica si el id_restaurantes existe en la tabla
     IF (SELECT COUNT(*) FROM Restaurantes WHERE id_restaurante = pid_restaurante) = 0 THEN
-        -- Lanza una excepción si el id_restaurante no existe
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El registro con especificado no existe.';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El registro con el id_restaurante especificado no existe.';
     ELSE
-        -- Si existe id, elimina el registro
         DELETE FROM Restaurantes WHERE id_restaurante = pid_restaurante;
     END IF;
-END $$
+END$$
 
 DELIMITER ;
 
---filtro restaurante
-
+-- Filtrar restaurantes
 DELIMITER $$
 
 CREATE PROCEDURE filtrar_restaurantes(IN pnombre_restaurantes VARCHAR(100))
 BEGIN
     SELECT * 
     FROM Restaurantes
-    WHERE nombre_restaurante COLLATE utf8mb4_0900_ai_ci LIKE CONCAT('%', pnombre_restaurantes, '%');
-END $$
+    WHERE nombre_restaurante LIKE CONCAT('%', pnombre_restaurantes, '%');
+END$$
 
 DELIMITER ;
 
 -- Crear restaurante
-
 DELIMITER $$
 
 CREATE PROCEDURE crear_restaurante(
@@ -421,12 +421,10 @@ CREATE PROCEDURE crear_restaurante(
     IN p_fecha_actualizacion DATETIME
 )
 BEGIN
-    -- Verificar que el usuario existe
     IF NOT EXISTS (SELECT 1 FROM usuario WHERE id = p_usuario_id) THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usuario no encontrado';
     END IF;
 
-    -- Insertar el restaurante
     INSERT INTO Restaurantes (
         nombre_restaurante,
         descripcion_restaurante,
@@ -444,13 +442,11 @@ BEGIN
         p_fecha_creacion,
         p_fecha_actualizacion
     );
-END $$
+END$$
 
 DELIMITER ;
 
--- actualizar restaurante
-
-
+-- Actualizar restaurante
 DELIMITER $$
 
 CREATE PROCEDURE actualizar_restaurante (
@@ -469,67 +465,57 @@ BEGIN
         imagen = COALESCE(p_imagen, imagen),
         fecha_actualizacion = NOW()
     WHERE id_restaurante = p_id_restaurante;
-END $$
+END$$
 
 DELIMITER ;
 
---Plantas PS
---LEER PLANTAS
+-- Procedimientos almacenados para Plantas
 
+-- Obtener plantas
 DELIMITER $$
 
 CREATE PROCEDURE obtener_plantas(IN pid_planta INT)
 BEGIN
-    -- select general
     IF pid_planta IS NULL THEN
         SELECT * FROM Plantas;
     ELSE
-        -- verica existencia de id_planta antes de select especifico
         IF EXISTS (SELECT 1 FROM Plantas WHERE id_planta = pid_planta) THEN
             SELECT * FROM Plantas WHERE id_planta = pid_planta;
         ELSE
-            -- no existe ese id
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No existe este id en plantas';
         END IF;
     END IF;
-END $$
+END$$
 
 DELIMITER ;
 
---ELIMINAR PLANTA
-
+-- Eliminar planta
 DELIMITER $$
 
 CREATE PROCEDURE eliminar_planta (IN pid_planta INT)
 BEGIN
-    -- Verifica si el id_planta existe en la tabla
     IF (SELECT COUNT(*) FROM Plantas WHERE id_planta = pid_planta) = 0 THEN
-        -- Lanza una excepción si el id_planta no existe
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El registro con especificado no existe.';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El registro con el id_planta especificado no existe.';
     ELSE
-        -- Si  existe id, elimina el registro
         DELETE FROM Plantas WHERE id_planta = pid_planta;
     END IF;
-END $$
+END$$
 
 DELIMITER ;
 
---filtro plantas
-
+-- Filtrar plantas
 DELIMITER $$
 
 CREATE PROCEDURE filtrar_plantas(IN pnombre_plantas VARCHAR(100))
 BEGIN
     SELECT * 
     FROM Plantas
-    WHERE nombre_planta COLLATE utf8mb3_0900_ai_ci LIKE CONCAT('%', pnombre_plantas, '%');
-END $$
+    WHERE nombre_planta LIKE CONCAT('%', pnombre_plantas, '%');
+END$$
 
 DELIMITER ;
 
--- crear planta
-
-
+-- Crear planta
 DELIMITER $$
 
 CREATE PROCEDURE crear_planta(
@@ -542,12 +528,10 @@ CREATE PROCEDURE crear_planta(
     IN p_elaboracion TEXT 
 )
 BEGIN
-    -- Verificar que el usuario existe
     IF NOT EXISTS (SELECT 1 FROM usuario WHERE id = p_usuario_id) THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'el usuario no existe';
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El usuario no existe';
     END IF;
 
-    -- Insertar la planta
     INSERT INTO Plantas (
         nombre_planta,
         caracteristicas,
@@ -555,7 +539,7 @@ BEGIN
         usuario_id,
         fecha_creacion,
         fecha_actualizacion,
-        elaboracion -- Nuevo campo "elaboracion" después de "fecha_actualizacion"
+        elaboracion
     ) VALUES (
         p_nombre_planta,
         p_caracteristicas,
@@ -565,13 +549,11 @@ BEGIN
         p_fecha_actualizacion,
         p_elaboracion 
     );
-END $$
+END$$
 
 DELIMITER ;
 
--- actualizar planta
-
-
+-- Actualizar planta
 DELIMITER $$
 
 CREATE PROCEDURE actualizar_planta(
@@ -590,6 +572,6 @@ BEGIN
         elaboracion = COALESCE(p_elaboracion, elaboracion),
         fecha_actualizacion = NOW()
     WHERE id_planta = p_id_planta;
-END $$
+END$$
 
 DELIMITER ;
