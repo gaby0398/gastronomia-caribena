@@ -1,6 +1,5 @@
 <div class="container">
 
-
   <button class="back-button" (click)="goBack()">←</button>
   <div class="card">
 
@@ -10,28 +9,6 @@
       <div class="user-icon">👤</div>
       <input type="text" placeholder="Usuario" [(ngModel)]="userSearch" />
       <button (click)="searchUser()" [disabled]="loading">Buscar</button>
-
-    <button class="back-button">←</button>
-    <div class="card">
-      <h2>Gestión usuarios</h2>
-      <div class="user-search">
-        <div class="user-icon">👤</div>
-        <input type="text" placeholder="Usuario" [(ngModel)]="userSearch" />
-        <button (click)="searchUser()">Buscar</button>
-      </div>
-      <div class="form">
-        <input type="text" placeholder="Nombre Completo" [(ngModel)]="user.name" />
-        <input type="email" placeholder="Correo" [(ngModel)]="user.email" />
-        <label for="roleSelect">Rol:</label>
-        <select [(ngModel)]="user.role">
-          <option *ngFor="let role of roles" [value]="role.value">
-            {{ role.label }}
-          </option>
-        </select>
-        <button (click)="saveChanges()">Guardar cambios</button>
-      </div>
-      
-
     </div>
 
     <div *ngIf="loading" class="loading-spinner">🔄 Buscando usuario...</div>
@@ -48,7 +25,7 @@
           [style.backgroundColor]="role.value === user.role ? '#f0e68c' : '#fff'">
           {{ role.label }}
         </option>
-        
+
       </select>
 
       <button (click)="saveChanges()">Guardar cambios</button>
