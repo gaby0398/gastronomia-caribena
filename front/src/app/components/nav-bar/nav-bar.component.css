@@ -1,82 +1,86 @@
 .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Divide las secciones */
+  background-color: #b8d1e1; /* Fondo azul oscuro */
+  color: #000000; /* Texto negro por defecto */
+  padding: 1rem 2rem;
+  height: 70px;
+  box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1); /* Sombra sutil en la parte inferior */
+  font-size: 22px; /* Tamaño general del texto */
+  font-weight: bold; /* Mejora la legibilidad */
+  border-bottom-left-radius: 30px; /* Curva en la esquina inferior izquierda */
+  border-bottom-right-radius: 30px; /* Curva en la esquina inferior derecha */
+
+  /* Sección izquierda (Info) */
+  .navbar-left {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Divide las secciones */
-    background-color: #b8d1e1; /* Fondo azul oscuro */
-    color: #ffffff; /* Texto blanco */
-    padding: 1rem 2rem;
-    height: 100px;
-  
-    font-size: 22px; /* Tamaño general del texto */
-    font-weight: bold; /* Mejora la legibilidad */
-  
-    /* Sección izquierda (Info) */
-    .navbar-left {
+
+    .navbar-link {
       display: flex;
       align-items: center;
-  
-      .navbar-link {
+      text-decoration: none;
+      color: #000000; /* Texto negro por defecto */
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+
+      /* Ícono redondo */
+      mat-icon {
+        font-size: 40px;
+        background-color: #ffffff; /* Fondo blanco */
+        color: #96b60b; /* Color del ícono */
+        border-radius: 50%; /* Hace el ícono redondo */
+        margin-right: 0.5rem; /* Espacio entre ícono y texto */
         display: flex;
+        justify-content: center;
         align-items: center;
-        text-decoration: none;
-        color: #ffffff; /* Blanco */
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-  
-        /* Ícono redondo */
-        mat-icon {
-          font-size: 28px; /* Tamaño del ícono */
-          background-color: #ffffff; /* Fondo blanco */
-          color: #b8d1e1; /* Color del ícono */
-          border-radius: 50%; /* Hace el ícono redondo */
-          padding: 8px; /* Espacio interno */
-          margin-right: 0.5rem; /* Espacio entre ícono y texto */
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 40px; /* Tamaño del círculo */
-          height: 40px; /* Tamaño del círculo */
-        }
-  
-        &:hover {
-          color: #000000; /* Cambia el texto a negro */
-          background-color: #ffffff; /* Fondo blanco */
-        }
+        width: 50px; /* Tamaño del círculo */
+        height: 50px; /* Tamaño del círculo */
       }
-    }
-  
-    /* Sección derecha (Login) */
-    .navbar-right {
-      display: flex;
-      align-items: center;
-  
-      .navbar-link {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        color: #ffffff;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-  
-        mat-icon {
-          font-size: 28px; /* Tamaño del ícono */
-          background-color: #ffffff; /* Fondo blanco */
-          color: #b8d1e1; /* Color del ícono */
-          border-radius: 50%; /* Hace el ícono redondo */
-          padding: 8px; /* Espacio interno */
-          margin-right: 0.5rem; /* Espacio entre ícono y texto */
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 40px; /* Tamaño del círculo */
-          height: 40px; /* Tamaño del círculo */
-        }
-  
-        &:hover {
-          color: #000;
-          background-color: #ffffff;
-        }
+
+      &:hover {
+        color: #ffffff; /* Texto blanco al pasar el mouse */
+        background-color: #96b60b; /* Fondo del botón en hover */
       }
     }
   }
-  
+
+  /* Sección derecha (Login) */
+  .navbar-right {
+    display: flex;
+    align-items: center;
+
+    .navbar-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #000000; /* Texto negro por defecto */
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+
+      mat-icon {
+        font-size: 40px;
+        /*Tamañodelícono*/background-color: #ffffff;
+        /*Fondoblanco*/color: #96b60b;
+        /*Colordelícono*/border-radius: 50%;
+        /*Espaciointerno*/margin-right: 0.5rem;
+        /*Espacioentreíconoytexto*/display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        /*Tamañodelcírculo*/height: 40px;
+         /* Tamaño del círculo */      
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+}
+
+      &:hover {
+        color: #ffffff; /* Texto blanco al pasar el mouse */
+        background-color: #96b60b; /* Fondo del botón en hover */
+      }
+    }
+  }
+}
