@@ -22,9 +22,9 @@
         Somos un blog informativo que promueve la cultura afrocostarricense mediante recetas, plantas medicinales, eventos y cursos especializados. Buscamos mantener viva nuestra tradición, haciéndola accesible con un solo clic, sin importar dónde estés.
       </p>
       <div class="button-container">
-        <button>Recetas</button>
-        <button>Restaurantes</button>
-        <button>Plantas medicinales</button>
+        <button [routerLink]="'/comidas'">Recetas</button>
+        <button [routerLink]="'/restaurantes'">Restaurantes</button>
+        <button [routerLink]="'/plantas'">Plantas medicinales</button>
         <button [routerLink]="'/gestion-usuarios'" >Gestión usuarios</button>
       </div>
     </div>
