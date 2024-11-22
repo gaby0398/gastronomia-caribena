@@ -8,6 +8,10 @@ class Restaurantes extends ServicioCURL{
 
     private const ENDPOINT = "/restaurantes";
 
+
+
+
+
     // READ CON CURLP
     public function read(Request $request, Response $response, $args) {
         $url = $this::ENDPOINT . '/read';
@@ -21,6 +25,7 @@ class Restaurantes extends ServicioCURL{
         return $response->withHeader('Content-type', 'Application/json')
             ->withStatus($respA['status']);
     }
+
    
     // DELETE CON CURLP
     public function delete(Request $request, Response $response, $args){    
@@ -28,6 +33,7 @@ class Restaurantes extends ServicioCURL{
         $respA = $this->ejecutarCURL($url, 'DELETE');
         return $response->withStatus($respA['status']);
     }
+
 
     // Create CON CURLP
   
@@ -39,6 +45,7 @@ class Restaurantes extends ServicioCURL{
         // die();
         return $response->withStatus($respA['status']);
     }
+
 
     // Update CON CURLP
 
@@ -67,5 +74,13 @@ public function filtro(Request $request, Response $response, $args)
             ->withStatus(400);
     }
 }
+
+
+
+
+
+
+
+
 
 }

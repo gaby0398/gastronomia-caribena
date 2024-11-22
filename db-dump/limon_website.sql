@@ -403,7 +403,7 @@ CREATE PROCEDURE filtrar_restaurantes(IN pnombre_restaurantes VARCHAR(100))
 BEGIN
     SELECT * 
     FROM Restaurantes
-    WHERE nombre_restaurante LIKE CONCAT('%', pnombre_restaurantes, '%');
+    WHERE nombre_restaurante COLLATE utf8mb4_0900_ai_ci  LIKE CONCAT('%', pnombre_restaurantes, '%');
 END$$
 
 DELIMITER ;
@@ -510,7 +510,7 @@ CREATE PROCEDURE filtrar_plantas(IN pnombre_plantas VARCHAR(100))
 BEGIN
     SELECT * 
     FROM Plantas
-    WHERE nombre_planta LIKE CONCAT('%', pnombre_plantas, '%');
+    WHERE nombre_planta COLLATE utf8mb4_0900_ai_ci  LIKE CONCAT('%', pnombre_plantas, '%');
 END$$
 
 DELIMITER ;

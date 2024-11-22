@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc18c37bb3a7288e3d49ad0f4e932e4d1
+class ComposerStaticInit240cb20936f84619275b140bf089c1b3
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -59,8 +59,8 @@ class ComposerStaticInitc18c37bb3a7288e3d49ad0f4e932e4d1
     public static $prefixDirsPsr4 = array (
         'Tuupola\\Middleware\\' => 
         array (
-            0 => __DIR__ . '/..' . '/tuupola/callable-handler/src',
-            1 => __DIR__ . '/..' . '/jimtools/jwt-auth/src',
+            0 => __DIR__ . '/..' . '/jimtools/jwt-auth/src',
+            1 => __DIR__ . '/..' . '/tuupola/callable-handler/src',
         ),
         'Tuupola\\Http\\Factory\\' => 
         array (
@@ -146,9 +146,9 @@ class ComposerStaticInitc18c37bb3a7288e3d49ad0f4e932e4d1
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc18c37bb3a7288e3d49ad0f4e932e4d1::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc18c37bb3a7288e3d49ad0f4e932e4d1::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc18c37bb3a7288e3d49ad0f4e932e4d1::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit240cb20936f84619275b140bf089c1b3::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit240cb20936f84619275b140bf089c1b3::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit240cb20936f84619275b140bf089c1b3::$classMap;
 
         }, null, ClassLoader::class);
     }
