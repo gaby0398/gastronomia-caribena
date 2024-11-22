@@ -20,6 +20,7 @@ export class GestionUsuariosComponent {
     role: 0
   }; // Información del usuario cargado
 
+  initialRole: number = 0; // Almacena el rol inicial del usuario
   userLoaded = false; // Indica si los datos del usuario se han cargado
   loading = false; // Indicador de carga
   errorMessage: string | null = null; // Mensaje de error para el modal
@@ -41,13 +42,16 @@ export class GestionUsuariosComponent {
     }
 
     this.loading = true; // Activa el spinner
-    this.managerUserService.getManagerUser(this.userSearch).subscribe({
+    // Llamada al servicio para obtener información del usuario
+    this.managerUserService.getUser(this.userSearch).subscribe({
       next: (data) => {
-        this.user.name = data.alias; // Carga el alias como nombre
+        // Combinar nombre, apellido1 y apellido2 en el campo name
+        this.user.name = `${data.nombre} ${data.apellido1} ${data.apellido2}`;
         this.user.email = data.correo; // Carga el correo
         this.user.role = data.rol; // Carga el rol
-        this.userLoaded = true;
-        this.loading = false; // Desactiva el spinner
+        this.initialRole = data.rol; // Almacena el rol inicial
+        this.userLoaded = true; // Marca como cargado
+        this.loading = false; // Desactivar el indicador de carga
       },
       error: (err) => {
         if (err === 404) {
@@ -62,8 +66,25 @@ export class GestionUsuariosComponent {
   }
 
   saveChanges() {
-    console.log('Guardando cambios:', this.user);
-    // Aquí iría la lógica para guardar los cambios usando el servicio correspondiente
+    if (!this.userLoaded) {
+      alert('No hay ningún usuario cargado para guardar cambios.');
+      return;
+    }
+
+    // Verificar si el rol ha cambiado
+    if (this.user.role !== this.initialRole) {
+      this.managerUserService.changeRol(this.user.email, this.user.role).subscribe({
+        next: () => {
+          alert('El rol del usuario se actualizó correctamente.');
+          this.initialRole = this.user.role; // Actualiza el rol inicial al nuevo
+        },
+        error: () => {
+          alert('Ocurrió un error al actualizar el rol del usuario.');
+        }
+      });
+    } else {
+      alert('No se realizaron cambios en el rol.');
+    }
   }
 
   closeErrorModal() {

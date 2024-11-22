@@ -33,6 +33,12 @@ class Auth extends Autenticar {
     private function verificarToken ($idUsuario, $tkRef){
         return $this->accederToken('verificar', $idUsuario, $tkRef);
     }
+
+    public function cerrar(Request $request, Response $response, $args)
+    {
+        $this->modificarToken(idUsuario: $args['idUsuario']);
+        return $response->withStatus(200);
+    }
         
     private function generarToken(string $idUsuario, int $rol, string $nombre){
         $key = $this->container->get("key");
@@ -56,27 +62,30 @@ class Auth extends Autenticar {
         ];
     }
 
-    public function iniciar(Request $request, Response $response, $args){
+    public function iniciar(Request $request, Response $response, $args)
+    {
         $body = json_decode($request->getBody());
-        if($datos = $this->autenticar($body->usuario, $body->passw)){
-            $tokens = $this->generarToken($body->usuario, $datos['rol'], $datos['nombre']);
+        try {
+            if ($datos = $this->autenticar($body->usuario, $body->passw)) {
+                $tokens = $this->generarToken($body->usuario, $datos['rol'], $datos['nombre']);
 
-            $this->modificarToken(idUsuario : $body->usuario, tkRef: $tokens['tkRef']);
-            $response->getBody()->write(json_encode($tokens));
-            $status = 200;
-        } else{
-            $status = 401;
+                $this->modificarToken($body->usuario, $tokens['tkRef']);
+                $response->getBody()->write(json_encode($tokens));
+                $status = 200;
+            } else {
+                // Credenciales inválidas
+                $response->getBody()->write(json_encode(['error' => 'Credenciales inválidas']));
+                $status = 401;
+            }
+        } catch (\Exception $e) {
+            // Registrar el error en los logs
+            error_log("Error en iniciar: " . $e->getMessage());
+            $response->getBody()->write(json_encode(['error' => 'Error interno del servidor']));
+            $status = 500;
         }
-        return $response->withHeader('Content-type', 'Application/json')
-            ->withStatus($status);
+        return $response->withHeader('Content-type', 'application/json')
+        ->withStatus($status);
     }
-
-    public function cerrar(Request $request, Response $response, $args){
-        $this->modificarToken(idUsuario: $args['idUsuario']);
-        return $response->withStatus(200);
-    }
-
-
 
     public function refrescar(Request $request, Response $response, $args){
         $body = json_decode($request->getBody());

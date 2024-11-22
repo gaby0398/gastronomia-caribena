@@ -17,8 +17,12 @@ export interface TypeClient {
     correo: string,
 };
 
+export interface TypeClientV2 extends TypeClient {
+    rol: Role;
+}
+
 export interface TypeUser {
-    idUsuario: string,
+    id: number,
     alias: string,
     correo: string,
     rol: number
@@ -30,11 +34,12 @@ export enum Role {
     cliente = 4
 }
 
-/*export interface User {
-    idUsuario: string,
-    passw: string,
-    rol: number
-}*/
+enum RolePath {
+    administrador = 'administrador',
+    supervisor = 'supervisor',
+    cliente = 'cliente'
+}
+
 export interface Token {
     token: string,
     tkRef: string

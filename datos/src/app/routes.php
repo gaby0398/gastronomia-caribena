@@ -1,11 +1,6 @@
 <?php
 namespace App\controller;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteCollectorProxy;
-
-// require __DIR__ . '/../controllers/Cliente.php'
-// Recurso Cliente
 
 $app->group('/api', function (RouteCollectorProxy $api) {
     $api->group('/cliente', function (RouteCollectorProxy $cliente) {
@@ -50,29 +45,27 @@ $app->group('/api', function (RouteCollectorProxy $api) {
         $class->get('/read[/{id}]', Comidas::class . ':read');
         $class->delete('/{id}', Comidas::class . ':delete');
         $class->get('/filtro/{nombre_comidas}', Comidas::class . ':filtro');
-        $class->put('/{id}', Comidas::class . ':update');
+        $class->put('/{id}',Comidas::class . ':update');
         $class->post('', Comidas::class . ':create');
     });
+
+    
 
     $api->group('/plantas', function (RouteCollectorProxy $class) {
         $class->get('/read[/{id}]', Plantas::class . ':read');
         $class->delete('/{id}', Plantas::class . ':delete');
         $class->get('/filtro/{nombre_plantas}', Plantas::class . ':filtro');
-        $class->put('/{id}', Plantas::class . ':update');
+        $class->put('/{id}',Plantas::class . ':update');
         $class->post('', Plantas::class . ':create');
     });
 
+  
     $api->group('/restaurantes', function (RouteCollectorProxy $class) {
         $class->get('/read[/{id}]', Restaurantes::class . ':read');
         $class->delete('/{id}', Restaurantes::class . ':delete');
         $class->get('/filtro/{nombre_restaurantes}', Restaurantes::class . ':filtro');
-        $class->put('/{id}', Restaurantes::class . ':update');
+        $class->put('/{id}',Restaurantes::class . ':update');
         $class->post('', Restaurantes::class . ':create');
     });
-
-    /*
-    $api->group('/Products', function (RouteCollectorProxy $Products) {
-        $Products->get('/read[/{id}]', Panes::class . ':read');
-    });  */
     
 });

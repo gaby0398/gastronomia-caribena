@@ -1,0 +1,82 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Divide las secciones */
+    background-color: #b8d1e1; /* Fondo azul oscuro */
+    color: #ffffff; /* Texto blanco */
+    padding: 1rem 2rem;
+    height: 100px;
+  
+    font-size: 22px; /* Tamaño general del texto */
+    font-weight: bold; /* Mejora la legibilidad */
+  
+    /* Sección izquierda (Info) */
+    .navbar-left {
+      display: flex;
+      align-items: center;
+  
+      .navbar-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #ffffff; /* Blanco */
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+  
+        /* Ícono redondo */
+        mat-icon {
+          font-size: 28px; /* Tamaño del ícono */
+          background-color: #ffffff; /* Fondo blanco */
+          color: #b8d1e1; /* Color del ícono */
+          border-radius: 50%; /* Hace el ícono redondo */
+          padding: 8px; /* Espacio interno */
+          margin-right: 0.5rem; /* Espacio entre ícono y texto */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 40px; /* Tamaño del círculo */
+          height: 40px; /* Tamaño del círculo */
+        }
+  
+        &:hover {
+          color: #000000; /* Cambia el texto a negro */
+          background-color: #ffffff; /* Fondo blanco */
+        }
+      }
+    }
+  
+    /* Sección derecha (Login) */
+    .navbar-right {
+      display: flex;
+      align-items: center;
+  
+      .navbar-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #ffffff;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+  
+        mat-icon {
+          font-size: 28px; /* Tamaño del ícono */
+          background-color: #ffffff; /* Fondo blanco */
+          color: #b8d1e1; /* Color del ícono */
+          border-radius: 50%; /* Hace el ícono redondo */
+          padding: 8px; /* Espacio interno */
+          margin-right: 0.5rem; /* Espacio entre ícono y texto */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 40px; /* Tamaño del círculo */
+          height: 40px; /* Tamaño del círculo */
+        }
+  
+        &:hover {
+          color: #000;
+          background-color: #ffffff;
+        }
+      }
+    }
+  }
+  
