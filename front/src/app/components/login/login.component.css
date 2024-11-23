@@ -1,0 +1,128 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 95vh;
+    background: linear-gradient(100deg, #b8d1e1, #e3eb7b, #96b60b);
+    font-family: Arial, sans-serif;
+  
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+  
+      a {
+        text-decoration: none;
+      }
+  
+      mat-icon {
+        font-size: 36px;
+        color: #07230b;
+        background-color: #96b60b;
+        border-radius: 50%;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  
+    .icon-container {
+      margin-bottom: 20px;
+      display: flex;
+      align-items:center ;
+      justify-content: center;
+      margin-bottom: 20px;
+
+      mat-icon {
+        font-size: 80px;
+        color: #005e09;
+        border-radius: 50%;
+        background-color: transparent;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+
+}
+    }
+  
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 80%;
+      max-width: 400px;
+  
+      .input-field {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 2px solid #96b60b;
+        border-radius: 5px;
+        background-color: #ffffff;
+        font-size: 16px;
+        color: #07230b;
+      }
+  
+      .login-button {
+        width: 100%;
+        padding: 10px;
+        background-color: #96b60b;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #005e09;
+        }
+      }
+    }
+  
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+  
+      hr {
+        flex: 1;
+        border: none;
+        border-top: 1px solid #96b60b;
+      }
+  
+      .dot {
+        width: 8px;
+        height: 8px;
+        background-color: #96b60b;
+        border-radius: 50%;
+        margin: 0 10px;
+      }
+    }
+  
+    .create-account {
+      .create-button {
+        padding: 10px 20px;
+        background-color: #005e09;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #07230b;
+        }
+      }
+    }
+  }
+  

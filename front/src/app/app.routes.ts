@@ -11,11 +11,12 @@ import { PlantasComponent } from './components/plantas/plantas.component';
 import { CrearplantasComponent } from './components/crearplantas/crearplantas.component';
 import { PlantaEspecificaComponent } from './components/planta-especifica/planta-especifica.component';
 import { RestaurantesComponent } from './components/restaurantes/restaurantes.component';
+import { CrearCuentaComponent } from './components/crear-cuenta/crear-cuenta.component';
 
 export const routes: Routes = [
     { path: '', component: IndexComponent },
     { path: 'gestion-usuarios', component: GestionUsuariosComponent },
-    { path: 'informacion', component: InformacionComponent },
+    { path: 'info', component: InformacionComponent },
     { path: 'login', component: LoginComponent },
     {path: 'comidas', component : ComidasComponent},
     {path: 'crearComida', component: CrearcomidasComponent},
@@ -24,6 +25,7 @@ export const routes: Routes = [
     {path: 'plantas', component: PlantasComponent },
     {path: 'crearplantas', component: CrearplantasComponent},
     {path: 'plantaEspecifica', component: PlantaEspecificaComponent},
-    {path: 'restaurantes', component: RestaurantesComponent} 
+    {path: 'restaurantes', component: RestaurantesComponent},
+    {path: 'crear-cuenta', component: CrearCuentaComponent} 
     // Ruta por defecto que apunta a IndexComponent
 ];
