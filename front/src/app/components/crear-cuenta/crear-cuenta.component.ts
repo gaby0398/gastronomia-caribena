@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-crear-cuenta',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [MatIconModule, RouterModule, CommonModule],
   templateUrl: './crear-cuenta.component.html',
-  styleUrl: './crear-cuenta.component.css'
+  styleUrls: ['./crear-cuenta.component.scss'],
 })
-export class CrearCuentaComponent {
-
-}
+export class CrearCuentaComponent {}

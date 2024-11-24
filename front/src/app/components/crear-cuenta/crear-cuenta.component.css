@@ -1,101 +1,123 @@
 .create-account-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 95vh;
-    background: linear-gradient(100deg, #b8d1e1, #e3eb7b, #96b60b);
-    font-family: Arial, sans-serif;
-  
-    .back-button {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-  
-      a {
-        text-decoration: none;
-      }
-  
-      mat-icon {
-        font-size: 36px;
-        color: #07230b;
-        background-color: #96b60b;
-        border-radius: 50%;
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 95vh;
+  background: linear-gradient(100deg, #b8d1e1, #e3eb7b, #96b60b);
+  font-family: Arial, sans-serif;
+
+  .back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+
+    a {
+      text-decoration: none;
     }
-  
-    .form-container {
-      background-color: #ffffff;
+
+    mat-icon {
+      font-size: 36px;
+      color: #07230b;
+      background-color: #96b60b;
+      border-radius: 50%;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .icon-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items:center ;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    mat-icon {
+      font-size: 60px;
+      color: #005e09;
+      border-radius: 50%;
+      /*background-color: #e3eb7b;*/
       padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-      max-width: 400px;
-      width: 80%;
-      text-align: center;
-  
-      h2 {
-        font-size: 1.8em;
-        color: #07230b;
-        margin-bottom: 20px;
-      }
-  
-      .input-group {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-  
-        .input-field {
-          flex: 1;
-          padding: 10px;
-          margin-bottom: 10px;
-          border: 2px solid #96b60b;
-          border-radius: 5px;
-          background-color: #e3eb7b;
-          font-size: 16px;
-          color: #07230b;
-  
-          &:focus {
-            outline: none;
-            border-color: #005e09;
-          }
-        }
-      }
-  
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-border-radius: 50%;
+      -moz-border-radius: 50%;
+      -ms-border-radius: 50%;
+      -o-border-radius: 50%;
+      /*box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);*/
+
+}
+  }
+
+  .form-container {
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 400px;
+    width: 80%;
+    text-align: center;
+
+    h2 {
+      font-size: 1.8em;
+      color: #07230b;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+
       .input-field {
-        width: 100%;
+        flex: 1;
         padding: 10px;
         margin-bottom: 10px;
         border: 2px solid #96b60b;
         border-radius: 5px;
-        background-color: #e3eb7b;
+        background-color: #ffffff;
         font-size: 16px;
         color: #07230b;
-  
+
         &:focus {
           outline: none;
           border-color: #005e09;
         }
       }
-  
-      .accept-button {
-        width: 100%;
-        padding: 10px;
-        background-color: #96b60b;
-        color: #ffffff;
-        border: none;
-        border-radius: 5px;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-  
-        &:hover {
-          background-color: #005e09;
-        }
+    }
+
+    .input-field {
+      width: 94%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 2px solid #96b60b;
+      border-radius: 5px;
+      background-color: #ffffff;
+      font-size: 16px;
+      color: #07230b;
+
+      &:focus {
+        outline: none;
+        border-color: #005e09;
+      }
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 10px;
+      background-color: #96b60b;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #005e09;
       }
     }
   }
-  
+}
