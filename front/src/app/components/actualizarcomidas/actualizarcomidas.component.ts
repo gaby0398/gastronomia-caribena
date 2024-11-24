@@ -63,13 +63,12 @@ export class ActualizarcomidasComponent implements OnInit {
   // cambiar por el router cuando el proyecto ya este hecho.
   goBack(): void {
     localStorage.clear();
-    window.history.back();
+    this.router.navigate(['/comidas']); 
   }
 
 
   guardarCambios(formulario: any): void {
     if (formulario.valid) {
-      console.log('Formulario válido. Guardando cambios...', this.publicacion);
       const idComida = localStorage.getItem("idComida");  // Obtener el ID de comida del localStorage
       
       if (idComida) {
@@ -85,7 +84,7 @@ export class ActualizarcomidasComponent implements OnInit {
         alert('Un error inésperado a ocurrido.');
       }
     } else {
-      console.log('Formulario inválido');
+      alert('Formulario inválido');
     }
   }
 

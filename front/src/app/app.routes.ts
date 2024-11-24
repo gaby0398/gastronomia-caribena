@@ -11,6 +11,12 @@ import { PlantasComponent } from './components/plantas/plantas.component';
 import { CrearplantasComponent } from './components/crearplantas/crearplantas.component';
 import { PlantaEspecificaComponent } from './components/planta-especifica/planta-especifica.component';
 import { RestaurantesComponent } from './components/restaurantes/restaurantes.component';
+import { ActualizarplantasComponent } from './components/actualizarplantas/actualizarplantas.component';
+
+import { RestauranteEspecificaComponent } from './components/restaurante-especifica/restaurante-especifica.component';
+import { ActualizarRestaurantesComponent } from './components/actualizar-restaurantes/actualizar-restaurantes.component';
+import { CrearRestaurantesComponent } from './components/crearestaurantes/crearestaurantes.component';
+
 
 export const routes: Routes = [
     { path: '', component: IndexComponent },
@@ -22,8 +28,13 @@ export const routes: Routes = [
     {path: 'actualizarComida', component: ActualizarcomidasComponent},
     {path: 'comidaEspecifica', component: ComidaEspecificaComponent },
     {path: 'plantas', component: PlantasComponent },
-    {path: 'crearplantas', component: CrearplantasComponent},
+    {path: 'crearplanta', component: CrearplantasComponent},
     {path: 'plantaEspecifica', component: PlantaEspecificaComponent},
-    {path: 'restaurantes', component: RestaurantesComponent} 
+    {path: 'actulizarPlanta', component: ActualizarplantasComponent},
+    {path: 'restaurantes', component: RestaurantesComponent},
+    {path: 'crearrestaurante', component: CrearRestaurantesComponent},
+    {path: 'restauranteEspecifica', component:RestauranteEspecificaComponent },
+    {path: 'actualizarRestaurante', component: ActualizarRestaurantesComponent}  
     // Ruta por defecto que apunta a IndexComponent
 ];
+CrearRestaurantesComponent

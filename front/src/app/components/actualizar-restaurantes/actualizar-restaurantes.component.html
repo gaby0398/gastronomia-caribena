@@ -1,1 +1,71 @@
-<p>actualizar-restaurantes works!</p>
+<div class="container">
+    <button class="back-button" (click)="goBack()">←</button>
+  
+    <div class="card">
+      <h2 class="Cabezera">Actualizar</h2>
+  
+      <button id="imagenActual" (click)="MuestraImagen()">📸</button>
+  
+      <div *ngIf="mostrarImagen">
+        <img [src]="restaurante.imagen" alt="Imagen del Restaurante" width="200" height="200" />
+      </div>
+  
+      <form #formulario="ngForm" (ngSubmit)="guardarCambios(formulario)">
+        <input
+          type="text"
+          id="nombreRestaurante"
+          placeholder="Nombre del Restaurante"
+          [(ngModel)]="restaurante.nombre_restaurante"
+          name="nombre_restaurante"
+          #nombreRestaurante="ngModel"
+          required
+          minlength="1"
+        />
+        <div *ngIf="nombreRestaurante.invalid && nombreRestaurante.touched" class="error">
+          El nombre es obligatorio y debe tener al menos un carácter.
+        </div>
+  
+        <textarea
+          id="descripcionRestaurante"
+          placeholder="Descripción del Restaurante"
+          [(ngModel)]="restaurante.descripcion_restaurante"
+          name="descripcion_restaurante"
+          #descripcionRestaurante="ngModel"
+          required
+          minlength="10"
+        ></textarea>
+        <div *ngIf="descripcionRestaurante.invalid && descripcionRestaurante.touched" class="error">
+          La descripción es obligatoria y debe tener al menos 10 caracteres.
+        </div>
+  
+        <input
+          type="text"
+          id="direccionRestaurante"
+          placeholder="Dirección del Restaurante"
+          [(ngModel)]="restaurante.direccion"
+          name="direccion"
+          #direccion="ngModel"
+          required
+        />
+        <div *ngIf="direccion.invalid && direccion.touched" class="error">
+          La dirección es obligatoria.
+        </div>
+  
+        <input
+          type="url"
+          id="imagenRestaurante"
+          placeholder="URL de la Imagen del Restaurante"
+          [(ngModel)]="restaurante.imagen"
+          name="imagen"
+          #imagen="ngModel"
+          required
+        />
+        <div *ngIf="imagen.invalid && imagen.touched" class="error">
+          La URL de la imagen es obligatoria y debe ser válida.
+        </div>
+  
+        <button type="submit" id="guardarCambios">Guardar Cambios</button>
+      </form>
+    </div>
+  </div>
+  

@@ -107,16 +107,6 @@ button {
 
   }
 
-/* Botón guardar cambios */
-#guardarCambios {
-    background-color: #07230b;
-    color: #ffface;
-    font-size: 18px;
-}
-
-#guardarCambios:hover {
-    background-color: #133118;
-}
 
 /* Botón de imagen actual */
 #imagenActual {
