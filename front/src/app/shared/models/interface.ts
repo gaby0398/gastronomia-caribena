@@ -31,7 +31,7 @@ export interface TypeUser {
 export enum Role {
     administrador = 1,
     supervisor = 2,
-    cliente = 4
+    cliente = 3
 }
 
 enum RolePath {

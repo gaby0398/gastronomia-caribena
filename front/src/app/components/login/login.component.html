@@ -1,1 +1,33 @@
-<p>login works!</p>
+<div class="login-container">
+    <!-- Botón de regreso -->
+    <div class="back-button">
+      <a routerLink="/">
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+    </div>
+  
+    <!-- Ícono principal -->
+    <div class="icon-container">
+      <mat-icon>account_circle</mat-icon>
+    </div>
+  
+    <!-- Formulario de ingreso -->
+    <div class="form-container">
+      <input type="text" placeholder="usuario" class="input-field" />
+      <input type="password" placeholder="contraseña" class="input-field" />
+      <button class="login-button">Ingresar</button>
+    </div>
+  
+    <!-- Línea divisora -->
+    <div class="divider">
+      <hr />
+      <span class="dot"></span>
+      <hr />
+    </div>
+  
+    <!-- Botón de crear cuenta -->
+    <div class="create-account">
+      <button class="create-button"[routerLink]="'/crear-cuenta'">Crear nueva cuenta</button>
+    </div>
+  </div>
+  

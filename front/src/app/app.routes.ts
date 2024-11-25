@@ -11,17 +11,20 @@ import { PlantasComponent } from './components/plantas/plantas.component';
 import { CrearplantasComponent } from './components/crearplantas/crearplantas.component';
 import { PlantaEspecificaComponent } from './components/planta-especifica/planta-especifica.component';
 import { RestaurantesComponent } from './components/restaurantes/restaurantes.component';
+
 import { ActualizarplantasComponent } from './components/actualizarplantas/actualizarplantas.component';
 
 import { RestauranteEspecificaComponent } from './components/restaurante-especifica/restaurante-especifica.component';
 import { ActualizarRestaurantesComponent } from './components/actualizar-restaurantes/actualizar-restaurantes.component';
 import { CrearRestaurantesComponent } from './components/crearestaurantes/crearestaurantes.component';
 
+import { CrearCuentaComponent } from './components/crear-cuenta/crear-cuenta.component';
+
 
 export const routes: Routes = [
     { path: '', component: IndexComponent },
     { path: 'gestion-usuarios', component: GestionUsuariosComponent },
-    { path: 'informacion', component: InformacionComponent },
+    { path: 'info', component: InformacionComponent },
     { path: 'login', component: LoginComponent },
     {path: 'comidas', component : ComidasComponent},
     {path: 'crearComida', component: CrearcomidasComponent},
@@ -30,11 +33,15 @@ export const routes: Routes = [
     {path: 'plantas', component: PlantasComponent },
     {path: 'crearplanta', component: CrearplantasComponent},
     {path: 'plantaEspecifica', component: PlantaEspecificaComponent},
+
     {path: 'actulizarPlanta', component: ActualizarplantasComponent},
     {path: 'restaurantes', component: RestaurantesComponent},
     {path: 'crearrestaurante', component: CrearRestaurantesComponent},
     {path: 'restauranteEspecifica', component:RestauranteEspecificaComponent },
     {path: 'actualizarRestaurante', component: ActualizarRestaurantesComponent}  
+
+    {path: 'restaurantes', component: RestaurantesComponent},
+    {path: 'crear-cuenta', component: CrearCuentaComponent} 
     // Ruta por defecto que apunta a IndexComponent
 ];
 CrearRestaurantesComponent
