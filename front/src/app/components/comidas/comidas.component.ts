@@ -137,7 +137,7 @@ export class ComidasComponent implements OnInit {
 
   // ESTO DEBE SER MODIFICADO POR UN ROUTERLINK CUANDO ESTE TODO EL PROYECTO ARMADO
   goBack(): void {
-    window.history.back();
+    this.router.navigate(['/']);
   }
    
 

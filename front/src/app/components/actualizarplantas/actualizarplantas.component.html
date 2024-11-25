@@ -1,1 +1,71 @@
-<p>actualizarplantas works!</p>
+<div class="container">
+  <button class="back-button" (click)="goBack()">←</button>
+
+  <div class="card">
+    <h2 class="Cabezera">Actualizar Planta</h2>
+
+    <button id="imagenActual" (click)="MuestraImagen()">📸</button>
+
+    <div *ngIf="mostrarImagen">
+      <img [src]="publicacion.imagen" alt="Imagen de referencia" width="200" height="200" />
+    </div>
+
+    <form #formulario="ngForm" (ngSubmit)="guardarCambios(formulario)">
+      <input
+        type="text"
+        id="tituloPlanta"
+        placeholder="Nombre de la Planta"
+        [(ngModel)]="publicacion.nombre_planta"
+        name="nombre_planta"
+        #nombrePlanta="ngModel"
+        required
+        minlength="1"
+      />
+      <div *ngIf="nombrePlanta.invalid && nombrePlanta.touched" class="error">
+        El nombre es obligatorio y debe tener al menos un carácter.
+      </div>
+
+      <textarea
+        id="descripcionPlanta"
+        placeholder="Descripción de la planta"
+        [(ngModel)]="publicacion.caracteristicas"
+        name="descripcion_planta"
+        #descripcionPlanta="ngModel"
+        required
+        minlength="10"
+      ></textarea>
+      <div *ngIf="descripcionPlanta.invalid && descripcionPlanta.touched" class="error">
+        La descripción es obligatoria y debe tener al menos 10 caracteres.
+      </div>
+
+      <textarea
+        id="idElaboracion"
+        placeholder="Proceso de cuidado o datos específicos a resaltar"
+        [(ngModel)]="publicacion.elaboracion"
+        name="elaboracion"
+        #elaboracion="ngModel"
+        required
+      ></textarea>
+      <div *ngIf="elaboracion.invalid && elaboracion.touched" class="error">
+        El proceso de cuidado es obligatorio.
+      </div>
+
+      <input
+        type="url"
+        id="idLinkImagen"
+        placeholder="URL de la imagen de referencia"
+        [(ngModel)]="publicacion.imagen"
+        name="imagen"
+        #imagen="ngModel"
+        required
+      />
+      <div *ngIf="imagen.invalid && imagen.touched" class="error">
+        La URL de la imagen es obligatoria y debe ser válida.
+      </div>
+
+      <button type="submit" id="guardarCambios" [disabled]="formulario.invalid">
+        Guardar Cambios
+      </button>
+    </form>
+  </div>
+</div>

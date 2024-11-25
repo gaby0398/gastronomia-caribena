@@ -39,7 +39,7 @@ export class ComidaEspecificaComponent {
     // ESTO DEBE SER MODIFICADO POR UN ROUTERLINK CUANDO ESTE TODO EL PROYECTO ARMADO
     goBack(): void {
       localStorage.clear();
-      window.history.back();
+      this.router.navigate(['/comidas']); 
     }
      
 }

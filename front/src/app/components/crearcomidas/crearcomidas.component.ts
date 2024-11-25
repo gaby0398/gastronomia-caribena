@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common'
 import { ComidasService } from '../../shared/services/comidas.service';
+import { Router, RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-crearcomidas',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './crearcomidas.component.html',
   styleUrl: './crearcomidas.component.scss'
 })
@@ -21,16 +22,17 @@ export class CrearcomidasComponent {
     elaboracion: ''
   };
 
-  constructor(private comidasService: ComidasService) {}
+  constructor(private comidasService: ComidasService, private router: Router) {}
 
   // Método para enviar los datos del formulario al servidor
   crearPublicacion() {
     console.log('Nueva publicación:', this.publicacion);
     this.comidasService.crearComida(this.publicacion).subscribe(
       (response) => {
+
+        this.router.navigate(['/comidas']);
        alert('Comida creada con éxito:');
-      this.FormateoTexto();
-      
+  
       },
       (error) => {
         console.error('Error al crear la comida:', error);
@@ -56,7 +58,8 @@ export class CrearcomidasComponent {
  
   // debe cambiarse por routerlink cuando ya la app este consolidada. 
   goBack(): void {
-    window.history.back();
+      localStorage.clear();
+      this.router.navigate(['/comidas']);  
   }
 
   
