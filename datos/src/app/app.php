@@ -1,4 +1,5 @@
 <?php
+
 use Slim\Factory\AppFactory;
 use DI\Container;
 //use Dotenv;
@@ -8,18 +9,22 @@ require __DIR__ . '/../../vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable('/var/www/html');
 $dotenv->load();
 
-// Create Container using PHP-DI
+// Crear el Contenedor usando PHP-DI
 $container = new Container();
 
-// Set container to create App with on AppFactory
+// Configurar AppFactory para usar el contenedor
 AppFactory::setContainer($container);
 
 $app = AppFactory::create();
 
+// Añadir el middleware de enrutamiento
 $app->addRoutingMiddleware();
 
-require 'config.php';
+// **Añadir el Body Parsing Middleware aquí**
+$app->addBodyParsingMiddleware();
+
 /*
+ // Middleware de Autenticación JWT (comentado)
  $app->add(new Tuupola\Middleware\JwtAuthentication([
     "secure" => false,
     "path" => ["/api"],
@@ -33,9 +38,17 @@ require 'config.php';
     "algorithm" => ["acme" => "HS256"],
 ]));*/
 
+// Incluir configuraciones adicionales
+require 'config.php';
+
+// Incluir conexión a la base de datos
 require 'conexion.php';
+
+// Incluir las rutas
 require_once 'routes.php';
 
+// Añadir el middleware de manejo de errores
 $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 
+// Ejecutar la aplicación
 $app->run();
