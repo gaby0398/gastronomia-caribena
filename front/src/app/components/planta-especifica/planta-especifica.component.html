@@ -29,4 +29,10 @@
       alt="Imagen de la planta"
     />
   </div>
+
+  <!-- Caja de comentarios para cada publicación -->
+      <app-remark 
+        [pageId]="'planta-' + plantaEspecifica.id" 
+        [siteId]="'localhost'">
+      </app-remark>
 </div>

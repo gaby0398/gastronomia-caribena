@@ -19,6 +19,7 @@ import { ActualizarRestaurantesComponent } from './components/actualizar-restaur
 import { CrearRestaurantesComponent } from './components/crearestaurantes/crearestaurantes.component';
 
 import { CrearCuentaComponent } from './components/crear-cuenta/crear-cuenta.component';
+import { RemarkComponent } from './components/remark/remark.component';
 
 
 export const routes: Routes = [
@@ -38,10 +39,11 @@ export const routes: Routes = [
     {path: 'restaurantes', component: RestaurantesComponent},
     {path: 'crearrestaurante', component: CrearRestaurantesComponent},
     {path: 'restauranteEspecifica', component:RestauranteEspecificaComponent },
-    {path: 'actualizarRestaurante', component: ActualizarRestaurantesComponent}  
+    {path: 'actualizarRestaurante', component: ActualizarRestaurantesComponent},
 
     {path: 'restaurantes', component: RestaurantesComponent},
-    {path: 'crear-cuenta', component: CrearCuentaComponent} 
+    {path: 'crear-cuenta', component: CrearCuentaComponent},
+
+    {path: 'comentarios', component: RemarkComponent}
     // Ruta por defecto que apunta a IndexComponent
 ];
-CrearRestaurantesComponent

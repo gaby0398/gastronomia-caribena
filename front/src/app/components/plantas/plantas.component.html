@@ -31,7 +31,7 @@
             <h3 class="fechaPubli">{{ publicacion.fecha }}</h3>
             <h3 class="usuarioMaker">{{ publicacion.usuario }}</h3>
             <p class="nombrePublicacion"><strong>{{ publicacion.nombre }}</strong></p>
-            <textarea class="descripcionCorta" readonly>{{ publicacion.descripcion_planta}}</textarea>
+            <textarea class="descripcionCorta" placeholder="Descripción Corta" readonly>{{ publicacion.descripcion_planta}}</textarea>
             <img *ngIf="publicacion.imagenUrl" [src]="publicacion.imagenUrl" alt="{{ publicacion.nombre }}" class="ImagenPublicacion" />
           </div>
         </a>
@@ -47,5 +47,6 @@
         </button>
       </div>
     </div>
+
     <router-outlet></router-outlet>
   </div>

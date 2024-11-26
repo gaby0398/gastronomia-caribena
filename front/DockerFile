@@ -1,22 +1,25 @@
-# Stage 1
+# Stage 1: Build Angular App
 FROM node:20.12.1 AS angular
 
 WORKDIR /app
-COPY ./presentacion/package*.json .
+
+# Copiar los archivos necesarios para la instalación
+COPY package*.json ./
 RUN npm install
 RUN npx ngcc --properties es2024 browser module main --first-only --create-ivy-entry-points
-COPY ./presentacion/. .
 
-RUN npm run build
+# Compilar la aplicación Angular
+COPY . .
+RUN npm run build --prod
 
-#Stage 2
+# Stage 2: Serve with NGINX
 FROM nginx:1.27.0-alpine
 
-#FROM php:apache
+# Copiar el archivo de configuración personalizado de NGINX
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-#var/www/html
+# Copiar la salida del build de Angular al servidor NGINX
+COPY --from=angular /app/dist/front/ /usr/share/nginx/html
 
-COPY --from=angular /app/dist/presentacion/browser/ /usr/share/nginx/html
-
+# Exponer el puerto para NGINX
 EXPOSE 80
-

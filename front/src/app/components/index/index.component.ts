@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { RemarkComponent } from '../remark/remark.component';
 
 @Component({
   selector: 'app-index',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, RemarkComponent],
   templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css']
+  styleUrls: ['./index.component.css'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IndexComponent implements OnInit, OnDestroy {
   images = [

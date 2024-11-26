@@ -1,18 +1,17 @@
 networks:
   dto-red:
-    ipam: 
+    ipam:
       driver: default
-      config: 
+      config:
         - subnet: "192.168.0.0/24"
+
 services:
   db:
-    #razones del porque no usar siempre la version latest
     image: mysql:9.1.0
-    #linea nueva
     container_name: base_datosPC
     environment:
       - MYSQL_DATABASE=limon_website
-      - MYSQL_ROOT_PASSWORD=12345
+      - MYSQL_ROOT_PASSWORD=db_password
       - log_bin_trust_function_creators=1
     ports:
       - 3307:3306
@@ -22,11 +21,12 @@ services:
     networks:
       dto-red:
         ipv4_address: "192.168.0.10"
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadminPC
     ports:
-      - 8080:80
+      - 8081:80
     environment:
       - PMA_HOST=db
       - PMA_PORT=3306
@@ -35,53 +35,87 @@ services:
     networks:
       dto-red:
         ipv4_address: "192.168.0.11"
+
   web-datos:
+    build:
+      context: ./datos
+      dockerfile: DockerFile
     container_name: servidor-datosPC
     volumes:
       - ./datos/src:/var/www/html/src
       - ./datos/public:/var/www/html/public
-    build:
-      context: .
-      dockerfile: ./datos/DockerFile
     ports:
       - 8000:80
     depends_on:
-      - db 
+      - db
     networks:
       dto-red:
         ipv4_address: "192.168.0.12"
+
   web-negocio:
+    build:
+      context: ./negocio
+      dockerfile: DockerFile
     container_name: servidor-negocioPC
     volumes:
       - ./negocio/src:/var/www/html/src
       - ./negocio/public:/var/www/html/public
-    build:
-      context: .
-      dockerfile: ./negocio/DockerFile
     ports:
       - 9000:80
     depends_on:
       - web-datos
     networks:
       dto-red:
-       ipv4_address: "192.168.0.13"
-  # web-presentacion:
-  #   container_name: servidor-presentacionPC
-  #   build:
-  #     context: .
-  #     dockerfile: ./presentacion/DockerFile
-  #   ports:
-  #     - 80:80
-  #   depends_on:
-  #     - web-negocio
-  #   networks:
-  #     dto-red:
-  #      ipv4_address: "192.168.0.14"
+        ipv4_address: "192.168.0.13"
+
+  remark42:
+    image: umputun/remark42:latest
+    container_name: remark42
+    hostname: "remark42"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    environment:
+      - REMARK_URL=http://localhost:8080
+      - SITE=localhost
+      - SECRET=your-secret-key
+      - AUTH_EMAIL_ENABLED=true
+      - AUTH_ANON=false
+      - AUTH_GOOGLE_CID
+      - AUTH_GOOGLE_CSEC
+      - AUTH_DISQUS_CID
+      - AUTH_DISQUS_CSEC
+      - UI_CSS=https://cdn.jsdelivr.net/npm/remark42/dist/remark.css
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data/remark42:/srv/var
+    restart: always
+    networks:
+      dto-red:
+        ipv4_address: "192.168.0.14"
+
+  web-front:
+    build:
+      context: ./front
+      dockerfile: DockerFile
+    container_name: servidor-frontPC
+    ports:
+      - "80:80"
+    depends_on:
+      - web-negocio
+    networks:
+      dto-red:
+        ipv4_address: "192.168.0.15"
+
 secrets:
   db_password:
     file: db_password.txt
+
 volumes:
-  db-dump: 
+  db-dump:
   mysql:
   datos:
   negocio:

@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/presentacion",
+            "outputPath": "dist/front",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -29,7 +29,8 @@
               }
             ],
             "styles": [
-                "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+                "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+                "https://cdn.jsdelivr.net/npm/remark42/dist/remark.css"
               ],
             "scripts": []
           },

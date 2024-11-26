@@ -67,9 +67,6 @@ export class PlantasComponent implements OnInit {
   }
 
 
- 
-  
-
   get totalPaginas(): number[] {
     return Array(Math.ceil(this.publicaciones.length / this.publicacionesPorPagina));
   }
@@ -102,7 +99,6 @@ export class PlantasComponent implements OnInit {
   }
  
 
-
   filtrarPlantas(): void {
     if (this.titulo.trim() === '') {
       this.cambiaTexto();
@@ -131,10 +127,6 @@ export class PlantasComponent implements OnInit {
       );
     }
   }
-
-
-
-
 
   onSearch(): void {
     this.filtrarPlantas();
@@ -172,12 +164,4 @@ export class PlantasComponent implements OnInit {
   
   }
   
-
- 
-
-
-
-
-
-
 }

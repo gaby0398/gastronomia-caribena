@@ -11,12 +11,12 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     mv composer.phar /usr/local/bin/composer
 
 
-COPY ./negocio/composer.json .
+COPY composer.json .
 #RUN mkdir public
 # COPY ./www/public/ ./public/
 #COPY ./www/src/ .
-COPY ./negocio/.htaccess .
-COPY ./datos/.env .
+COPY .htaccess .
+COPY .env .
 
 RUN apt-get update && apt-get install -y zip
 RUN apt-get update && apt-get install -y git
