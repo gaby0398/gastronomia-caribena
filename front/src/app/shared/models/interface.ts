@@ -14,6 +14,18 @@ export interface TypeClient {
     rol: Role;
 };
 
+export interface TypeClientV2 {
+    alias: string,
+    nombre: string,
+    apellido1: string,
+    apellido2: string,
+    telefono: string,
+    celular: string,
+    correo: string,
+    rol: Role,
+    passw: string;
+};
+
 export interface TypeUser {
     id: number,
     alias: string,

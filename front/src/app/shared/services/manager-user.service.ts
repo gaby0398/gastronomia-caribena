@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, of, retry, switchMap, tap, throwError } from 'rxjs';
-import { IPassw, TypeClient, TypeUser } from '../models/interface';
+import { IPassw, TypeClient, TypeClientV2, TypeUser } from '../models/interface';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -60,7 +60,7 @@ export class ManagerUserService {
    * Crear un nuevo usuario.
    * @param datos Objeto con los datos del nuevo usuario.
    */
-  createUser(datos: TypeClient): Observable<any> {
+  createUser(datos: TypeClientV2): Observable<any> {
     return this.http.post<any>(`${this.ENDPOINT}`, datos, this.httpOptions).pipe(
       retry(1),
       catchError(this.handleError)

@@ -13,22 +13,43 @@
     </div>
     <h2>Crear cuenta</h2>
 
-    <div class="input-group">
-      <input type="text" placeholder="nombre" class="input-field" />
-      <input type="text" placeholder="apellidos" class="input-field" />
-    </div>
+    <!-- Formulario con referencia local y validación -->
+    <form #createAccountForm="ngForm" (ngSubmit)="onSubmit(createAccountForm)">
 
-    <input type="text" placeholder="@ usuario" class="input-field" />
-    <input type="email" placeholder="correo electrónico" class="input-field" />
-    <input type="password" placeholder="contraseña" class="input-field" />
+      <!-- Nombre y Apellidos -->
+      <div class="input-group">
+        <input type="text" placeholder="Nombre" class="input-field" name="nombre" [(ngModel)]="formData.nombre"
+          required />
+        <input type="text" placeholder="Apellidos" class="input-field" name="apellidos" [(ngModel)]="formData.apellidos"
+          required />
+      </div>
 
-    <select class="input-field">
-      <option value="" disabled selected>género</option>
-      <option value="masculino">Masculino</option>
-      <option value="femenino">Femenino</option>
-      <option value="otro">Otro</option>
-    </select>
+      <!-- Alias de Usuario -->
+      <input type="text" placeholder="@ Usuario" class="input-field" name="alias" [(ngModel)]="formData.alias"
+        required />
 
-    <button class="login-button">Aceptar</button>
+      <!-- Correo Electrónico (Solo Lectura) -->
+      <input type="email" placeholder="Correo electrónico" class="input-field" name="correo"
+        [(ngModel)]="formData.correo" required/>
+
+      <!-- Contraseña -->
+      <input type="password" placeholder="Contraseña" class="input-field" name="password"
+        [(ngModel)]="formData.password" required minlength="6" />
+
+      <!-- Confirmar Contraseña -->
+      <input type="password" placeholder="Confirmar Contraseña" class="input-field" name="confirmPassword"
+        [(ngModel)]="formData.confirmPassword" required minlength="6" />
+
+      <!-- Género -->
+      <select class="input-field" name="genero" [(ngModel)]="formData.genero" aria-label="Genero" required>
+        <option value="" disabled selected>Género</option>
+        <option value="masculino">Masculino</option>
+        <option value="femenino">Femenino</option>
+        <option value="otro">Otro</option>
+      </select>
+
+      <!-- Botón de Aceptar -->
+      <button type="submit" class="login-button" [disabled]="loading">Aceptar</button>
+    </form>
   </div>
 </div>

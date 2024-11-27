@@ -240,16 +240,26 @@ END$$
 DELIMITER ;
 
 -- Filtrar comidas
+
 DELIMITER $$
 
-CREATE PROCEDURE filtrar_comidas(IN pnombre_comidas VARCHAR(100))
+CREATE PROCEDURE filtrar_comidas(
+    IN pnombre_comidas VARCHAR(255)
+)
 BEGIN
+   
+    DECLARE busqueda VARCHAR(1000); 
+    
+    -- Crear patrón de búsqueda dividiendo palabras
+    SET busqueda = CONCAT('%', REPLACE(pnombre_comidas, ' ', '%'), '%');
+    
+    -- Realizar la búsqueda
     SELECT * 
     FROM Comidas
-    WHERE nombre_comida COLLATE utf8mb4_0900_ai_ci LIKE CONCAT('%', pnombre_comidas, '%');
+    WHERE nombre_comida COLLATE utf8mb4_0900_ai_ci LIKE busqueda; 
 END$$
 
-DELIMITER ;
+DELIMITER ;
 
 -- Procedimientos almacenados para Restaurantes
 
@@ -286,16 +296,26 @@ END$$
 DELIMITER ;
 
 -- Filtrar restaurantes
+
 DELIMITER $$
 
-CREATE PROCEDURE filtrar_restaurantes(IN pnombre_restaurantes VARCHAR(100))
+CREATE PROCEDURE filtrar_restaurantes(
+    IN pnombre_restaurantes VARCHAR(255)
+)
 BEGIN
+   
+    DECLARE busqueda VARCHAR(1000); 
+    
+    -- Crear patrón de búsqueda dividiendo palabras
+    SET busqueda = CONCAT('%', REPLACE(pnombre_restaurantes , ' ', '%'), '%');
+    
+    -- Realizar la búsqueda
     SELECT * 
     FROM Restaurantes
-    WHERE nombre_restaurante COLLATE utf8mb4_0900_ai_ci  LIKE CONCAT('%', pnombre_restaurantes, '%');
+    WHERE nombre_restaurante COLLATE utf8mb4_0900_ai_ci LIKE busqueda; 
 END$$
 
-DELIMITER ;
+DELIMITER ;
 
 -- Crear restaurante
 DELIMITER $$
@@ -393,16 +413,26 @@ END$$
 DELIMITER ;
 
 -- Filtrar plantas
+
 DELIMITER $$
 
-CREATE PROCEDURE filtrar_plantas(IN pnombre_plantas VARCHAR(100))
+CREATE PROCEDURE filtrar_plantas(
+    IN pnombre_plantas VARCHAR(255)
+)
 BEGIN
+   
+    DECLARE busqueda VARCHAR(1000); 
+    
+    -- Crear patrón de búsqueda dividiendo palabras
+    SET busqueda = CONCAT('%', REPLACE(pnombre_plantas, ' ', '%'), '%');
+    
+    -- Realizar la búsqueda
     SELECT * 
     FROM Plantas
-    WHERE nombre_planta COLLATE utf8mb4_0900_ai_ci  LIKE CONCAT('%', pnombre_plantas, '%');
+    WHERE nombre_planta COLLATE utf8mb4_0900_ai_ci LIKE busqueda; 
 END$$
 
-DELIMITER ;
+DELIMITER ;
 
 -- Crear planta
 DELIMITER $$
