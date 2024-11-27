@@ -12,6 +12,5 @@ if ($_SERVER['REMOTE_ADDR'] != "192.168.0.13") {
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     die('Metodo no permitido');
 }
-    require "../src/app/app.php";
-    
+    require "../src/app/app.php";   
      

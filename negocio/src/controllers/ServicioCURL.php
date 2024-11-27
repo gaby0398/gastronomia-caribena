@@ -4,7 +4,10 @@ namespace App\controllers;
 
 class ServicioCURL
 {
-    private const URL = "http://web-datos/api";
+    //private const URL = "http://web-datos/api";
+    //private const URL = "http://192.168.0.12/api";
+    private const URL = "http://servidor-datosPC/api";
+
 
     public function ejecutarCURL($endpoint, $metodo, $datos = null)
     {

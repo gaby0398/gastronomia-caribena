@@ -133,4 +133,3 @@ class Persona {
         return $res;
     }
 }
-
