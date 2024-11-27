@@ -18,72 +18,26 @@ CREATE TABLE `Roles` (
 DEFAULT CHARSET=utf8mb4 
 COLLATE=utf8mb4_0900_ai_ci;
 
--- Tabla Cliente
-CREATE TABLE `cliente` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `idUsuario` VARCHAR(15) NOT NULL,
-  `alias` VARCHAR(100) NOT NULL,
-  `nombre` VARCHAR(30) NOT NULL,
-  `apellido1` VARCHAR(15) NOT NULL,
-  `apellido2` VARCHAR(15) NOT NULL,
-  `telefono` VARCHAR(9) NOT NULL,
-  `celular` VARCHAR(9) DEFAULT NULL,
-  `direccion` VARCHAR(255) DEFAULT NULL,
-  `correo` VARCHAR(100) NOT NULL,
-  `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB 
-DEFAULT CHARSET=utf8mb4 
-COLLATE=utf8mb4_0900_ai_ci;
-
--- Tabla Supervisor
-CREATE TABLE `supervisor` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `idUsuario` VARCHAR(15) NOT NULL,
-  `alias` VARCHAR(100) NOT NULL,
-  `nombre` VARCHAR(30) NOT NULL,
-  `apellido1` VARCHAR(15) NOT NULL,
-  `apellido2` VARCHAR(15) NOT NULL,
-  `telefono` VARCHAR(9) NOT NULL,
-  `celular` VARCHAR(9) DEFAULT NULL,
-  `direccion` VARCHAR(255) DEFAULT NULL,
-  `correo` VARCHAR(100) NOT NULL,
-  `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB 
-DEFAULT CHARSET=utf8mb4 
-COLLATE=utf8mb4_0900_ai_ci;
-
--- Tabla Administrador
-CREATE TABLE `administrador` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `idUsuario` VARCHAR(15) NOT NULL,
-  `alias` VARCHAR(100) NOT NULL,
-  `nombre` VARCHAR(30) NOT NULL,
-  `apellido1` VARCHAR(15) NOT NULL,
-  `apellido2` VARCHAR(15) NOT NULL,
-  `telefono` VARCHAR(9) NOT NULL,
-  `celular` VARCHAR(9) DEFAULT NULL,
-  `direccion` VARCHAR(255) DEFAULT NULL,
-  `correo` VARCHAR(100) NOT NULL,
-  `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB 
-DEFAULT CHARSET=utf8mb4 
-COLLATE=utf8mb4_0900_ai_ci;
-
 -- Tabla Usuarios
+
 CREATE TABLE `usuario` (
     `id` INT NOT NULL AUTO_INCREMENT,
-    `idUsuario` VARCHAR(15) NOT NULL,
     `alias` VARCHAR(100) NOT NULL,
+    `nombre` VARCHAR(30) NOT NULL,
+    `apellido1` VARCHAR(15) NOT NULL,
+    `apellido2` VARCHAR(15) NOT NULL,
+    `telefono` VARCHAR(9) NOT NULL,
+    `celular` VARCHAR(9) DEFAULT NULL,
     `correo` VARCHAR(100) NOT NULL,
     `rol` INT NOT NULL,
     `passw` VARCHAR(255) NOT NULL,
     `ultimoAcceso` DATETIME DEFAULT NULL,
     `tkR` VARCHAR(255) NULL,
+    `fechaIngreso` DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `idx_Usuario` (`idUsuario`)
+    UNIQUE KEY `unique_alias` (`alias`),
+    UNIQUE KEY `unique_correo` (`correo`),
+    FOREIGN KEY (`rol`) REFERENCES `Roles`(`id_rol`)
 ) ENGINE=InnoDB 
 DEFAULT CHARSET=utf8mb4 
 COLLATE=utf8mb4_0900_ai_ci;
@@ -190,58 +144,6 @@ COLLATE=utf8mb4_0900_ai_ci;
 
 COMMIT;
 
--- Función para modificar el token
-DELIMITER $$
-
-CREATE FUNCTION modificarToken (_idUsuario VARCHAR(100), _tkR VARCHAR(255)) RETURNS INT 
-READS SQL DATA DETERMINISTIC
-BEGIN
-    DECLARE _cant INT;
-    SELECT COUNT(idUsuario) INTO _cant FROM usuario WHERE idUsuario = _idUsuario OR correo = _idUsuario;
-    IF _cant > 0 THEN
-        UPDATE usuario SET
-            tkR = _tkR
-        WHERE idUsuario = _idUsuario OR correo = _idUsuario;
-        RETURN 1;
-    ELSE
-        RETURN 0;
-    END IF;
-END$$
-
-DELIMITER ;
-
--- Procedimiento para verificar el token
-DELIMITER $$
-
-CREATE PROCEDURE verificarTokenR (_idUsuario VARCHAR(15), _tkR VARCHAR(255)) 
-BEGIN
-    SELECT rol 
-    FROM usuario 
-    WHERE idUsuario = _idUsuario AND tkR = _tkR;
-END$$
-
-DELIMITER ;
-
--- Procedimiento para iniciar sesión
-DELIMITER $$
-
-CREATE PROCEDURE IniciarSesion(_id INT, _passw VARCHAR(255)) 
-BEGIN
-    SELECT idUsuario, rol FROM usuario WHERE id = _id AND passw = _passw;
-END$$
-
-DELIMITER ;
-
--- Trigger para eliminar usuario al eliminar cliente
-DELIMITER $$
-
-CREATE TRIGGER eliminar_cliente AFTER DELETE ON cliente FOR EACH ROW 
-BEGIN
-    DELETE FROM usuario WHERE usuario.idUsuario = OLD.idUsuario;
-END$$
-
-DELIMITER ;
-
 -- Procedimientos almacenados para Comidas
 
 -- Obtener comidas
@@ -346,19 +248,6 @@ BEGIN
     FROM Comidas
     WHERE nombre_comida COLLATE utf8mb4_0900_ai_ci LIKE CONCAT('%', pnombre_comidas, '%');
 END$$
-
-DELIMITER ;
-
--- Procedimiento para obtener usuario
-DELIMITER $$ 
-
-CREATE PROCEDURE getUser(IN userParam VARCHAR(255))
-BEGIN
-    SELECT id, alias, correo, rol
-    FROM usuario
-    WHERE idUsuario = userParam OR alias = userParam OR correo = userParam
-    LIMIT 1;
-END$$ 
 
 DELIMITER ;
 
@@ -575,3 +464,93 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- Procedimiento para obtener usuario
+DELIMITER $$ 
+
+CREATE PROCEDURE getUser(IN userParam VARCHAR(255))
+BEGIN
+    SELECT id, alias, nombre, apellido1, apellido2, celular, correo, rol
+    FROM usuario
+    WHERE alias = userParam OR correo = userParam
+    LIMIT 1;
+END$$ 
+
+DELIMITER ;
+
+-- Función para modificar el token
+DELIMITER $$
+
+CREATE FUNCTION modificarToken (aliasORcorreo VARCHAR(100), _tkR VARCHAR(255)) RETURNS INT 
+READS SQL DATA DETERMINISTIC
+BEGIN
+    DECLARE _cant INT;
+    SELECT COUNT(alias) INTO _cant FROM usuario WHERE alias = aliasORcorreo OR correo = aliasORcorreo;
+    IF _cant > 0 THEN
+        UPDATE usuario SET
+            tkR = _tkR
+        WHERE alias = aliasORcorreo OR correo = aliasORcorreo;
+        RETURN 1;
+    ELSE
+        RETURN 0;
+    END IF;
+END$$
+
+DELIMITER ;
+
+-- Procedimiento para verificar el token
+DELIMITER $$
+
+CREATE PROCEDURE verificarTokenR (_alias VARCHAR(15), _tkR VARCHAR(255)) 
+BEGIN
+    SELECT rol 
+    FROM usuario 
+    WHERE alias = _alias AND tkR = _tkR;
+END$$
+
+DELIMITER ;
+
+-- Procedimiento para iniciar sesión
+DELIMITER $$
+
+CREATE PROCEDURE IniciarSesion(_id INT, _passw VARCHAR(255)) 
+BEGIN
+    SELECT alias, rol FROM usuario WHERE id = _id AND passw = _passw;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE cambiarRolUsuario (
+    IN p_aliasORcorreo VARCHAR(100),
+    IN p_nuevoRol INT
+)
+BEGIN
+    DECLARE v_usuarioId INT;
+    
+    -- Verificar que el rol exista
+    IF (SELECT COUNT(*) FROM Roles WHERE id_rol = p_nuevoRol) = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Rol inválido';
+    END IF;
+    
+    -- Obtener el ID del usuario
+    SELECT id INTO v_usuarioId FROM usuario WHERE alias = p_aliasORcorreo OR correo = p_aliasORcorreo LIMIT 1;
+    
+    IF v_usuarioId IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Usuario no encontrado';
+    ELSE
+        -- Actualizar el rol del usuario
+        UPDATE usuario SET rol = p_nuevoRol WHERE id = v_usuarioId;
+    END IF;
+END$$
+
+
+DELIMITER ;
+
+INSERT INTO Roles (id_rol, nombre_rol, descripcion) VALUES
+(1, 'Administrador', 'Rol de administrador'),
+(2, 'Supervisor', 'Rol de supervisor'),
+(3, 'Cliente', 'Rol de cliente');
+
+DELIMITER $$

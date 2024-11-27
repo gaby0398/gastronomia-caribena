@@ -1,4 +1,5 @@
 <?php
+
 namespace App\controller;
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -6,12 +7,15 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Container\ContainerInterface;
 use PDO;
 
-class Usuario extends Autenticar{
+class Usuario extends Autenticar
+{
     protected $container;
-    public function __construct(ContainerInterface $c){
+    public function __construct(ContainerInterface $c)
+    {
         $this->container = $c;
     }
-    public function editarUsuario(string $idUsuario, int $rol = -1, string $passw = ""){
+    public function editarUsuario(string $idUsuario, int $rol = -1, string $passw = "")
+    {
         $sql = $rol == -1 ? "UPDATE usuario SET passw = '$passw'" : "UPDATE usuario SET rol = '$rol'";
         $sql .= " WHERE idUsuario = :idUsuario OR correo = :idUsuario";
         $con = $this->container->get('bd');
@@ -23,78 +27,94 @@ class Usuario extends Autenticar{
         return $afec;
     }
 
-    public function cambiarPassw(Request $request, Response $response, $args){
+    public function cambiarPassw(Request $request, Response $response, $args)
+    {
         $body = json_decode($request->getBody());
-        if($this->autenticar($args['idUsuario'], $body->passw, true)){
+        if ($this->autenticar($args['idUsuario'], $body->passw, true)) {
             $passwN = password_hash($body->passwN, PASSWORD_BCRYPT, ['cost' => 10]);
             $datos = $this->editarUsuario(idUsuario: $args['idUsuario'], passw: $passwN);
             $status = 200;
-            }else {
-                $status = 401;
-            }
+        } else {
+            $status = 401;
+        }
         return $response->withStatus(200);
     }
 
-    public function resetearPassw(Request $request, Response $response, $args){
+    public function resetearPassw(Request $request, Response $response, $args)
+    {
         $body = json_decode($request->getBody());
         $passw = password_hash($args['idUsuario'], PASSWORD_BCRYPT, ['cost' => 10]);
         $status = $this->editarUsuario(idUsuario: $args['idUsuario'], passw: $passw) == 0 ? 204 : 200;
         return $response->withStatus($status);
     }
 
-    public function cambiarRol(Request $request, Response $response, $args){
-        $body = json_decode($request->getBody());
-        $status = $this->editarUsuario(idUsuario: $args['idUsuario'], rol: $body->rol)
-            == 0 ? 204 : 200;
-        return $response->withStatus($status);
-    }
-
-    public function getUser(Request $request, Response $response, $args)
+    /**
+     * Cambiar el rol de un usuario identificado por alias o correo.
+     *
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function cambiarRol(Request $request, Response $response, $args)
     {
-        // Obtiene el parámetro desde los argumentos de la ruta (args)
-        $param = $args['userParam'] ?? null;
+        $body = json_decode($request->getBody());
 
-        // Verifica si el parámetro fue proporcionado; si no, devuelve un error
-        if (!$param) {
-            $response->getBody()->write(json_encode(['error' => 'Parámetro userParam no proporcionado']));
+        // Validar que se haya proporcionado el nuevo rol
+        if (!isset($body->rol)) {
+            $response->getBody()->write(json_encode(['error' => 'El nuevo rol no fue proporcionado']));
             return $response
-                ->withHeader('Content-type', 'application/json') // Indica que la respuesta es JSON
-                ->withStatus(400); // Devuelve un código HTTP 400 (Bad Request)
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(400);
         }
 
-        // Define la consulta SQL para llamar al procedimiento almacenado
-        $sql = "CALL getUser(:userParam)";
-        $con = $this->container->get('bd'); // Obtiene la conexión a la base de datos desde el contenedor
+        $nuevoRol = $body->rol;
+        $aliasOrCorreo = $args['aliasOrCorreo']; // Asegúrate de que el parámetro de la ruta se llama aliasOrCorreo
 
         try {
-            // Prepara la consulta SQL con el procedimiento almacenado
-            $query = $con->prepare($sql);
-            // Vincula el parámetro recibido al parámetro del procedimiento almacenado
-            $query->bindParam(':userParam', $param, PDO::PARAM_STR);
-            // Ejecuta la consulta
-            $query->execute();
-            // Obtiene el resultado de la consulta como un arreglo asociativo
-            $result = $query->fetch(PDO::FETCH_ASSOC);
+            $con = $this->container->get('bd');
 
-            // Si se encontró un resultado, lo devuelve en el cuerpo de la respuesta
-            if ($result) {
-                $response->getBody()->write(json_encode($result)); // Escribe el resultado en formato JSON
-                $status = 200; // Código HTTP 200 (OK)
-            } else {
-                // Si no se encuentra ningún resultado, devuelve un error
-                $response->getBody()->write(json_encode(['error' => 'Usuario no encontrado']));
-                $status = 404; // Código HTTP 404 (Not Found)
+            // Preparar la llamada al procedimiento almacenado
+            $stmt = $con->prepare("CALL cambiarRol(:p_aliasOrCorreo, :p_nuevoRol, @p_status)");
+            $stmt->bindParam(':p_aliasOrCorreo', $aliasOrCorreo, PDO::PARAM_STR);
+            $stmt->bindParam(':p_nuevoRol', $nuevoRol, PDO::PARAM_INT);
+            $stmt->execute();
+
+            // Obtener el valor de @p_status
+            $result = $con->query("SELECT @p_status as status")->fetch(PDO::FETCH_ASSOC);
+            $status = isset($result['status']) ? (int)$result['status'] : 500;
+
+            // Manejar la respuesta según el status
+            switch ($status) {
+                case 200:
+                    $response->getBody()->write(json_encode(['message' => 'Rol actualizado exitosamente']));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(200);
+                case 400:
+                    $response->getBody()->write(json_encode(['error' => 'Rol inválido']));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(400);
+                case 404:
+                    $response->getBody()->write(json_encode(['error' => 'Usuario no encontrado']));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(404);
+                case 500:
+                default:
+                    $response->getBody()->write(json_encode(['error' => 'Error interno del servidor']));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(500);
             }
         } catch (\PDOException $e) {
-            // Maneja errores de la base de datos
-            $response->getBody()->write(json_encode(['error' => 'Error en la base de datos: ' . $e->getMessage()]));
-            $status = 500; // Código HTTP 500 (Internal Server Error)
+            // Registrar el error en los logs
+            error_log("Error al cambiar rol: " . $e->getMessage());
+            $response->getBody()->write(json_encode(['error' => 'Error interno del servidor']));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(500);
         }
-
-        // Retorna la respuesta con el encabezado de tipo JSON y el código de estado correspondiente
-        return $response
-            ->withHeader('Content-type', 'application/json')
-            ->withStatus($status);
     }
-
 }

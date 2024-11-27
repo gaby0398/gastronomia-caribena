@@ -3,42 +3,50 @@ namespace App\controller;
 use Slim\Routing\RouteCollectorProxy;
 
 $app->group('/api', function (RouteCollectorProxy $api) {
-    $api->group('/cliente', function (RouteCollectorProxy $cliente) {
-        $cliente->post('', Cliente::class . ':create');
-        $cliente->get('/read[/{id}]', Cliente::class . ':read');
-        $cliente->get('/filtro', Cliente::class . ':filtrar');
-        $cliente->put('/{id}', Cliente::class . ':update');
-        $cliente->delete('/{id}', Cliente::class . ':delete');
+
+    // Agrupar todas las rutas de usuario bajo /api/usuario
+    $api->group('/usuario', function (RouteCollectorProxy $usuario) {
+
+        // Rutas estáticas primero
+        // Filtrar usuarios según criterios específicos
+        $usuario->get('/filtro', UserManager::class . ':filterUsers');
+
+        // Cambiar el rol de un usuario identificado por alias o correo
+        $usuario->post('/cambiarRol/{aliasOrCorreo}', UserManager::class . ':cambiarRol');
+
+        // Crear un nuevo usuario
+        $usuario->post('', UserManager::class . ':createUser');
+
+        // Obtener todos los usuarios o un usuario específico por ID
+        $usuario->get('[/{id}]', UserManager::class . ':getUsers');
+
+        $usuario->get('/getUser/{userParam}', UserManager::class . ':getUser');
+
+        // Actualizar información de un usuario específico (actualización parcial)
+        $usuario->patch('/{id}', UserManager::class . ':updateUser');
+
+        // Eliminar un usuario específico
+        $usuario->delete('/{id}', UserManager::class . ':deleteUser');
+
+        // Cambiar la contraseña de un usuario
+        $usuario->post('/{aliasOrCorreo}/cambiarPassw', UserManager::class . ':cambiarPassw');
+
+        // Resetear la contraseña de un usuario (por ejemplo, por un administrador)
+        $usuario->post('/{aliasOrCorreo}/resetearPassw', UserManager::class . ':resetearPassw');
     });
 
-    $api->group('/administrador', function (RouteCollectorProxy $administrador) {
-        $administrador->post('', Administrador::class . ':create');
-        $administrador->get('/read[/{id}]', Administrador::class . ':read');
-        $administrador->get('/filtro', Administrador::class . ':filtrar');
-        $administrador->put('/{id}', Administrador::class . ':update');
-        $administrador->delete('/{id}', Administrador::class . ':delete');
-    });
-  
     // Autenticacion
-    $api->group('/auth',function(RouteCollectorProxy $auth){
-        $auth->post('/iniciar', Auth::class . ':iniciar'); 
-        $auth->patch('/cerrar/{idUsuario}', Auth::class . ':cerrar');
+    $api->group('/auth', function (RouteCollectorProxy $auth) {
+        $auth->post('/iniciar', Auth::class . ':iniciar');
+        $auth->patch('/cerrar/{aliasORcorreo}', Auth::class . ':cerrar');
         $auth->patch('/refrescar', Auth::class . ':refrescar');
     });
-    // Usuario
-    $api->group('/usr',function(RouteCollectorProxy $usr){
-        $usr->patch('/resetear/{idUsuario}', Usuario::class . ':resetearPassw'); 
-        $usr->patch('/change/passw/{idUsuario}', Usuario::class . ':cambiarPassw');
-        $usr->patch('/change/rol/{idUsuario}', Usuario::class . ':cambiarRol');
-        $usr->get('/getUser/{userParam}', Usuario::class . ':getUser');
-    });
 
-    $api->group('/supervisor', function (RouteCollectorProxy $supervisor) {
-        $supervisor->post('', supervisor::class . ':create');
-        $supervisor->get('/read[/{id}]', supervisor::class . ':read');
-        $supervisor->get('/filtro', supervisor::class . ':filtrar');
-        $supervisor->put('/{id}', supervisor::class . ':update');
-        $supervisor->delete('/{id}', supervisor::class . ':delete');
+    // Usuario
+    $api->group('/usr', function (RouteCollectorProxy $usr) {
+        $usr->patch('/resetear/{idUsuario}', Usuario::class . ':resetearPassw');
+        $usr->patch('/change/passw/{idUsuario}', Usuario::class . ':cambiarPassw');
+        $usr->patch('/change/rol/{aliasOrCorreo}', Usuario::class . ':cambiarRol');
     });
 
     $api->group('/comidas', function (RouteCollectorProxy $class) {
@@ -49,8 +57,6 @@ $app->group('/api', function (RouteCollectorProxy $api) {
         $class->post('', Comidas::class . ':create');
     });
 
-    
-
     $api->group('/plantas', function (RouteCollectorProxy $class) {
         $class->get('/read[/{id}]', Plantas::class . ':read');
         $class->delete('/{id}', Plantas::class . ':delete');
@@ -58,7 +64,6 @@ $app->group('/api', function (RouteCollectorProxy $api) {
         $class->put('/{id}',Plantas::class . ':update');
         $class->post('', Plantas::class . ':create');
     });
-
   
     $api->group('/restaurantes', function (RouteCollectorProxy $class) {
         $class->get('/read[/{id}]', Restaurantes::class . ':read');

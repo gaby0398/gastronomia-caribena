@@ -1,25 +1,18 @@
 export interface TypeAdmin {
-    idUsuario: string,
     nombre: string,
     correo: string,
     direccion: string
 }
 
 export interface TypeClient {
-    idUsuario: string,
     alias: string,
     nombre: string,
     apellido1: string,
     apellido2: string,
-    telefono: string,
     celular: string,
-    direccion: string,
     correo: string,
-};
-
-export interface TypeClientV2 extends TypeClient {
     rol: Role;
-}
+};
 
 export interface TypeUser {
     id: number,
@@ -49,12 +42,6 @@ export interface IPassw {
     passw: string,
     passwN: string
 } 
-
-export interface IUser {
-    usuario: string,
-    nombre: string,
-    rol: number
-};
 
 export class User {
     idUsuario: string;

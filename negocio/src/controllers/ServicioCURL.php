@@ -11,14 +11,23 @@ class ServicioCURL
 
     public function ejecutarCURL($endpoint, $metodo, $datos = null)
     {
-        //Esto lo habilita para todos
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, self::URL . $endpoint);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //Esto es porque tanto el POST como el PUT almacenan datos
-        if ($datos != null) { //Si hay datos
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $datos); //Habilita el POST
+
+        // Configurar cabeceras por defecto
+        $headers = [
+            'Accept: application/json',
+        ];
+
+        if ($datos != null) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $datos);
+            // Agregar cabecera Content-Type: application/json
+            $headers[] = 'Content-Type: application/json';
         }
+
+        // Establecer las cabeceras
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         switch ($metodo) {
             case 'POST':
@@ -27,13 +36,21 @@ class ServicioCURL
             case 'PUT':
             case 'PATCH':
             case 'DELETE':
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $metodo); //PUT, PATCH o DELETE
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $metodo); // PUT, PATCH o DELETE
                 break;
         }
 
+        // Ejecutar la solicitud y manejar errores
         $resp = curl_exec($ch);
+        $error = curl_error($ch);
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+
+        if ($error) {
+            // Manejar el error de cURL
+            return ['resp' => json_encode(['error' => $error]), 'status' => 500];
+        }
+
         return ['resp' => $resp, 'status' => $status];
     }
 }

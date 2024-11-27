@@ -16,13 +16,13 @@ class Autenticar
     public function autenticar($usuario, $passw, $cambioPassw = false)
     {
         // Modificar la consulta SQL para usar marcadores de posición únicos
-        $sql = "SELECT * FROM usuario WHERE idUsuario = :idUsuario OR correo = :correo";
+        $sql = "SELECT * FROM usuario WHERE alias = :alias OR correo = :correo";
 
         try {
             $con = $this->container->get('bd');
             $query = $con->prepare($sql);
             // Vincular cada marcador de posición con su valor correspondiente
-            $query->bindValue(':idUsuario', $usuario, PDO::PARAM_STR);
+            $query->bindValue(':alias', $usuario, PDO::PARAM_STR);
             $query->bindValue(':correo', $usuario, PDO::PARAM_STR);
             $query->execute();
             $datos = $query->fetch();
@@ -33,8 +33,7 @@ class Autenticar
                 $recurso = match ($datos->rol) {
                     1 => "administrador",
                     2 => "supervisor",
-                    3 => "tecnico",
-                    4 => "cliente",
+                    3  => "cliente",
                     default => null,
                 };
 
@@ -43,22 +42,22 @@ class Autenticar
                 }
 
                 if (!$cambioPassw) {
-                    $sqlUpdate = "UPDATE usuario SET ultimoAcceso = NOW() WHERE idUsuario = :idUsuario OR correo = :correo";
+                    $sqlUpdate = "UPDATE usuario SET ultimoAcceso = NOW() WHERE alias = :alias OR correo = :correo";
                     $queryUpdate = $con->prepare($sqlUpdate);
-                    $queryUpdate->bindValue(":idUsuario", $datos->idUsuario, PDO::PARAM_STR);
-                    $queryUpdate->bindValue(":correo", $datos->idUsuario, PDO::PARAM_STR);
+                    $queryUpdate->bindValue(":alias", $datos->alias, PDO::PARAM_STR);
+                    $queryUpdate->bindValue(":correo", $datos->correo, PDO::PARAM_STR);
                     $queryUpdate->execute();
                 }
 
-                $sqlNombre = "SELECT nombre FROM $recurso WHERE idUsuario = :idUsuario OR correo = :correo";
+                $sqlNombre = "SELECT nombre FROM usuario WHERE alias = :alias OR correo = :correo";
                 $queryNombre = $con->prepare($sqlNombre);
-                $queryNombre->bindValue(":idUsuario", $datos->idUsuario, PDO::PARAM_STR);
-                $queryNombre->bindValue(":correo", $datos->idUsuario, PDO::PARAM_STR);
+                $queryNombre->bindValue(":alias", $datos->alias, PDO::PARAM_STR);
+                $queryNombre->bindValue(":correo", $datos->correo, PDO::PARAM_STR);
                 $queryNombre->execute();
                 $nombreDatos = $queryNombre->fetch();
 
                 if (!$nombreDatos) {
-                    throw new \Exception("Nombre no encontrado en la tabla $recurso.");
+                    throw new \Exception("Nombre no encontrado en la tabla Usuario.");
                 }
 
                 $retorno["nombre"] = $nombreDatos->nombre;

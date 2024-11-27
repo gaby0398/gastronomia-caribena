@@ -2,235 +2,144 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, of, retry, switchMap, tap, throwError } from 'rxjs';
-import { IPassw, Role, TypeClient, TypeClientV2, TypeUser } from '../models/interface';
+import { IPassw, TypeClient, TypeUser } from '../models/interface';
 import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class ManagerUserService {
   private readonly http = inject(HttpClient);
   private readonly srvAuth = inject(AuthService);
-  private readonly SERVER_URL = environment.servidor;
-  private readonly ENDPOINT = environment.servidor + '/api/usr';
+  private readonly SERVER_URL = environment.servidor; // Ejemplo: "http://localhost:9000"
+  private readonly ENDPOINT = `${this.SERVER_URL}/api/usuario`;
+
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'Application/json'
+      'Content-Type': 'application/json',
+      //'Authorization': `Bearer ${this.srvAuth.getToken()}`
     })
   };
 
-  getManagerUser(userParam: any): Observable<TypeUser> {
-    return this.http.get<any>(`${this.SERVER_URL}/api/usr/getUser/${userParam}`);
-  }
-
-  getUser(userParam: any): Observable<TypeClientV2> {
-    return this.getManagerUser(userParam).pipe(
-      switchMap((user) => {
-        let rolePath: string;
-        switch (user.rol) {
-          case Role.administrador:
-            rolePath = 'administrador';
-            break;
-          case Role.supervisor:
-            rolePath = 'supervisor';
-            break;
-          case Role.cliente:
-            rolePath = 'cliente';
-            break;
-          default:
-            throw new Error('Rol desconocido');
-        }
-
-        return this.http.get<any>(`${this.SERVER_URL}/api/${rolePath}/read/${user.id}`).pipe(
-          map((userData) => ({
-            ...userData["0"], // Incluir los datos obtenidos de la llamada
-            rol: user.rol // Añadir el rol del usuario
-          })),
-          tap((data) => {
-            console.log('Datos del usuario obtenidos:', data);
-          }), // Aquí se imprimen los datos en la consola
-          retry(1),
-          catchError(this.handleError)
-        );
-      }),
-      tap({
-        error: (err) => console.error('Error en getUser:', err)
-      }) // Opcional: también puedes registrar errores globalmente aquí
-    );
-  }
-
-  getAllUsers(userParam: any): Observable<TypeClient[]> {
-    return this.getManagerUser(userParam).pipe(
-      switchMap((user) => {
-        let rolePath: string;
-        switch (user.rol) {
-          case Role.administrador:
-            rolePath = 'administrador';
-            break;
-          case Role.supervisor:
-            rolePath = 'supervisor';
-            break;
-          case Role.cliente:
-            rolePath = 'cliente';
-            break;
-          default:
-            throw new Error('Rol desconocido');
-        }
-
-        return this.http.get<any>(`${this.SERVER_URL}/api/${rolePath}/read`).pipe(
-          retry(1),
-          catchError(this.handleError)
-        );
-      })
-    );
-  }
-
-  filterUser(userParam: any, parametros: any): Observable<any> {
-    return this.getManagerUser(userParam).pipe(
-      switchMap((user) => {
-        let rolePath: string;
-        switch (user.rol) {
-          case Role.administrador:
-            rolePath = 'administrador';
-            break;
-          case Role.supervisor:
-            rolePath = 'supervisor';
-            break;
-          case Role.cliente:
-            rolePath = 'cliente';
-            break;
-          default:
-            throw new Error('Rol desconocido');
-        }
-
-        let params = new HttpParams();
-        for (const prop in parametros) {
-          if (prop) {
-            params = params.append(prop, parametros[prop]);
-          }
-        }
-
-        return this.http.get<any>(`${this.SERVER_URL}/api/${rolePath}/filtro`, { params }).pipe(
-          retry(1),
-          catchError(this.handleError)
-        );
-      })
-    );
-  }
-
-  // Función para crear un usuario
-  createUser(datos: TypeClient, role: number): Observable<any> {
-    let rolePath: string;
-    switch (role) {
-      case Role.administrador:
-        rolePath = 'administrador';
-        break;
-      case Role.supervisor:
-        rolePath = 'supervisor';
-        break;
-      case Role.cliente:
-        rolePath = 'cliente';
-        break;
-      default:
-        throw new Error('Rol desconocido');
-    }
-
-    return this.http.post<any>(`${this.SERVER_URL}/api/${rolePath}`, datos).pipe(
+  /**
+   * Obtener información detallada del usuario.
+   * @param userParam Alias o correo del usuario.
+   */
+  getUser(userParam: any): Observable<TypeClient> {
+    return this.http.get<TypeClient>(`${this.ENDPOINT}/getUser/${userParam}`).pipe(
+      map((userData) => ({
+        ...userData // Accedemos al primer elemento del array
+      }))/*,
+      tap((data) => {
+        console.log('Datos del usuario obtenidos:', data);
+      })*/,
       retry(1),
       catchError(this.handleError)
     );
   }
 
-  // Función para actualizar un usuario existente
-  updateUser(userParam: any, datos: TypeClient): Observable<any> {
-    return this.getManagerUser(userParam).pipe(
-      switchMap((user) => {
-        let rolePath: string;
-        switch (user.rol) {
-          case Role.administrador:
-            rolePath = 'administrador';
-            break;
-          case Role.supervisor:
-            rolePath = 'supervisor';
-            break;
-          case Role.cliente:
-            rolePath = 'cliente';
-            break;
-          default:
-            throw new Error('Rol desconocido');
-        }
+  /**
+   * Filtrar usuarios por criterios específicos.
+   * @param parametros Objeto con los parámetros de filtrado.
+   */
+  filterUser(parametros: any): Observable<any> {
+    let params = new HttpParams();
+    for (const prop in parametros) {
+      if (parametros.hasOwnProperty(prop)) {
+        params = params.append(prop, parametros[prop]);
+      }
+    }
 
-        return this.http.put<any>(`${this.SERVER_URL}/api/${rolePath}/${user.id}`, datos).pipe(
-          retry(1),
-          catchError(this.handleError)
-        );
-      })
+    return this.http.get<any>(`${this.ENDPOINT}/filtro`, { params }).pipe(
+      retry(1),
+      catchError(this.handleError)
     );
   }
 
-  DeleteUser(userParam: any): Observable<boolean> {
-    return this.getManagerUser(userParam).pipe(
-      switchMap((user) => {
-        // Determinar el segmento dinámico según el rol
-        let rolePath: string;
-        switch (user.rol) {
-          case Role.administrador:
-            rolePath = 'administrador';
-            break;
-          case Role.supervisor:
-            rolePath = 'supervisor';
-            break;
-          case Role.cliente:
-            rolePath = 'cliente';
-            break;
-          default:
-            throw new Error('Rol desconocido');
-        }
-
-        // Realizar la solicitud DELETE con la ruta dinámica
-        return this.http.delete<any>(`${this.SERVER_URL}/api/${rolePath}/${user.id}`).pipe(
-          retry(1),
-          map(() => true),
-          catchError(this.handleError)
-        );
-      })
+  /**
+   * Crear un nuevo usuario.
+   * @param datos Objeto con los datos del nuevo usuario.
+   */
+  createUser(datos: TypeClient): Observable<any> {
+    return this.http.post<any>(`${this.ENDPOINT}`, datos, this.httpOptions).pipe(
+      retry(1),
+      catchError(this.handleError)
     );
   }
 
-  changeRol(param: string, dato: number): Observable<any> {
-    return this.http.patch<any>(`${this.ENDPOINT}/change/rol/${param}`, {dato})
+  /**
+   * Actualizar datos de un usuario existente.
+   * @param userParam Alias o correo del usuario.
+   * @param datos Objeto con los datos a actualizar.
+   */
+  updateUser(userParam: any, datos: Partial<TypeClient>): Observable<any> {
+    return this.http.patch<any>(`${this.ENDPOINT}/${userParam}`, datos, this.httpOptions).pipe(
+      retry(1),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Eliminar un usuario específico.
+   * @param userParam Alias o correo del usuario.
+   */
+  deleteUser(userParam: any): Observable<boolean> {
+    return this.http.delete<any>(`${this.ENDPOINT}/${userParam}`, this.httpOptions).pipe(
+      retry(1),
+      map(() => true),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Cambiar el rol de un usuario.
+   * @param param Alias o correo del usuario.
+   * @param rol Nuevo rol a asignar.
+   */
+  changeRol(param: string, rol: number): Observable<any> {
+    return this.http.post<any>(`${this.ENDPOINT}/cambiarRol/${param}`, { rol }, this.httpOptions)
       .pipe(
         map(() => true),
         catchError((error) => {
-          return of(error.status)
+          return of(error.status);
         })
       );
   }
 
+  /**
+   * Cambiar la contraseña del usuario actual.
+   * @param datos Objeto con la contraseña actual y la nueva.
+   */
   savePassw(datos: IPassw): Observable<any> {
-    return this.http.patch<any>(`${this.ENDPOINT}/change/passw/${this.srvAuth.valorUsrActual.idUsuario}`, datos)
+    const currentUser = this.srvAuth.valorUsrActual; // Asumiendo que esto contiene idUsuario
+    return this.http.post<any>(`${this.ENDPOINT}/${currentUser.idUsuario}/cambiarPassw`, datos, this.httpOptions)
       .pipe(
         map(() => true),
         catchError((error) => {
-          return of(error.status)
+          return of(error.status);
         })
       );
   }
 
-  resetPassw(idUsuario: string): Observable<any> {
-    return this.http.patch<any>(`${this.ENDPOINT}/reset/passw/${idUsuario}`, {})
+  /**
+   * Resetear la contraseña de un usuario.
+   * @param aliasOrCorreo Alias o correo del usuario.
+   */
+  resetPassw(aliasOrCorreo: string): Observable<any> {
+    return this.http.post<any>(`${this.ENDPOINT}/${aliasOrCorreo}/resetearPassw`, {}, this.httpOptions)
       .pipe(
         map(() => true),
         catchError((error) => {
-          return of(error.status)
+          return of(error.status);
         })
       );
   }
 
-  // Manejo de errores centralizado
+  /**
+   * Manejo centralizado de errores.
+   * @param error Objeto de error.
+   */
   private handleError(error: any) {
-    // Aquí puedes personalizar el manejo de errores según tus necesidades
     console.error('Status:' + error.status + ' | Ocurrió un error:', error);
     return throwError(() => new Error('Algo salió mal; por favor intenta nuevamente más tarde.'));
   }

@@ -3,7 +3,7 @@
   <button class="back-button" (click)="goBack()">←</button>
   <div class="card">
 
-    <h2>Gestión usuarios</h2>
+    <h2>Gestión de Usuarios</h2>
 
     <div class="user-search">
       <div class="user-icon">👤</div>
@@ -14,21 +14,38 @@
     <div *ngIf="loading" class="loading-spinner">🔄 Buscando usuario...</div>
 
     <div class="form" *ngIf="userLoaded">
-      <input type="text" placeholder="Nombre Completo" [(ngModel)]="user.name" />
-      <input type="email" placeholder="Correo" [(ngModel)]="user.email" />
 
-      <label for="roleSelect">Rol:</label>
+      <!-- Campo Nombre Completo (Deshabilitado) -->
+      <div class="form-group">
+        <label for="name">Nombre Completo:</label>
+        <input type="text" id="name" [value]="user.name" disabled class="form-control" />
+      </div>
 
-      <select [(ngModel)]="user.role" aria-label="Selecciona un rol">
+      <!-- Campo Correo (Deshabilitado) -->
+      <div class="form-group">
+        <label for="email">Correo:</label>
+        <input type="email" id="email" [value]="user.email" disabled class="form-control" />
+      </div>
 
-        <option *ngFor="let role of roles" [ngValue]="role.value"
-          [style.backgroundColor]="role.value === user.role ? '#f0e68c' : '#fff'">
-          {{ role.label }}
-        </option>
+      <!-- Campo Rol (Editable) -->
+      <div class="form-group">
+        <label for="roleSelect">Rol:</label>
+        <select id="roleSelect" [(ngModel)]="user.role" aria-label="Selecciona un rol" class="form-control">
+          <option *ngFor="let role of roles" [ngValue]="role.value">
+            {{ role.label }}
+          </option>
+        </select>
+      </div>
 
-      </select>
+      <button (click)="saveChanges()" class="btn btn-primary">Guardar cambios</button>
+    </div>
 
-      <button (click)="saveChanges()">Guardar cambios</button>
+    <!-- Modal de Error -->
+    <div *ngIf="errorMessage" class="modal">
+      <div class="modal-content">
+        <span class="close" (click)="closeErrorModal()">&times;</span>
+        <p>{{ errorMessage }}</p>
+      </div>
     </div>
 
   </div>
