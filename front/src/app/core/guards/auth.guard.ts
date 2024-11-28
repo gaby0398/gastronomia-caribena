@@ -8,9 +8,8 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   if (srvAuth.isLogged()) {
-
     if (Object.keys(route.data).length !== 0 && route.data['roles'].indexOf(srvAuth.valorUsrActual.rol) === -1) {
-      router.navigate(['/error403']);
+      router.navigate(['/login']);
       return false;
     }
     return true;
@@ -32,8 +31,8 @@ export const authGuardAdministrador: CanActivateFn = (route, state) => {
   }
 
   const roles = srvAuth.valorUsrActual.rol;
-  if (!(roles === Role.Admin)) {
-    router.navigate(['/error403']);
+  if (!(roles === Role.administrador)) {
+    router.navigate(['/login']);
     return false;
   }
 

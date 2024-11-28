@@ -1,9 +1,3 @@
-export interface TypeAdmin {
-    nombre: string,
-    correo: string,
-    direccion: string
-}
-
 export interface TypeClient {
     alias: string,
     nombre: string,
@@ -56,11 +50,11 @@ export interface IPassw {
 } 
 
 export class User {
-    idUsuario: string;
+    alias: string;
     nombre: string;
     rol: number;
     constructor(usr?: User) {
-        this.idUsuario = usr !== undefined ? usr.idUsuario : '';
+        this.alias = usr !== undefined ? usr.alias : '';
         this.nombre = usr !== undefined ? usr.nombre : '';
         this.rol = usr !== undefined ? usr.rol : -1;
     }

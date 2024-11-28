@@ -32,14 +32,14 @@ export class AuthService {
     return this.usrActualSubject.value;
   }
 
-  public login(datos: { usuario: '', passw: '' }): Observable<any> {
+  public login(datos: { usuario: string, passw: string }): Observable<any> {
     return this.http
-      .patch<any>(`${_SERVER}/api/auth/login`, datos)
+      .post<any>(`${_SERVER}/api/auth/iniciar`, datos, this.httpOptions) // Incluir httpOptions
       .pipe(
         retry(1),
         tap((tokens) => {
-          this.doLogin(tokens)
-          this.router.navigate(['/home']);
+          this.doLogin(tokens);
+          // Remover la navegación aquí para evitar duplicaciones
         }),
         map(() => true),
         catchError((error) => {
@@ -51,7 +51,7 @@ export class AuthService {
   public logout() {
     if (this.isLogged()) {
       this.http
-        .patch(`${_SERVER}/api/auth/logout/${this.valorUsrActual.idUsuario}`, {})  //Listo
+        .patch(`${_SERVER}/api/auth/cerrar/${this.valorUsrActual.alias}`, {})  //Listo
         .subscribe();
       this.doLogout();
     }
@@ -82,13 +82,13 @@ export class AuthService {
       return new User();
     }
     const tokenD = this.srvToken.decodeToken();
-    return { idUsuario: tokenD.sub, nombre: tokenD.nom, rol: tokenD.rol }
+    return { alias: tokenD.sub, nombre: tokenD.nom, rol: tokenD.rol }
   }
 
   public refreshAuth() {
     if (!this.refrescando) {
       this.refrescando = true;
-      return this.http.patch<Token>(`${environment.servidor}/api/auth/refresh`,
+      return this.http.patch<Token>(`${environment.servidor}/api/auth/refrescar`,
         {
           idUsuario: (this.srvToken.decodeToken().sub),
           tkRef: this.srvToken.refreshToken

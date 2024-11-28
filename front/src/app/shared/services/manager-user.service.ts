@@ -112,7 +112,7 @@ export class ManagerUserService {
    */
   savePassw(datos: IPassw): Observable<any> {
     const currentUser = this.srvAuth.valorUsrActual; // Asumiendo que esto contiene idUsuario
-    return this.http.post<any>(`${this.ENDPOINT}/${currentUser.idUsuario}/cambiarPassw`, datos, this.httpOptions)
+    return this.http.post<any>(`${this.ENDPOINT}/${currentUser.alias}/cambiarPassw`, datos, this.httpOptions)
       .pipe(
         map(() => true),
         catchError((error) => {

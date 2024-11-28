@@ -20,30 +20,32 @@ import { CrearRestaurantesComponent } from './components/crearestaurantes/creare
 
 import { CrearCuentaComponent } from './components/crear-cuenta/crear-cuenta.component';
 import { RemarkComponent } from './components/remark/remark.component';
+import { loginGuard } from './core/guards/login.guard';
+import { authGuard } from './core/guards/auth.guard';
+import { Role } from './shared/models/interface';
 
 
 export const routes: Routes = [
     { path: '', component: IndexComponent },
-    { path: 'gestion-usuarios', component: GestionUsuariosComponent },
+    { path: 'gestion-usuarios', component: GestionUsuariosComponent, canActivate: [authGuard], data: { roles: [Role.administrador, Role.supervisor] } },
     { path: 'info', component: InformacionComponent },
     { path: 'login', component: LoginComponent },
-    {path: 'comidas', component : ComidasComponent},
-    {path: 'crearComida', component: CrearcomidasComponent},
-    {path: 'actualizarComida', component: ActualizarcomidasComponent},
-    {path: 'comidaEspecifica', component: ComidaEspecificaComponent },
-    {path: 'plantas', component: PlantasComponent },
-    {path: 'crearplanta', component: CrearplantasComponent},
-    {path: 'plantaEspecifica', component: PlantaEspecificaComponent},
+    { path: 'comidas', component: ComidasComponent },
+    { path: 'crearComida', component: CrearcomidasComponent, canActivate: [authGuard], data: { roles: [Role.cliente] } },
+    { path: 'actualizarComida', component: ActualizarcomidasComponent, canActivate: [authGuard], data: { roles: [Role.cliente] } },
+    { path: 'comidaEspecifica', component: ComidaEspecificaComponent },
+    { path: 'plantas', component: PlantasComponent },
+    { path: 'crearplanta', component: CrearplantasComponent, canActivate: [authGuard], data: { roles: [Role.cliente] } },
+    { path: 'plantaEspecifica', component: PlantaEspecificaComponent },
 
-    {path: 'actulizarPlanta', component: ActualizarplantasComponent},
-    {path: 'restaurantes', component: RestaurantesComponent},
-    {path: 'crearrestaurante', component: CrearRestaurantesComponent},
-    {path: 'restauranteEspecifica', component:RestauranteEspecificaComponent },
-    {path: 'actualizarRestaurante', component: ActualizarRestaurantesComponent},
+    { path: 'actulizarPlanta', component: ActualizarplantasComponent, canActivate: [authGuard], data: { roles: [Role.cliente] } },
+    { path: 'restaurantes', component: RestaurantesComponent },
+    { path: 'crearrestaurante', component: CrearRestaurantesComponent, canActivate: [authGuard], data: { roles: [Role.cliente] } },
+    { path: 'restauranteEspecifica', component: RestauranteEspecificaComponent },
+    { path: 'actualizarRestaurante', component: ActualizarRestaurantesComponent, canActivate: [authGuard], data: { roles: [Role.cliente] } },
 
-    {path: 'restaurantes', component: RestaurantesComponent},
-    {path: 'crear-cuenta', component: CrearCuentaComponent},
+    { path: 'crear-cuenta', component: CrearCuentaComponent },
 
-    {path: 'comentarios', component: RemarkComponent}
+    { path: 'comentarios', component: RemarkComponent }
     // Ruta por defecto que apunta a IndexComponent
 ];

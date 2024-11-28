@@ -17,7 +17,7 @@ class Usuario extends Autenticar
     public function editarUsuario(string $idUsuario, int $rol = -1, string $passw = "")
     {
         $sql = $rol == -1 ? "UPDATE usuario SET passw = '$passw'" : "UPDATE usuario SET rol = '$rol'";
-        $sql .= " WHERE idUsuario = :idUsuario OR correo = :idUsuario";
+        $sql .= " WHERE alias = :idUsuario OR correo = :idUsuario";
         $con = $this->container->get('bd');
         $query = $con->prepare($sql);
         $query->execute(["idUsuario" => $idUsuario]);
