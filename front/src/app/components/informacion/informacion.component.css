@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background: linear-gradient(100deg, #b8d1e1, #e3eb7b, #96b60b);
+    background: linear-gradient(100deg,  #e3eb7b, #96b60b);
     margin-top: 30px;
   }/* Sección de información general */
 .info-section {
@@ -12,7 +12,7 @@
   align-items: center;
   justify-content: center;
   padding: 40px 20px;
-  background: linear-gradient(100deg, #b8d1e1, #e3eb7b, #96b60b);
+  background: linear-gradient(100deg,  #e3eb7b, #96b60b);
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   max-width: 800px;
