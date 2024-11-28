@@ -6,6 +6,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { Observable } from 'rxjs';
 import { User } from '../../shared/models/interface';
 import { HamburgerMenuComponent } from '../hamburger-menu/hamburger-menu.component';
+import { BotonGestionCerrarComponent } from '../boton-gestion-cerrar/boton-gestion-cerrar.component';
 
 type MenuItem = {
   icon: string;
@@ -16,7 +17,7 @@ type MenuItem = {
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, MatIconModule, RouterModule, HamburgerMenuComponent],
+  imports: [CommonModule, MatIconModule, RouterModule, HamburgerMenuComponent,BotonGestionCerrarComponent],
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
 })
