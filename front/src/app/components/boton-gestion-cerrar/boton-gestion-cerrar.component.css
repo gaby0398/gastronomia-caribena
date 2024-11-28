@@ -1,5 +1,7 @@
 .hamburger-container {
-    position: relative;
+    position: absolute; /* Cambiamos de relative a absolute */
+    top: 40px; /* Separación desde la parte superior */
+    right: 2px; /* Separación desde la parte derecha */
   
     .hamburger-button {
       background: none;
@@ -25,7 +27,7 @@
     .dropdown-menu {
       position: absolute;
       top: 40px;
-      left: 500;
+      right: 0; /* Alineamos el menú con el botón */
       background-color: #b8d1e1;
       border: 1px solid #96b60b;
       border-radius: 5px;
