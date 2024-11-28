@@ -19,6 +19,7 @@ import { CrearCuentaComponent } from './components/crear-cuenta/crear-cuenta.com
 import { RemarkComponent } from './components/remark/remark.component';
 import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component';
 import { ManualComponent } from './components/manual/manual.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 
 export const routes: Routes = [
@@ -43,6 +44,7 @@ export const routes: Routes = [
     {path: 'comentarios', component: RemarkComponent},
     {path: 'hamburguesa', component: HamburgerMenuComponent},
     {path: 'hamburguesa', component: HamburgerMenuComponent},
-    {path: 'manual', component: ManualComponent}
+    {path: 'manual', component: ManualComponent},
+    {path: 'perfil', component: PerfilComponent}
     // Ruta por defecto que apunta a IndexComponent
 ];
