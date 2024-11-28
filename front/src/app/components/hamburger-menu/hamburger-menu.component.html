@@ -1,0 +1,26 @@
+<div class="hamburger-container">
+    <!-- Botón de hamburguesa -->
+    <button class="hamburger-button" (click)="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  
+    <!-- Menú desplegable -->
+    <div class="dropdown-menu" [class.open]="isOpen">
+
+      <button routerLink="/" class="menu-item">
+        <mat-icon>home</mat-icon>
+        <span>Inicio</span>
+      </button>
+      <button routerLink="/info" class="menu-item">
+        <mat-icon>info</mat-icon>
+        <span>Información</span>
+      </button>
+      <button routerLink="/manual" class="menu-item">
+        <mat-icon>menu_book</mat-icon>
+        <span>Manual de Usuario</span>
+      </button>
+    </div>
+  </div>
+  

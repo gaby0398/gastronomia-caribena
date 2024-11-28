@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     height: 95vh;
-    background: linear-gradient(100deg, #b8d1e1, #e3eb7b, #96b60b);
+    background: linear-gradient(100deg, #e3eb7b, #96b60b);
     font-family: Arial, sans-serif;
   
     .back-button {

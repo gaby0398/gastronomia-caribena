@@ -45,7 +45,7 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 20px;
-  background: linear-gradient(100deg, #b8d1e1, #e3eb7b, #96b60b);
+  background: linear-gradient(100deg, #e3eb7b, #96b60b);
 }
 
 .index-container h1 {
@@ -74,6 +74,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .carousel {
@@ -85,6 +86,10 @@ body {
 .carousel-inner {
   display: flex;
   transition: transform 0.5s ease;
+    display: flex;
+  flex-wrap: nowrap; /* Asegura que las imágenes no se desborden */
+  width: 100%;
+  height: 400px; /* Define una altura fija para el carrusel */
 }
 
 .carousel-item {

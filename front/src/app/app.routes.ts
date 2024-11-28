@@ -11,16 +11,12 @@ import { PlantasComponent } from './components/plantas/plantas.component';
 import { CrearplantasComponent } from './components/crearplantas/crearplantas.component';
 import { PlantaEspecificaComponent } from './components/planta-especifica/planta-especifica.component';
 import { RestaurantesComponent } from './components/restaurantes/restaurantes.component';
-
 import { ActualizarplantasComponent } from './components/actualizarplantas/actualizarplantas.component';
-
 import { RestauranteEspecificaComponent } from './components/restaurante-especifica/restaurante-especifica.component';
 import { ActualizarRestaurantesComponent } from './components/actualizar-restaurantes/actualizar-restaurantes.component';
 import { CrearRestaurantesComponent } from './components/crearestaurantes/crearestaurantes.component';
-
 import { CrearCuentaComponent } from './components/crear-cuenta/crear-cuenta.component';
 import { RemarkComponent } from './components/remark/remark.component';
-import { loginGuard } from './core/guards/login.guard';
 import { authGuard } from './core/guards/auth.guard';
 import { Role } from './shared/models/interface';
 

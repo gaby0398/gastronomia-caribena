@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { IndexComponent } from './components/index/index.component';
-import { NavbarComponent } from './components/nav-bar/nav-bar.component';  // Importa el componente Navbar
+import { NavbarComponent } from './components/nav-bar/nav-bar.component';
 
 
 @Component({
