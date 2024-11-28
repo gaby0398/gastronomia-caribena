@@ -344,7 +344,7 @@ class UserManager extends Autenticar
         $con = $this->container->get('bd');
 
         // Filtrar solo los campos permitidos para actualizar
-        $allowedFields = ['alias', 'nombre', 'apellido1', 'apellido2', 'telefono', 'celular', 'correo', 'rol', 'passw'];
+        $allowedFields = ['alias', 'nombre', 'apellido1', 'apellido2', 'telefono', 'celular', 'correo', 'passw'];
         $fields = [];
         $bindParams = [];
 

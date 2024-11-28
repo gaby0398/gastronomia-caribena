@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Importar FormsModule
 import { ManagerUserService } from '../../shared/services/manager-user.service';
-import { TypeClient, Role, TypeClientV2 } from '../../shared/models/interface';
+import { TypeClient, Role} from '../../shared/models/interface';
 import Swal from 'sweetalert2'; // Importar SweetAlert2
 
 @Component({
@@ -113,7 +113,7 @@ export class CrearCuentaComponent {
     }
 
     // Preparar los datos para el servicio
-    const userData: TypeClientV2 = {
+    const userData: Partial<TypeClient> = {
       alias: this.formData.alias,
       nombre: this.formData.nombre,
       apellido1: apellido1,
