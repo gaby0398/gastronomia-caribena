@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { Observable } from 'rxjs';
 import { User } from '../../shared/models/interface';
+import { HamburgerMenuComponent } from '../hamburger-menu/hamburger-menu.component';
 
 type MenuItem = {
   icon: string;
@@ -15,7 +16,7 @@ type MenuItem = {
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, MatIconModule, RouterModule],
+  imports: [CommonModule, MatIconModule, RouterModule, HamburgerMenuComponent],
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
 })

@@ -11,15 +11,14 @@ import { PlantasComponent } from './components/plantas/plantas.component';
 import { CrearplantasComponent } from './components/crearplantas/crearplantas.component';
 import { PlantaEspecificaComponent } from './components/planta-especifica/planta-especifica.component';
 import { RestaurantesComponent } from './components/restaurantes/restaurantes.component';
-
 import { ActualizarplantasComponent } from './components/actualizarplantas/actualizarplantas.component';
-
 import { RestauranteEspecificaComponent } from './components/restaurante-especifica/restaurante-especifica.component';
 import { ActualizarRestaurantesComponent } from './components/actualizar-restaurantes/actualizar-restaurantes.component';
 import { CrearRestaurantesComponent } from './components/crearestaurantes/crearestaurantes.component';
-
 import { CrearCuentaComponent } from './components/crear-cuenta/crear-cuenta.component';
 import { RemarkComponent } from './components/remark/remark.component';
+import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component';
+import { ManualComponent } from './components/manual/manual.component';
 
 
 export const routes: Routes = [
@@ -34,16 +33,16 @@ export const routes: Routes = [
     {path: 'plantas', component: PlantasComponent },
     {path: 'crearplanta', component: CrearplantasComponent},
     {path: 'plantaEspecifica', component: PlantaEspecificaComponent},
-
     {path: 'actulizarPlanta', component: ActualizarplantasComponent},
     {path: 'restaurantes', component: RestaurantesComponent},
     {path: 'crearrestaurante', component: CrearRestaurantesComponent},
     {path: 'restauranteEspecifica', component:RestauranteEspecificaComponent },
     {path: 'actualizarRestaurante', component: ActualizarRestaurantesComponent},
-
     {path: 'restaurantes', component: RestaurantesComponent},
     {path: 'crear-cuenta', component: CrearCuentaComponent},
-
-    {path: 'comentarios', component: RemarkComponent}
+    {path: 'comentarios', component: RemarkComponent},
+    {path: 'hamburguesa', component: HamburgerMenuComponent},
+    {path: 'hamburguesa', component: HamburgerMenuComponent},
+    {path: 'manual', component: ManualComponent}
     // Ruta por defecto que apunta a IndexComponent
 ];
