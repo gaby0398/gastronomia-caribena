@@ -4,9 +4,10 @@
     <app-hamburger-menu></app-hamburger-menu>
   </div>
 
-  <div class="navbar-right">
-    <app-boton-gestion-cerrar></app-boton-gestion-cerrar>
-  </div>
+ <!-- Botón de gestión de cerrar sesión -->
+ <div class="navbar-right" *ngIf="isLoggedIn">
+  <app-boton-gestion-cerrar></app-boton-gestion-cerrar>
+</div>
   
     <!-- Ítems principales al centro -->
     <div class="navbar-center">

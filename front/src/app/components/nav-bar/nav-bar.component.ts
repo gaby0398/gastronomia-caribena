@@ -23,12 +23,16 @@ type MenuItem = {
 })
 export class NavbarComponent implements OnInit {
   usuario$!: Observable<User>;
+  isLoggedIn = false;
   menuItems = signal<MenuItem[]>([    
   ]);
 
   srvAuth = inject(AuthService);
 
   ngOnInit(): void {
-    this.usuario$ = this.srvAuth.usrActual;
+    this.usuario$ = this.srvAuth.usrActual; // Suscripción al usuario actual
+    this.srvAuth.usrActual.subscribe((user) => {
+      this.isLoggedIn = !!user.alias; // Verifica si el usuario está autenticado
+    });
   }
 }
