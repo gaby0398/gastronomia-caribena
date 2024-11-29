@@ -52,3 +52,18 @@
     }
   }
 }
+
+.user-alias {
+  display: flex;
+  align-items: center;
+  color: #000; /* Color del texto */
+  font-size: 16px;
+  font-weight: bold;
+  cursor: default;
+
+  mat-icon {
+    margin-right: 0.5rem;
+    font-size: 24px;
+    color: #96b60b; /* Color del ícono */
+  }
+}

@@ -21,12 +21,21 @@
       </ul>
     </div>
   
-    <!-- Botón de login a la derecha -->
-    <div class="navbar-right">
-      <a [routerLink]="'login'" class="navbar-link">
-        <mat-icon>account_circle</mat-icon>
-        <span>Inicio de sesión</span>
-      </a>
-    </div>
+<!-- Botón o Alias del Usuario -->
+<div class="navbar-right">
+  <ng-container *ngIf="isLoggedIn; else loginButton">
+    <span class="user-alias">
+      <mat-icon>person</mat-icon>
+      {{ usuarioAlias }}
+    </span>
+  </ng-container>
+  <ng-template #loginButton>
+    <a [routerLink]="'login'" class="navbar-link">
+      <mat-icon>account_circle</mat-icon>
+      <span>Inicio de sesión</span>
+    </a>
+  </ng-template>
+</div>
+
   </nav>
   

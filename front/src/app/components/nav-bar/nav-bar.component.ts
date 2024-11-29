@@ -24,6 +24,7 @@ type MenuItem = {
 export class NavbarComponent implements OnInit {
   usuario$!: Observable<User>;
   isLoggedIn = false;
+  usuarioAlias: string = ''; // Para almacenar el alias del usuario logueado
   menuItems = signal<MenuItem[]>([    
   ]);
 
@@ -33,6 +34,7 @@ export class NavbarComponent implements OnInit {
     this.usuario$ = this.srvAuth.usrActual; // Suscripción al usuario actual
     this.srvAuth.usrActual.subscribe((user) => {
       this.isLoggedIn = !!user.alias; // Verifica si el usuario está autenticado
+      this.usuarioAlias = user.alias || ''; // Almacena el alias si existe
     });
   }
 }
