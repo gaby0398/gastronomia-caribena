@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/c
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { RemarkComponent } from '../remark/remark.component';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-index',
@@ -12,9 +13,10 @@ import { RemarkComponent } from '../remark/remark.component';
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit, OnDestroy {
-  constructor(private router: Router, private dialog: MatDialog) { }
+  constructor(private router: Router, private dialog: MatDialog, private authService: AuthService) { }
 
   publicacionId: string = "Index";
+  isLoggedIn = false;
 
   openRemarkDialog(publicacionId: string): void {
     this.dialog.open(RemarkComponent, {
@@ -46,8 +48,9 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.intervalId = setInterval(() => {
       this.next();
     }, 3000); // Cambia cada 3 segundos
-  }
-
+      // Determinar si el usuario está logueado
+      this.isLoggedIn = this.authService.isLogged();
+    }
   ngOnDestroy() {
     // Limpiar el intervalo cuando el componente se destruya
     clearInterval(this.intervalId);
