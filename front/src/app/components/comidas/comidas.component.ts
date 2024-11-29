@@ -3,11 +3,13 @@ import { CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ComidasService } from '../../shared/services/comidas.service';
+import { MatIconModule } from '@angular/material/icon';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-comidas',
   standalone: true,
-  imports: [CommonModule, FormsModule,RouterOutlet, RouterModule],
+  imports: [CommonModule, FormsModule,RouterOutlet, RouterModule, MatIconModule],
   templateUrl: './comidas.component.html',
   styleUrls: ['./comidas.component.scss']
 })
@@ -31,8 +33,6 @@ export class ComidasComponent implements OnInit {
 
   ngOnInit(): void {
     this.getComidas(); // Carga inicial de todas las publicaciones
- 
- 
     //  this.ManejaIntervalo = setInterval(() => {
   //    this.getComidas();  //Hilo que refresca las comidas que existen de la bd.
    // }, 5000);  // Me estaba dando un error medio extraño.
@@ -167,6 +167,29 @@ export class ComidasComponent implements OnInit {
   
 
  
+  MensajeExito() {
+    Swal.fire({
+      title: '¡Creación completada!',
+      text: 'La publicación se ha creado satisfactoriamente.',
+      icon: 'success', 
+      confirmButtonText: 'Entendido'
+    }).then(() => {
+      // Acción después de que el usuario cierre el mensaje
+      this.router.navigate(['/index']); // Redirección, por ejemplo
+    });
+  }
+
+
+  
+  MensajeError() {
+    Swal.fire({
+      title: 'Ha ocurrido un error',
+      text: 'Hemos tenido un problema para crear la publicación, vuelva a intentarlo.',
+      icon: 'error', // Tipos: 'success', 'error', 'warning', 'info', 'question'
+      confirmButtonText: 'Entendido'
+    });
+  }
+
 
 
 }

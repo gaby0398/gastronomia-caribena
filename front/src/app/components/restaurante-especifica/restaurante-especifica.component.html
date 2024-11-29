@@ -1,5 +1,5 @@
 <div class="container">
-    <button class="back-button" (click)="goBack()">←</button>
+  <button class="back-button" (click)="goBack()">  <mat-icon>arrow_back</mat-icon></button>
   
     <div class="card" *ngIf="comidaEspecifica">
       <h2 class="Cabezera">Restaurantes</h2>
@@ -18,3 +18,5 @@
       <img id="imagen" [src]="comidaEspecifica.imagen" alt="Imagen de la receta" />
     </div>
   </div>
+
+  

@@ -4,13 +4,14 @@
   justify-content: space-between; /* Divide las secciones */
   background-color: #b8d1e1; /* Fondo azul oscuro */
   color: #000000; /* Texto negro por defecto */
-  padding: 1rem 2rem;
-  height: 70px;
+  padding: 0.2rem 2rem;
+  height: 65px;
   box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.1); /* Sombra sutil en la parte inferior */
   font-size: 22px; /* Tamaño general del texto */
   font-weight: bold; /* Mejora la legibilidad */
   border-bottom-left-radius: 30px; /* Curva en la esquina inferior izquierda */
   border-bottom-right-radius: 30px; /* Curva en la esquina inferior derecha */
+ margin-top: 2px;
 
   /* Sección izquierda (Info) */
   .navbar-left {

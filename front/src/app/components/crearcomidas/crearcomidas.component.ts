@@ -3,12 +3,17 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'
 import { ComidasService } from '../../shared/services/comidas.service';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon'; 
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
+
+
 
 
 @Component({
   selector: 'app-crearcomidas',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, MatIconModule],
   templateUrl: './crearcomidas.component.html',
   styleUrl: './crearcomidas.component.scss'
 })
@@ -30,20 +35,49 @@ export class CrearcomidasComponent {
     this.comidasService.crearComida(this.publicacion).subscribe(
       (response) => {
 
-        this.router.navigate(['/comidas']);
-       alert('Comida creada con éxito:');
+        
+        this.MensajeExito();
   
       },
       (error) => {
-        console.error('Error al crear la comida:', error);
-        alert('Ha ocurrido un error. Vuelva a intentarlo por favor');
+       this.MensajeError();
         this.FormateoTexto();
       }
     );
   }
  
  
- 
+  MensajeExito() {
+    Swal.fire({
+      title: '¡Creación completada!',
+      text: 'La publicación se ha creado satisfactoriamente.',
+      icon: 'success', 
+      confirmButtonText: 'Entendido'
+    }).then(() => {
+      this.router.navigate(['/comidas']); 
+    });
+  }
+  
+
+
+
+  
+  MensajeError() {
+    Swal.fire({
+      title: 'Ha ocurrido un error',
+      text: 'Hemos tenido un problema para crear la publicación, vuelva a intentarlo.',
+      icon: 'error', // Tipos: 'success', 'error', 'warning', 'info', 'question'
+      confirmButtonText: 'Entendido'
+    });
+  }
+
+
+
+
+
+
+
+
  
  
  // Borra texto del formulario para decir si se hizo la insercion o no
