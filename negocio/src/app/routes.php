@@ -34,6 +34,8 @@ $app->group('/api',function(RouteCollectorProxy $api){
 
         // Resetear la contraseña de un usuario (por ejemplo, por un administrador)
         $usuario->post('/{aliasOrCorreo}/resetearPassw', UserManager::class . ':resetearPassw');
+    
+        $usuario->post('/subirFoto', UserManager::class . ':subirFoto');
     });
    
     // Autenticacion
