@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ComidasService } from '../../shared/services/comidas.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-actualizarcomidas',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, MatIconModule],
   templateUrl: './actualizarcomidas.component.html',
   styleUrls: ['./actualizarcomidas.component.scss']
 })
@@ -74,10 +77,10 @@ export class ActualizarcomidasComponent implements OnInit {
       if (idComida) {
         this.comidasService.updateComida(parseInt(idComida), this.publicacion).subscribe(
           (response) => {
-            alert('Cambios realizados con éxito');
+           this.MensajeExito();
           },
           (error) => {
-            alert('Ha ocurrido un error. Por favor, vuelva a intentarlo');
+           this.MensajeError();
           }
         );
       } else {
@@ -87,6 +90,37 @@ export class ActualizarcomidasComponent implements OnInit {
       alert('Formulario inválido');
     }
   }
+
+
+
+
+
+  MensajeExito() {
+    Swal.fire({
+      title: '¡Actualización completada!',
+      text: 'La publicación se ha actualizado con éxito.',
+      icon: 'success', 
+      confirmButtonText: 'Entendido'
+    });
+  }
+  
+
+
+
+  
+  MensajeError() {
+    Swal.fire({
+      title: 'Ha ocurrido un error',
+      text: 'Hemos tenido un problema para actualizar la publicación, vuelva a intentarlo.',
+      icon: 'error', // Tipos: 'success', 'error', 'warning', 'info', 'question'
+      confirmButtonText: 'Entendido'
+    });
+  }
+
+
+
+
+
 
 
 

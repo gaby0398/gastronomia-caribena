@@ -3,11 +3,13 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { PlantasService } from '../../shared/services/plantas.service';
+import { MatIconModule } from '@angular/material/icon';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-actualizarplantas',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule,MatIconModule],
   templateUrl: './actualizarplantas.component.html',
   styleUrls: ['./actualizarplantas.component.scss']
 })
@@ -59,12 +61,10 @@ export class ActualizarplantasComponent implements OnInit {
         };
         this.plantasService.updatePlanta(parseInt(idPlanta), payload).subscribe(
           (response) => {
-            alert('Cambios realizados con éxito');
-            this.router.navigate(['/plantas']);
+           this.MensajeExito();
           },
           (error) => {
-            console.error('Error al guardar los cambios:', error);
-            alert('Ocurrió un error. Por favor, inténtelo de nuevo.');
+            this.MensajeError();
           }
         );
       } else {
@@ -79,6 +79,42 @@ export class ActualizarplantasComponent implements OnInit {
     localStorage.clear();
     this.router.navigate(['/plantas']);
   }
+
+
+
+
+  MensajeExito() {
+    Swal.fire({
+      title: '¡Actualización completada!',
+      text: 'La publicación se ha actualizado con éxito.',
+      icon: 'success', 
+      confirmButtonText: 'Entendido'
+    });
+  }
+  
+
+
+
+  
+  MensajeError() {
+    Swal.fire({
+      title: 'Ha ocurrido un error',
+      text: 'Hemos tenido un problema para actualizar la publicación, vuelva a intentarlo.',
+      icon: 'error', 
+      confirmButtonText: 'Entendido'
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   MuestraImagen(): void {
     const urlImagen = this.publicacion.imagen;

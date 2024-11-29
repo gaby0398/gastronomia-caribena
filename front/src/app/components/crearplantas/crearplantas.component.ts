@@ -3,11 +3,14 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PlantasService } from '../../shared/services/plantas.service';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-crearplantas',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule,MatIconModule],
   templateUrl: './crearplantas.component.html',
   styleUrls: ['./crearplantas.component.css']
 })
@@ -29,12 +32,10 @@ export class CrearplantasComponent {
     console.log('Nueva publicación:', this.publicacion);
     this.plantasService.crearPlanta(this.publicacion).subscribe(
       (response) => {
-        this.router.navigate(['/plantas']);
-        alert('Planta creada con éxito.');
+        this.MensajeExito(); 
       },
       (error) => {
-        console.error('Error al crear la planta:', error);
-        alert('Ha ocurrido un error. Inténtelo de nuevo.');
+       this.MensajeError();
         this.formatearTexto();
       }
     );
@@ -55,6 +56,50 @@ export class CrearplantasComponent {
    */
   goBack(): void {
     localStorage.clear();
-    this.router.navigate(['/comidas']); 
+    this.router.navigate(['/plantas']); 
   }
+
+
+  MensajeExito() {
+    Swal.fire({
+      title: '¡Creación completada!',
+      text: 'La publicación se ha creado satisfactoriamente.',
+      icon: 'success', 
+      confirmButtonText: 'Entendido'
+    }).then(() => {
+      this.router.navigate(['/plantas']); 
+    });
+  }
+  
+
+
+
+  
+  MensajeError() {
+    Swal.fire({
+      title: 'Ha ocurrido un error',
+      text: 'Hemos tenido un problema para crear la publicación, vuelva a intentarlo.',
+      icon: 'error', // Tipos: 'success', 'error', 'warning', 'info', 'question'
+      confirmButtonText: 'Entendido'
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

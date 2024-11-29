@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, Observable, of, retry, switchMap, tap, throwError } from 'rxjs';
-import { IPassw, TypeClient, TypeClientV2, TypeUser } from '../models/interface';
+import { IPassw, TypeClient } from '../models/interface';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -60,7 +60,7 @@ export class ManagerUserService {
    * Crear un nuevo usuario.
    * @param datos Objeto con los datos del nuevo usuario.
    */
-  createUser(datos: TypeClientV2): Observable<any> {
+  createUser(datos: TypeClient): Observable<any> {
     return this.http.post<any>(`${this.ENDPOINT}`, datos, this.httpOptions).pipe(
       retry(1),
       catchError(this.handleError)
@@ -134,6 +134,12 @@ export class ManagerUserService {
         })
       );
   }
+
+
+  uploadProfilePhoto(formData: FormData): Observable<any> {
+    return this.http.post(`${this.ENDPOINT}/subirFoto`, formData);
+  }
+  
 
   /**
    * Manejo centralizado de errores.

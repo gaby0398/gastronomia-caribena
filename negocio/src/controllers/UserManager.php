@@ -10,6 +10,57 @@ class UserManager extends ServicioCURL
 {
     private const ENDPOINT = "/usuario";
 
+    /****************
+     * 
+     * 
+     */
+
+         /**
+     * Subir foto de perfil.
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
+    public function subirFoto(Request $request, Response $response): Response
+    {
+        // Verificar si se recibió un archivo
+        if (!isset($_FILES['foto'])) {
+            $response->getBody()->write(json_encode(['error' => 'No se recibió ninguna foto.']));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(400);
+        }
+
+        $foto = $_FILES['foto'];
+
+        // Validar tipo de archivo
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        if (!in_array($foto['type'], $allowedTypes)) {
+            $response->getBody()->write(json_encode(['error' => 'Formato de archivo no permitido.']));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(400);
+        }
+
+        // Preparar los datos para enviar con CURL
+        $filePath = $foto['tmp_name'];
+        $fileName = $foto['name'];
+        $fileData = curl_file_create($filePath, $foto['type'], $fileName);
+
+        $formData = ['foto' => $fileData];
+
+        // Llamar al endpoint del backend
+        $endpoint = self::ENDPOINT . '/subirFoto';
+        $respA = $this->ejecutarCURL($endpoint, 'POST', $formData, true);
+
+        // Retornar la respuesta del servidor
+        $response->getBody()->write($respA['resp']);
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus($respA['status']);
+    }
+
     /**
      * Crear un nuevo usuario.
      *

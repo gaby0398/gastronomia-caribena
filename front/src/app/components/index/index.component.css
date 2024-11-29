@@ -46,6 +46,8 @@ body {
   align-items: center;
   padding: 20px;
   background: linear-gradient(100deg, #e3eb7b, #96b60b);
+  /*min-height: 100vh;*/
+
 }
 
 .index-container h1 {

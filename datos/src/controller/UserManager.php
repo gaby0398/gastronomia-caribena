@@ -16,6 +16,103 @@ class UserManager extends Autenticar
         $this->container = $c;
     }
 
+    /********************************
+     * 
+     * 
+     * 
+     * 
+     */
+    /**
+     * Subir foto de perfil.
+     *
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
+    public function subirFoto(Request $request, Response $response): Response
+    {
+        // Ruta de la carpeta donde guardar las fotos
+        $uploadDir = __DIR__ . '/../../assets/'; // Ajusta la ruta según tu estructura
+
+        // Verificar si se recibió un archivo
+        if (isset($_FILES['foto'])) {
+            $foto = $_FILES['foto'];
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+            // Validar tipo de archivo
+            if (!in_array($foto['type'], $allowedTypes)) {
+                $response->getBody()->write(json_encode(['error' => 'Formato de archivo no permitido.']));
+                return $response
+                    ->withHeader('Content-Type', 'application/json')
+                    ->withStatus(400);
+            }
+
+            // Generar un nombre único para el archivo
+            $fileName = uniqid() . '-' . basename($foto['name']);
+            $uploadFile = $uploadDir . $fileName;
+
+            // Mover el archivo a la carpeta de destino
+            if (move_uploaded_file($foto['tmp_name'], $uploadFile)) {
+                // Obtener el alias del usuario actual desde la sesión o token (ajusta según tu lógica)
+                $alias = $this->obtenerUsuarioActual();
+
+                if (!$alias) {
+                    $response->getBody()->write(json_encode(['error' => 'Usuario no autenticado.']));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(401);
+                }
+
+                // Actualizar la URL de la foto en la base de datos
+                $con = $this->container->get('bd');
+                $sql = "UPDATE usuario SET foto = :foto WHERE alias = :alias";
+
+                try {
+                    $stmt = $con->prepare($sql);
+                    $stmt->bindValue(':foto', 'assets/' . $fileName, PDO::PARAM_STR);
+                    $stmt->bindValue(':alias', $alias, PDO::PARAM_STR);
+                    $stmt->execute();
+
+                    $response->getBody()->write(json_encode([
+                        'url' => 'assets/' . $fileName,
+                        'message' => 'Foto subida correctamente.'
+                    ]));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(200);
+                } catch (\PDOException $e) {
+                    error_log("Error al actualizar la foto en la base de datos: " . $e->getMessage());
+                    $response->getBody()->write(json_encode(['error' => 'Error interno del servidor.']));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(500);
+                }
+            } else {
+                $response->getBody()->write(json_encode(['error' => 'Error al guardar el archivo.']));
+                return $response
+                    ->withHeader('Content-Type', 'application/json')
+                    ->withStatus(500);
+            }
+        } else {
+            $response->getBody()->write(json_encode(['error' => 'No se recibió ninguna foto.']));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(400);
+        }
+    }
+
+    /**
+     * Obtener el alias del usuario autenticado.
+     *
+     * @return string|null
+     */
+    private function obtenerUsuarioActual(): ?string
+    {
+        // Ajusta esto según tu implementación de autenticación
+        // Ejemplo: Obtener alias del token o de la sesión
+        return $_SESSION['alias'] ?? null;
+    }
+
     /**
      * Crear un nuevo usuario.
      *
@@ -27,7 +124,6 @@ class UserManager extends Autenticar
     public function createUser(Request $request, Response $response, array $args): Response
     {
         $datos = $request->getParsedBody();
-        //$datos = json_decode($request->getBody(), 1);
 
         // Depuración: Registrar los datos recibidos
         error_log("Datos recibidos: " . print_r($datos, true));
@@ -55,6 +151,32 @@ class UserManager extends Autenticar
 
         // Obtener la conexión a la base de datos
         $con = $this->container->get('bd');
+
+        // Verificar si el alias ya existe
+        $stmt = $con->prepare("SELECT COUNT(*) FROM usuario WHERE alias = :alias");
+        $stmt->bindValue(':alias', $datos['alias'], PDO::PARAM_STR);
+        $stmt->execute();
+        if ($stmt->fetchColumn() > 0) {
+            $error = ["error" => "El alias ya está en uso."];
+            $response->getBody()->write(json_encode($error));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(409);
+        }
+
+        // Verificar si el correo ya existe
+        $stmt = $con->prepare("SELECT COUNT(*) FROM usuario WHERE correo = :correo");
+        $stmt->bindValue(':correo', $datos['correo'], PDO::PARAM_STR);
+        $stmt->execute();
+        if ($stmt->fetchColumn() > 0) {
+            $error = ["error" => "El correo ya está en uso."];
+            $response->getBody()->write(json_encode($error));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(409);
+        }
+
+        // Iniciar la transacción
         $con->beginTransaction();
 
         try {
@@ -89,19 +211,12 @@ class UserManager extends Autenticar
             // Registrar el error
             error_log("Error al crear usuario: " . $e->getMessage());
 
-            // Verificar si es una violación de clave única
-            if ($e->getCode() == 23000) {
-                $error = ["error" => "Alias o correo ya existe."];
-                $status = 409; // Conflicto (por clave única)
-            } else {
-                $error = ["error" => "Error interno del servidor."];
-                $status = 500; // Error interno del servidor
-            }
-
+            // Manejo genérico de errores
+            $error = ["error" => "Error interno del servidor."];
             $response->getBody()->write(json_encode($error));
             return $response
                 ->withHeader('Content-Type', 'application/json')
-                ->withStatus($status);
+                ->withStatus(500);
         }
     }
 
@@ -344,7 +459,7 @@ class UserManager extends Autenticar
         $con = $this->container->get('bd');
 
         // Filtrar solo los campos permitidos para actualizar
-        $allowedFields = ['alias', 'nombre', 'apellido1', 'apellido2', 'telefono', 'celular', 'correo', 'rol', 'passw'];
+        $allowedFields = ['alias', 'nombre', 'apellido1', 'apellido2', 'telefono', 'celular', 'correo', 'passw'];
         $fields = [];
         $bindParams = [];
 
@@ -593,4 +708,6 @@ class UserManager extends Autenticar
                 ->withStatus($status);
         }
     }
+
+
 }
