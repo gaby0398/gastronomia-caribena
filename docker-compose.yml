@@ -81,7 +81,6 @@ services:
       - REMARK_URL=http://localhost:8080
       - SITE=localhost
       - SECRET=your-secret-key
-      - AUTH_EMAIL_ENABLED=true
       - AUTH_ANON=true
       - AUTH_GOOGLE_CID
       - AUTH_GOOGLE_CSEC
