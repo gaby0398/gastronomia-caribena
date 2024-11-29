@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
             confirmButtonText: 'Aceptar'
           }).then(() => {
             // Redireccionar al dashboard o página principal
-            this.router.navigate(['/home']);
+            this.router.navigate(['']);
           });
         } else if (res === 401) {
           this.errorLogin = true;

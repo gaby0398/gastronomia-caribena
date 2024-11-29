@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ManagerUserService } from '../../shared/services/manager-user.service';
-import { TypeUser, Role, TypeClient } from '../../shared/models/interface';
+import { Role, TypeClient } from '../../shared/models/interface';
 import Swal from 'sweetalert2'; // Importar SweetAlert2
 
 @Component({
