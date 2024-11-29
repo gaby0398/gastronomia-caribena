@@ -135,6 +135,11 @@ export class ManagerUserService {
       );
   }
 
+  uploadProfilePhoto(formData: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/upload-photo.php`, formData);
+  }
+  
+
   /**
    * Manejo centralizado de errores.
    * @param error Objeto de error.

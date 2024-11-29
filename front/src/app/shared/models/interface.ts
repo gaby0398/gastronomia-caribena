@@ -8,7 +8,8 @@ export interface TypeClient {
     correo: string,
     rol: Role;
     passw: string;
-    genero: string
+    genero: string;
+    foto?: string; 
 };
 
 export interface TypeUser {

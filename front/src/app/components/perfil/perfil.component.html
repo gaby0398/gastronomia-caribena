@@ -1,8 +1,9 @@
 <div class="perfil-container">
   <!-- Foto de perfil -->
   <div class="foto-container">
-    <img src="https://via.placeholder.com/150" alt="Foto de perfil" class="foto-perfil" />
-    <button class="btn-cambiar-foto">Cambiar foto</button>
+    <img [src]="fotoPerfilUrl" alt="Foto de perfil" class="foto-perfil" />
+    <input type="file" id="file-upload" accept="image/*" (change)="onFileSelected($event)" hidden />
+    <button type="button" class="btn-cambiar-foto" (click)="triggerFileUpload()">Cambiar foto</button>
   </div>
 
   <!-- Formulario para editar perfil -->
@@ -65,11 +66,6 @@
         class="error">
         Las contraseñas no coinciden.
       </div>
-      <div
-        *ngIf="perfilForm.get('confirmPassword')?.hasError('minlength') && perfilForm.get('confirmPassword')?.touched"
-        class="error">
-        La contraseña debe tener al menos 6 caracteres.
-      </div>
     </div>
 
     <div class="form-group">
@@ -89,9 +85,7 @@
       <button type="submit" class="btn-guardar" [disabled]="loading">
         {{ loading ? 'Guardando...' : 'Guardar cambios' }}
       </button>
-      <button type="button" class="btn-cancelar" (click)="perfilForm.reset()">
-        Cancelar
-      </button>
+      <button type="button" class="btn-cancelar" (click)="perfilForm.reset()">Cancelar</button>
     </div>
   </form>
 </div>
