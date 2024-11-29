@@ -213,8 +213,54 @@ body {
   font-size: 60px; /* Tamaño del ícono */
 }
 
-.footer{
-  margin-left: 311px;
-  text-align: center;
-  margin-bottom: 14px;
+
+.footer {
+  background-color: #96b60b;
+  color: rgb(0, 0, 0);
+  padding: 20px;
+  text-align: left;
+  margin-top: 60px;
+  width: 100%;
+
+  .footer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 100px;
+
+    p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    a {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    .footer-button {
+      background-color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      color: #96b60b;
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      mat-icon {
+        font-size: 20px;
+        color: #1877f2; /* Color del icono de Facebook */
+      }
+
+      &:hover {
+        background-color: #b8d1e1;
+        color: #000000;
+      }
+    }
+  }
 }
+
