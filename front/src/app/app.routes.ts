@@ -23,7 +23,6 @@ import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-me
 import { ManualComponent } from './components/manual/manual.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 
-
 export const routes: Routes = [
     { path: '', component: IndexComponent },
     { path: 'gestion-usuarios', component: GestionUsuariosComponent, canActivate: [authGuard], data: { roles: [Role.administrador, Role.supervisor] } },
