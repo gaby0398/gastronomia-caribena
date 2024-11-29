@@ -1,6 +1,6 @@
 .hamburger-container {
     position: absolute; /* Cambiamos de relative a absolute */
-    top: 40px; /* Separación desde la parte superior */
+    top: 25px; /* Separación desde la parte superior */
     right: 2px; /* Separación desde la parte derecha */
   
     .hamburger-button {

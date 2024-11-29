@@ -13,39 +13,6 @@
   border-bottom-right-radius: 30px; /* Curva en la esquina inferior derecha */
  margin-top: 2px;
 
-  /* Sección izquierda (Info) */
-  .navbar-left {
-    display: flex;
-    align-items: center;
-
-    .navbar-link {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-      color: #000000; /* Texto negro por defecto */
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-
-      /* Ícono redondo */
-      mat-icon {
-        font-size: 40px;
-        background-color: #ffffff; /* Fondo blanco */
-        color: #96b60b; /* Color del ícono */
-        border-radius: 50%; /* Hace el ícono redondo */
-        margin-right: 0.5rem; /* Espacio entre ícono y texto */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 50px; /* Tamaño del círculo */
-        height: 50px; /* Tamaño del círculo */
-      }
-
-      &:hover {
-        color: #ffffff; /* Texto blanco al pasar el mouse */
-        background-color: #96b60b; /* Fondo del botón en hover */
-      }
-    }
-  }
 
   /* Sección derecha (Login) */
   .navbar-right {
