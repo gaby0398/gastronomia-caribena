@@ -135,6 +135,7 @@ export class ManagerUserService {
       );
   }
 
+
   uploadProfilePhoto(formData: FormData): Observable<any> {
     return this.http.post(`${this.ENDPOINT}/subirFoto`, formData);
   }
