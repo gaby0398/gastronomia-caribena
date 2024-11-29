@@ -6,31 +6,23 @@ $app->group('/api', function (RouteCollectorProxy $api) {
 
     // Agrupar todas las rutas de usuario bajo /api/usuario
     $api->group('/usuario', function (RouteCollectorProxy $usuario) {
-
+ 
         // Rutas estáticas primero
         // Filtrar usuarios según criterios específicos
         $usuario->get('/filtro', UserManager::class . ':filterUsers');
-
         // Cambiar el rol de un usuario identificado por alias o correo
         $usuario->post('/cambiarRol/{aliasOrCorreo}', UserManager::class . ':cambiarRol');
-
         // Crear un nuevo usuario
         $usuario->post('', UserManager::class . ':createUser');
-
         // Obtener todos los usuarios o un usuario específico por ID
         $usuario->get('[/{id}]', UserManager::class . ':getUsers');
-
         $usuario->get('/getUser/{userParam}', UserManager::class . ':getUser');
-
         // Actualizar información de un usuario específico (actualización parcial)
         $usuario->patch('/{id}', UserManager::class . ':updateUser');
-
         // Eliminar un usuario específico
         $usuario->delete('/{id}', UserManager::class . ':deleteUser');
-
         // Cambiar la contraseña de un usuario
         $usuario->post('/{aliasOrCorreo}/cambiarPassw', UserManager::class . ':cambiarPassw');
-
         // Resetear la contraseña de un usuario (por ejemplo, por un administrador)
         $usuario->post('/{aliasOrCorreo}/resetearPassw', UserManager::class . ':resetearPassw');
     });
