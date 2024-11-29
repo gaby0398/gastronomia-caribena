@@ -3,12 +3,13 @@ import { CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { PlantasService } from '../../shared/services/plantas.service'; 
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-plantas',
   standalone: true,
-  imports: [CommonModule, FormsModule,RouterOutlet, RouterModule],
+  imports: [CommonModule, FormsModule,RouterOutlet, RouterModule,MatIconModule],
   templateUrl: './plantas.component.html',
   styleUrl: './plantas.component.css'
 })

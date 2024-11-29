@@ -27,7 +27,6 @@ class UserManager extends Autenticar
     public function createUser(Request $request, Response $response, array $args): Response
     {
         $datos = $request->getParsedBody();
-        //$datos = json_decode($request->getBody(), 1);
 
         // Depuración: Registrar los datos recibidos
         error_log("Datos recibidos: " . print_r($datos, true));
@@ -55,6 +54,32 @@ class UserManager extends Autenticar
 
         // Obtener la conexión a la base de datos
         $con = $this->container->get('bd');
+
+        // Verificar si el alias ya existe
+        $stmt = $con->prepare("SELECT COUNT(*) FROM usuario WHERE alias = :alias");
+        $stmt->bindValue(':alias', $datos['alias'], PDO::PARAM_STR);
+        $stmt->execute();
+        if ($stmt->fetchColumn() > 0) {
+            $error = ["error" => "El alias ya está en uso."];
+            $response->getBody()->write(json_encode($error));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(409);
+        }
+
+        // Verificar si el correo ya existe
+        $stmt = $con->prepare("SELECT COUNT(*) FROM usuario WHERE correo = :correo");
+        $stmt->bindValue(':correo', $datos['correo'], PDO::PARAM_STR);
+        $stmt->execute();
+        if ($stmt->fetchColumn() > 0) {
+            $error = ["error" => "El correo ya está en uso."];
+            $response->getBody()->write(json_encode($error));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(409);
+        }
+
+        // Iniciar la transacción
         $con->beginTransaction();
 
         try {
@@ -89,19 +114,12 @@ class UserManager extends Autenticar
             // Registrar el error
             error_log("Error al crear usuario: " . $e->getMessage());
 
-            // Verificar si es una violación de clave única
-            if ($e->getCode() == 23000) {
-                $error = ["error" => "Alias o correo ya existe."];
-                $status = 409; // Conflicto (por clave única)
-            } else {
-                $error = ["error" => "Error interno del servidor."];
-                $status = 500; // Error interno del servidor
-            }
-
+            // Manejo genérico de errores
+            $error = ["error" => "Error interno del servidor."];
             $response->getBody()->write(json_encode($error));
             return $response
                 ->withHeader('Content-Type', 'application/json')
-                ->withStatus($status);
+                ->withStatus(500);
         }
     }
 

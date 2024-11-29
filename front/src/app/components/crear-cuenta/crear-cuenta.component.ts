@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Importar FormsModule
 import { ManagerUserService } from '../../shared/services/manager-user.service';
-import { TypeClient, Role} from '../../shared/models/interface';
+import { TypeClient, Role } from '../../shared/models/interface';
 import Swal from 'sweetalert2'; // Importar SweetAlert2
 
 @Component({
@@ -15,7 +15,7 @@ import Swal from 'sweetalert2'; // Importar SweetAlert2
   styleUrls: ['./crear-cuenta.component.scss'],
 })
 export class CrearCuentaComponent {
-  constructor(private managerUserService: ManagerUserService) { }
+  constructor(private managerUserService: ManagerUserService, private router: Router) { }
 
   // Modelo de datos para el formulario
   formData: any = {
@@ -68,6 +68,17 @@ export class CrearCuentaComponent {
       return;
     }
 
+    // Validar que se hayan ingresado al menos dos apellidos
+    if (!this.validateApellidos(this.formData.apellidos)) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Por favor, ingresa al menos dos apellidos separados por un espacio.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+
     // Evaluar la fortaleza de la contraseña
     const passwordStrength = this.evaluatePasswordStrength(this.formData.password);
     if (passwordStrength === 'Débil') {
@@ -105,25 +116,26 @@ export class CrearCuentaComponent {
     let apellido1 = '';
     let apellido2 = '';
 
-    if (apellidosArray.length === 1) {
-      apellido1 = apellidosArray[0];
-    } else if (apellidosArray.length >= 2) {
+    if (apellidosArray.length >= 2) {
       apellido1 = apellidosArray[0];
       apellido2 = apellidosArray.slice(1).join(' ');
     }
 
     // Preparar los datos para el servicio
-    const userData: Partial<TypeClient> = {
+    const userData: TypeClient = {
       alias: this.formData.alias,
       nombre: this.formData.nombre,
       apellido1: apellido1,
       apellido2: apellido2,
-      telefono: 'N/A', // Pudes añadir un campo para telefono si lo deseas
-      celular: 'N/A', // Puedes añadir un campo para celular si lo deseas
+      telefono: 'N/A', // Puedes personalizar esto según tus necesidades
+      celular: 'N/A',   // Puedes personalizar esto según tus necesidades
       correo: this.formData.correo,
       rol: Role.cliente, // Asignar un rol por defecto, por ejemplo 'Cliente'
-      passw: this.formData.password
+      passw: this.formData.password,
+      genero: this.formData.genero
     };
+
+    console.log('Datos del usuario a enviar:', userData); // Verificar los datos
 
     // Llamar al servicio para crear el usuario
     this.managerUserService.createUser(userData).subscribe({
@@ -135,9 +147,7 @@ export class CrearCuentaComponent {
           icon: 'success',
           confirmButtonText: 'Aceptar'
         }).then(() => {
-          // Redireccionar al usuario, por ejemplo, al login
-          // Aquí asumo que tienes una ruta '/login'
-          window.location.href = '/login';
+          this.router.navigate(['/login']);
         });
       },
       error: (error) => {
@@ -149,10 +159,17 @@ export class CrearCuentaComponent {
             icon: 'error',
             confirmButtonText: 'Aceptar'
           });
+        } else if (error.status === 400 && error.error === "El campo 'apellido2' es requerido.") {
+          Swal.fire({
+            title: 'Error',
+            text: 'El segundo apellido es requerido.',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+          });
         } else {
           Swal.fire({
             title: 'Error',
-            text: 'Hubo un error al crear la cuenta. Por favor, intenta nuevamente más tarde.',
+            text: 'Hubo un error al crear la cuenta intenta mas tarde O El Usuario o Correo ya existe.',
             icon: 'error',
             confirmButtonText: 'Aceptar'
           });
@@ -169,6 +186,17 @@ export class CrearCuentaComponent {
   private validateEmail(email: string): boolean {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email.toLowerCase());
+  }
+
+  /**
+   * Validar que el campo de apellidos contenga al menos dos palabras.
+   * @param apellidos Cadena de apellidos a validar.
+   * @returns Verdadero si contiene al menos dos palabras, falso de lo contrario.
+   */
+  private validateApellidos(apellidos: string): boolean {
+    if (!apellidos) return false;
+    const apellidosArray = apellidos.trim().split(' ');
+    return apellidosArray.length >= 2;
   }
 
   /**
@@ -193,4 +221,3 @@ export class CrearCuentaComponent {
     }
   }
 }
-

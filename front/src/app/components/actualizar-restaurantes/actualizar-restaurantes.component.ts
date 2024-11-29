@@ -3,11 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { RestauranteService } from '../../shared/services/restaurantes.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-actualizar-restaurantes',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule,MatIconModule],
   templateUrl: './actualizar-restaurantes.component.html',
   styleUrls: ['./actualizar-restaurantes.component.css']
 })

@@ -3,11 +3,12 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';  // Importa CommonModule
 import { PlantasService } from '../../shared/services/plantas.service';
 import { RemarkComponent } from '../remark/remark.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-planta-especifica',
   standalone: true,
-  imports: [CommonModule, RemarkComponent],
+  imports: [CommonModule, RemarkComponent,MatIconModule],
   templateUrl: './planta-especifica.component.html', // Asegúrate de que este archivo existe
   styleUrls: ['./planta-especifica.component.css'],  // Corregido a styleUrls en plural
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

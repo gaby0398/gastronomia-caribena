@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';  // Importa CommonModule
 import { ComidasService } from '../../shared/services/comidas.service';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-comida-especifica',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,MatIconModule],
   templateUrl: './comida-especifica.component.html',
   styleUrl: './comida-especifica.component.scss'
 })
