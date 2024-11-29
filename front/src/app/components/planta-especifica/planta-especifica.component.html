@@ -30,9 +30,5 @@
     />
   </div>
 
-  <!-- Caja de comentarios para cada publicación -->
-      <app-remark 
-        [pageId]="'planta-' + plantaEspecifica.id" 
-        [siteId]="'localhost'">
-      </app-remark>
+  <button class="custom-button" (click)="openRemarkDialog(publicacionId)">Ver comentarios</button>
 </div>

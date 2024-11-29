@@ -1,17 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { RemarkComponent } from '../remark/remark.component';
 
 @Component({
   selector: 'app-index',
   standalone: true,
-  imports: [CommonModule, RouterModule, RemarkComponent],
+  imports: [CommonModule, RouterModule],
   templateUrl: './index.component.html',
-  styleUrls: ['./index.component.css'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit, OnDestroy {
+  constructor(private router: Router, private dialog: MatDialog) { }
+
+  publicacionId: string = "Index";
+
+  openRemarkDialog(publicacionId: string): void {
+    this.dialog.open(RemarkComponent, {
+      data: { pageId: publicacionId },
+      width: '600px',
+      height: '400px',
+    });
+  }
+  
   images = [
     'assets/images/image1.jpg',
     'assets/images/image2.jpg',
@@ -24,8 +36,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   ];
   currentIndex = 0;
   intervalId: any;
-
-  constructor(private router: Router) { }
 
   get translateX() {
     return -this.currentIndex * 100;

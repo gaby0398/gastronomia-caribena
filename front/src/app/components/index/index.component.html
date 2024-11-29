@@ -29,13 +29,7 @@
       </div>
     </div>
   </div>
-
-  <!-- Caja de comentarios para cada publicación -->
-      <app-remark 
-        [pageId]="'Index-principal'" 
-        [siteId]="'localhost'">
-      </app-remark>
-
+  <button class="custom-button" (click)="openRemarkDialog(publicacionId)">Ver comentarios</button>
   <!-- Footer con Iconos -->
   <footer class="footer">
     <p>&copy; 2024 Cultura Gastronómica Caribeña. </p>

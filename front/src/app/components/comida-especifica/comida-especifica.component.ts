@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';  // Importa CommonModule
 import { ComidasService } from '../../shared/services/comidas.service';
 import { MatIconModule } from '@angular/material/icon';
+import { RemarkComponent } from '../remark/remark.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-comida-especifica',
   standalone: true,
@@ -11,15 +13,24 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './comida-especifica.component.scss'
 })
 export class ComidaEspecificaComponent {
+  constructor(private comidasService: ComidasService, private router: Router, private dialog: MatDialog) { }
 
   comidaEspecifica: any = {};  // Para almacenar los detalles de la comida
+  publicacionId: string = "Recetas-";
 
-  constructor(private comidasService: ComidasService, private router: Router) {}
+  openRemarkDialog(publicacionId: string): void {
+    this.dialog.open(RemarkComponent, {
+      data: { pageId: publicacionId },
+      width: '600px',
+      height: '400px',
+    });
+  }
+
 
   ngOnInit(): void {
     // Obtener el ID de la comida desde localStorage
     const idComida = localStorage.getItem('idComida');
-    
+    this.publicacionId += idComida ?? "Limbo";
     if (idComida) {
       // Llamar al servicio para obtener la comida con el ID
       this.comidasService.getComidaId(Number(idComida)).subscribe(

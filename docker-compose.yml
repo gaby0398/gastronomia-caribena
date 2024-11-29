@@ -82,12 +82,14 @@ services:
       - SITE=localhost
       - SECRET=your-secret-key
       - AUTH_EMAIL_ENABLED=true
-      - AUTH_ANON=false
+      - AUTH_ANON=true
       - AUTH_GOOGLE_CID
       - AUTH_GOOGLE_CSEC
       - AUTH_DISQUS_CID
       - AUTH_DISQUS_CSEC
-      - UI_CSS=https://cdn.jsdelivr.net/npm/remark42/dist/remark.css
+      - UI_CSS=http://localhost:8080/web/remark.css
+      - CORS_ALLOWED_ORIGINS=http://localhost,http://localhost:80,http://127.0.0.1,http://127.0.0.1:8080
+      - FRAME_ANCESTORS=http://localhost
     ports:
       - "8080:8080"
     volumes:

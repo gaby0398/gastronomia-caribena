@@ -4,26 +4,35 @@ import { CommonModule } from '@angular/common';  // Importa CommonModule
 import { PlantasService } from '../../shared/services/plantas.service';
 import { RemarkComponent } from '../remark/remark.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-planta-especifica',
   standalone: true,
   imports: [CommonModule, RemarkComponent,MatIconModule],
   templateUrl: './planta-especifica.component.html', // Asegúrate de que este archivo existe
-  styleUrls: ['./planta-especifica.component.css'],  // Corregido a styleUrls en plural
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  styleUrls: ['./planta-especifica.component.css']  // Corregido a styleUrls en plural
 })
 export class PlantaEspecificaComponent implements OnInit {
 
   plantaEspecifica: any = {};  // Para almacenar los detalles de la planta
-  id: any; // Indentificador para la caja de comentarios
 
-  constructor(private plantasService: PlantasService, private router: Router) {}
+  constructor(private plantasService: PlantasService, private router: Router, private dialog: MatDialog) {}
+
+  publicacionId: string = "Planta-";
+
+  openRemarkDialog(publicacionId: string): void {
+    this.dialog.open(RemarkComponent, {
+      data: { pageId: publicacionId },
+      width: '600px',
+      height: '400px',
+    });
+  }
 
   ngOnInit(): void {
     // Obtener el ID de la planta desde localStorage
     const idPlanta = localStorage.getItem('idPlanta');
-    this.id = idPlanta;
+    this.publicacionId += idPlanta ?? "Limbo";
     
     if (idPlanta) {
       // Llamar al servicio para obtener los detalles de la planta

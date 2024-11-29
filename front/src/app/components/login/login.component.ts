@@ -5,11 +5,12 @@ import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import Swal from 'sweetalert2'; // Asegúrate de haber instalado SweetAlert2
+import { RemarkComponent } from '../remark/remark.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, MatIconModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, MatIconModule, RouterModule, ReactiveFormsModule, RemarkComponent],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })

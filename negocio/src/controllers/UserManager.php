@@ -10,12 +10,7 @@ class UserManager extends ServicioCURL
 {
     private const ENDPOINT = "/usuario";
 
-    /****************
-     * 
-     * 
-     */
-
-         /**
+     /**
      * Subir foto de perfil.
      *
      * @param Request $request

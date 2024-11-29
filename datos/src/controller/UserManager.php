@@ -16,12 +16,6 @@ class UserManager extends Autenticar
         $this->container = $c;
     }
 
-    /********************************
-     * 
-     * 
-     * 
-     * 
-     */
     /**
      * Subir foto de perfil.
      *
