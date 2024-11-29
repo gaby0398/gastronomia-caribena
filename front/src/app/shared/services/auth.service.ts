@@ -28,7 +28,7 @@ export class AuthService {
 
   constructor() { }
 
-  public get valorUsrActual(): User {
+  public get valorUsrActual(): User { 
     return this.usrActualSubject.value;
   }
 
