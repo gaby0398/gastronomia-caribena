@@ -11,6 +11,19 @@ Este sistema permite registrar restaurantes, comidas y plantas tradicionales, as
 - **Infraestructura:** Docker, Docker Compose
 - **Otros:** SweetAlert2, Bootstrap
 
+## ✨ Características técnicas
+
+- Arquitectura cliente-servidor con separación entre frontend y backend.
+- API REST desarrollada con PHP Slim Framework.
+- Frontend desarrollado con Angular y TypeScript.
+- Base de datos relacional en MySQL.
+- Contenerización mediante Docker y Docker Compose.
+- Sistema de autenticación con control de roles.
+- Gestión de restaurantes, comidas, plantas autóctonas y eventos.
+- Base de datos con procedimientos almacenados.
+- Interfaz bilingüe (español/inglés).
+- Diseño modular para facilitar el mantenimiento y la escalabilidad.
+
 ## 🔧 Funcionalidades principales
 
 - Registro e inicio de sesión con control de roles (usuario/admin)
